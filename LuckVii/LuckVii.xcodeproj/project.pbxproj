@@ -7,58 +7,58 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E28AC7DF2D0BF5D200B25C03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E28AC7DE2D0BF5D200B25C03 /* SnapKit */; };
+		E28AC8462D0C000100B25C03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E28AC8452D0C000100B25C03 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E28AC7562D0BF40900B25C03 /* LuckVii7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckVii7.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E28AC8222D0BFF8500B25C03 /* LuckVii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckVii.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E28AC76B2D0BF40A00B25C03 /* Exceptions for "LuckVii7" folder in "LuckVii7" target */ = {
+		E28AC8372D0BFF8700B25C03 /* Exceptions for "LuckVii" folder in "LuckVii" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = E28AC7552D0BF40900B25C03 /* LuckVii7 */;
+			target = E28AC8212D0BFF8500B25C03 /* LuckVii */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E28AC7582D0BF40900B25C03 /* LuckVii7 */ = {
+		E28AC8242D0BFF8500B25C03 /* LuckVii */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E28AC76B2D0BF40A00B25C03 /* Exceptions for "LuckVii7" folder in "LuckVii7" target */,
+				E28AC8372D0BFF8700B25C03 /* Exceptions for "LuckVii" folder in "LuckVii" target */,
 			);
-			path = LuckVii7;
+			path = LuckVii;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E28AC7532D0BF40900B25C03 /* Frameworks */ = {
+		E28AC81F2D0BFF8500B25C03 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E28AC7DF2D0BF5D200B25C03 /* SnapKit in Frameworks */,
+				E28AC8462D0C000100B25C03 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E28AC74D2D0BF40900B25C03 = {
+		E28AC8192D0BFF8500B25C03 = {
 			isa = PBXGroup;
 			children = (
-				E28AC7582D0BF40900B25C03 /* LuckVii7 */,
-				E28AC7572D0BF40900B25C03 /* Products */,
+				E28AC8242D0BFF8500B25C03 /* LuckVii */,
+				E28AC8232D0BFF8500B25C03 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		E28AC7572D0BF40900B25C03 /* Products */ = {
+		E28AC8232D0BFF8500B25C03 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E28AC7562D0BF40900B25C03 /* LuckVii7.app */,
+				E28AC8222D0BFF8500B25C03 /* LuckVii.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,68 +66,68 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E28AC7552D0BF40900B25C03 /* LuckVii7 */ = {
+		E28AC8212D0BFF8500B25C03 /* LuckVii */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E28AC76C2D0BF40A00B25C03 /* Build configuration list for PBXNativeTarget "LuckVii7" */;
+			buildConfigurationList = E28AC8382D0BFF8700B25C03 /* Build configuration list for PBXNativeTarget "LuckVii" */;
 			buildPhases = (
-				E28AC7522D0BF40900B25C03 /* Sources */,
-				E28AC7532D0BF40900B25C03 /* Frameworks */,
-				E28AC7542D0BF40900B25C03 /* Resources */,
+				E28AC81E2D0BFF8500B25C03 /* Sources */,
+				E28AC81F2D0BFF8500B25C03 /* Frameworks */,
+				E28AC8202D0BFF8500B25C03 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E28AC7582D0BF40900B25C03 /* LuckVii7 */,
+				E28AC8242D0BFF8500B25C03 /* LuckVii */,
 			);
-			name = LuckVii7;
+			name = LuckVii;
 			packageProductDependencies = (
-				E28AC7DE2D0BF5D200B25C03 /* SnapKit */,
+				E28AC8452D0C000100B25C03 /* SnapKit */,
 			);
-			productName = LuckVii7;
-			productReference = E28AC7562D0BF40900B25C03 /* LuckVii7.app */;
+			productName = LuckVii;
+			productReference = E28AC8222D0BFF8500B25C03 /* LuckVii.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E28AC74E2D0BF40900B25C03 /* Project object */ = {
+		E28AC81A2D0BFF8500B25C03 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					E28AC7552D0BF40900B25C03 = {
+					E28AC8212D0BFF8500B25C03 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = E28AC7512D0BF40900B25C03 /* Build configuration list for PBXProject "LuckVii7" */;
+			buildConfigurationList = E28AC81D2D0BFF8500B25C03 /* Build configuration list for PBXProject "LuckVii" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = E28AC74D2D0BF40900B25C03;
+			mainGroup = E28AC8192D0BFF8500B25C03;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E28AC7DD2D0BF5D200B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E28AC8442D0C000100B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = E28AC7572D0BF40900B25C03 /* Products */;
+			productRefGroup = E28AC8232D0BFF8500B25C03 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E28AC7552D0BF40900B25C03 /* LuckVii7 */,
+				E28AC8212D0BFF8500B25C03 /* LuckVii */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E28AC7542D0BF40900B25C03 /* Resources */ = {
+		E28AC8202D0BFF8500B25C03 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +137,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E28AC7522D0BF40900B25C03 /* Sources */ = {
+		E28AC81E2D0BFF8500B25C03 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -147,7 +147,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		E28AC76D2D0BF40A00B25C03 /* Debug */ = {
+		E28AC8392D0BFF8700B25C03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -155,7 +155,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LuckVii7/Info.plist;
+				INFOPLIST_FILE = LuckVii/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -166,7 +166,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "SpartaCoding-iOS5.LuckVii7";
+				PRODUCT_BUNDLE_IDENTIFIER = "SpartaCoding-iOS5.LuckVii";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -174,7 +174,7 @@
 			};
 			name = Debug;
 		};
-		E28AC76E2D0BF40A00B25C03 /* Release */ = {
+		E28AC83A2D0BFF8700B25C03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -182,7 +182,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LuckVii7/Info.plist;
+				INFOPLIST_FILE = LuckVii/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -193,7 +193,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "SpartaCoding-iOS5.LuckVii7";
+				PRODUCT_BUNDLE_IDENTIFIER = "SpartaCoding-iOS5.LuckVii";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -201,7 +201,7 @@
 			};
 			name = Release;
 		};
-		E28AC76F2D0BF40A00B25C03 /* Debug */ = {
+		E28AC83B2D0BFF8700B25C03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -253,7 +253,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -264,7 +264,7 @@
 			};
 			name = Debug;
 		};
-		E28AC7702D0BF40A00B25C03 /* Release */ = {
+		E28AC83C2D0BFF8700B25C03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -310,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -323,20 +323,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E28AC7512D0BF40900B25C03 /* Build configuration list for PBXProject "LuckVii7" */ = {
+		E28AC81D2D0BFF8500B25C03 /* Build configuration list for PBXProject "LuckVii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E28AC76F2D0BF40A00B25C03 /* Debug */,
-				E28AC7702D0BF40A00B25C03 /* Release */,
+				E28AC83B2D0BFF8700B25C03 /* Debug */,
+				E28AC83C2D0BFF8700B25C03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E28AC76C2D0BF40A00B25C03 /* Build configuration list for PBXNativeTarget "LuckVii7" */ = {
+		E28AC8382D0BFF8700B25C03 /* Build configuration list for PBXNativeTarget "LuckVii" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E28AC76D2D0BF40A00B25C03 /* Debug */,
-				E28AC76E2D0BF40A00B25C03 /* Release */,
+				E28AC8392D0BFF8700B25C03 /* Debug */,
+				E28AC83A2D0BFF8700B25C03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -344,7 +344,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E28AC7DD2D0BF5D200B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		E28AC8442D0C000100B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -355,12 +355,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E28AC7DE2D0BF5D200B25C03 /* SnapKit */ = {
+		E28AC8452D0C000100B25C03 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E28AC7DD2D0BF5D200B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = E28AC8442D0C000100B25C03 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = E28AC74E2D0BF40900B25C03 /* Project object */;
+	rootObject = E28AC81A2D0BFF8500B25C03 /* Project object */;
 }

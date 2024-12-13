@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  LuckVii7
-//
-//  Created by Jamong on 12/13/24.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
