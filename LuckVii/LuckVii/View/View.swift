@@ -15,7 +15,8 @@ class MovieDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFit
-        imageview.backgroundColor = .lightGray
+        imageview.backgroundColor = .black
+        imageview.alpha = 0.3
         
         return imageview
     }()
@@ -25,10 +26,10 @@ class MovieDetailView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("예고편 재생 ▶︎", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
         button.layer.cornerRadius = 15
-        button.backgroundColor = .black
-        button.alpha = 0.3
         
         return button
     }()
@@ -48,7 +49,7 @@ class MovieDetailView: UIView {
     private let movieInformationLabel: UILabel = {
         let label = UILabel()
         label.text = "2024.12.15 개봉 | 19세 이상 관람가 | 106분"
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textAlignment = .center
         label.textColor = .white
         label.applyShadow()
@@ -61,7 +62,7 @@ class MovieDetailView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("♥ 9,999", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.cornerRadius = 20
@@ -88,7 +89,7 @@ class MovieDetailView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("예매할까?", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.layer.cornerRadius = 20
         button.backgroundColor = .systemGreen
         
@@ -187,7 +188,7 @@ class MovieDetailView: UIView {
         }
         
         likeButton.snp.makeConstraints {
-            $0.width.equalTo(90)
+            $0.width.equalTo(80)
             $0.height.equalTo(40)
         }
         
@@ -204,12 +205,12 @@ class MovieDetailView: UIView {
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(40)
         }
     }
 }
-
+// UILabel에 그림자 효과 적용 메서드
 extension UILabel {
     func applyShadow(color: UIColor = .black,
                      offset: CGSize = CGSize(width: 2, height: 2),
