@@ -2,7 +2,7 @@
 //  Font.swift
 //  LuckVii
 //
-//  Created by Jamong on 12/13/24.
+//  Created by 김손겸 on 12/13/24.
 //
 
 import Foundation
