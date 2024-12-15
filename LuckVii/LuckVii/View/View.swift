@@ -11,6 +11,28 @@ import SnapKit
 
 class MovieDetailView: UIView {
     
+    // 뒤로가기 버튼
+    private let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let icon = UIImage(systemName: "chevron.backward") // 뒤로가기 심볼
+        button.setImage(icon, for: .normal)
+        button.tintColor = .white
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }()
+    
+    // 홈 버튼
+    private let homeButton: UIButton = {
+        let button = UIButton(type: .system)
+        let icon = UIImage(systemName: "house") // 홈 심볼
+        button.setImage(icon, for: .normal)
+        button.tintColor = .white
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }()
+    
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
@@ -42,6 +64,7 @@ class MovieDetailView: UIView {
         label.textAlignment = .center
         label.textColor = .white
         label.applyShadow()
+        
         return label
     }()
     
@@ -84,7 +107,6 @@ class MovieDetailView: UIView {
         
         return button
     }()
-
     
     // 예매하기 버튼 추가
     private let bookingButton: UIButton = {
@@ -119,7 +141,7 @@ class MovieDetailView: UIView {
         textView.isEditable = false // 편집 불가 상태 설정 함. 읽기 모드
         textView.isScrollEnabled = true // 영화 설명이 길어질 경우 스크롤 가능
         textView.isSelectable = false // 텍스트 선택 불가능
-
+        
         return textView
     }()
     
@@ -129,7 +151,7 @@ class MovieDetailView: UIView {
         stackView.axis = .horizontal
         stackView.spacing = 13
         stackView.alignment = .center
-
+        
         return stackView
     }()
     
@@ -151,7 +173,9 @@ class MovieDetailView: UIView {
             movieInformationLabel,
             descriptionTextView,
             buttonStackView,
-            trailerButton
+            trailerButton,
+            backButton,
+            homeButton
             
         ].forEach { addSubview($0) }
         
@@ -163,6 +187,18 @@ class MovieDetailView: UIView {
         ].forEach { buttonStackView.addArrangedSubview($0) }
         
         // 제약 조건
+        backButton.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.equalToSuperview().inset(20)
+            $0.width.height.equalTo(25)
+        }
+        
+        homeButton.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(backButton.snp.trailing).offset(15)
+            $0.width.height.equalTo(25)
+        }
+
         posterImageView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalToSuperview().multipliedBy(0.65) // 영화 포스터 높이를 뷰 크기의 65%로 설정
@@ -213,6 +249,7 @@ class MovieDetailView: UIView {
         }
     }
 }
+
 // UILabel에 그림자 효과 적용 메서드
 extension UILabel {
     func applyShadow(color: UIColor = .black,
