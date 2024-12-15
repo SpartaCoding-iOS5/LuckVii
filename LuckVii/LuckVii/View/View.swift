@@ -42,6 +42,15 @@ class MovieDetailView: UIView {
         return label
     }()
 
+    // 좋아요 버튼
+    private let likeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("♥ 9,999", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        
+        return button
+    }()
     
         
     }
