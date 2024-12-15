@@ -37,8 +37,7 @@ class MovieDetailView: UIView {
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFit
-        imageview.backgroundColor = .black
-        imageview.alpha = 0.3
+        imageview.backgroundColor = .darkGray
         
         return imageview
     }()
@@ -81,7 +80,7 @@ class MovieDetailView: UIView {
     }()
     
     // 좋아요 버튼
-    private let likeButton: UIButton = {
+    public let likeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("♥ 9,999", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
