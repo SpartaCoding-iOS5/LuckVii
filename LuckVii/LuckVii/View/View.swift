@@ -21,7 +21,7 @@ class MovieDetailView: UIView {
     }()
     
     // 영화 이름 레이블
-    private let movieName: UILabel = {
+    private let movieNameLabel: UILabel = {
         let label = UILabel()
         label.text = "영화 이름"
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -32,7 +32,7 @@ class MovieDetailView: UIView {
     }()
     
     // 영화 정보 레이블
-    private let movieInformation: UILabel = {
+    private let movieInformationLabel: UILabel = {
         let label = UILabel()
         label.text = "2024.12.15 개봉 | 12세 이상 관람가 | 106분"
         label.font = UIFont.systemFont(ofSize: 13)
@@ -41,7 +41,7 @@ class MovieDetailView: UIView {
         
         return label
     }()
-
+    
     // 좋아요 버튼
     private let likeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -96,11 +96,23 @@ class MovieDetailView: UIView {
         setupUI()
     }
     
+    // 모든 UI를 뷰에 추가
     private func setupUI() {
+        [
+            posterImageView,
+            movieNameLabel,
+            movieInformationLabel,
+            likeButton,
+            shareButton,
+            bookingButton,
+            descriptionTextView
+            
+        ].forEach { addSubview($0) }
+        
         
     }
     
-        
-    }
+    
+}
 
 
