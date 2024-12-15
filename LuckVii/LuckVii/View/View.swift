@@ -20,6 +20,19 @@ class MovieDetailView: UIView {
         return imageview
     }()
     
+    // 예고편 재생 버튼
+    private let trailerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("예고편 재생 ▶︎", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.layer.cornerRadius = 15
+        button.backgroundColor = .black
+        button.alpha = 0.3
+        
+        return button
+    }()
+    
     // 영화 이름 레이블
     private let movieNameLabel: UILabel = {
         let label = UILabel()
@@ -57,7 +70,7 @@ class MovieDetailView: UIView {
     
     // 공유 버튼
     private let shareButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
         button.setImage(shareIcon, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
@@ -71,7 +84,7 @@ class MovieDetailView: UIView {
     
     // 예매하기 버튼 추가
     private let bookingButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("예매할까?", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -107,7 +120,7 @@ class MovieDetailView: UIView {
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 20
+        stackView.spacing = 17
         stackView.alignment = .center
         
         return stackView
@@ -129,7 +142,9 @@ class MovieDetailView: UIView {
             posterImageView,
             movieNameLabel,
             movieInformationLabel,
-            descriptionTextView
+            descriptionTextView,
+            buttonStackView,
+            trailerButton
             
         ].forEach { addSubview($0) }
         
@@ -140,11 +155,17 @@ class MovieDetailView: UIView {
             
         ].forEach { buttonStackView.addArrangedSubview($0) }
         
-        addSubview(buttonStackView)
-        
+        // 제약 조건
         posterImageView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalToSuperview().multipliedBy(0.65) // 영화 포스터 높이를 뷰 크기의 65%로 설정
+        }
+        
+        trailerButton.snp.makeConstraints {
+            $0.top.equalTo(posterImageView.snp.bottom).multipliedBy(0.65)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.width.equalTo(90)
+            $0.height.equalTo(30)
         }
         
         movieNameLabel.snp.makeConstraints {
@@ -175,7 +196,7 @@ class MovieDetailView: UIView {
             $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
             $0.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(40)
-            $0.width.equalTo(190)
+            $0.width.equalTo(180)
         }
         
         descriptionTextView.snp.makeConstraints {
