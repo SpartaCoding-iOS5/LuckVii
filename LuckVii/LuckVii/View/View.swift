@@ -65,7 +65,7 @@ class MovieDetailView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 17
         
         return button
     }()
@@ -74,15 +74,17 @@ class MovieDetailView: UIView {
     private let shareButton: UIButton = {
         let button = UIButton(type: .system)
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
-        button.setImage(shareIcon, for: .normal)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 10, weight: .bold)
+        button.setImage(shareIcon?.withConfiguration(configuration), for: .normal) // 심볼 크기 설정
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = .lightGray
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 17
         
         return button
     }()
+
     
     // 예매하기 버튼 추가
     private let bookingButton: UIButton = {
@@ -90,7 +92,7 @@ class MovieDetailView: UIView {
         button.setTitle("예매할까?", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 17
         button.backgroundColor = .systemGreen
         
         return button
@@ -116,7 +118,8 @@ class MovieDetailView: UIView {
         textView.textColor = .black
         textView.isEditable = false // 편집 불가 상태 설정 함. 읽기 모드
         textView.isScrollEnabled = true // 영화 설명이 길어질 경우 스크롤 가능
-        
+        textView.isSelectable = false // 텍스트 선택 불가능
+
         return textView
     }()
     
@@ -124,9 +127,9 @@ class MovieDetailView: UIView {
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 17
+        stackView.spacing = 13
         stackView.alignment = .center
-        
+
         return stackView
     }()
     
@@ -189,17 +192,17 @@ class MovieDetailView: UIView {
         
         likeButton.snp.makeConstraints {
             $0.width.equalTo(80)
-            $0.height.equalTo(40)
+            $0.height.equalTo(35)
         }
         
         shareButton.snp.makeConstraints {
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(35)
         }
         
         bookingButton.snp.makeConstraints {
             $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
             $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
+            $0.height.equalTo(35)
             $0.width.equalTo(180)
         }
         
