@@ -11,7 +11,7 @@ import SnapKit
 
 class MovieDetailView: UIView {
     
-    // 포스터 이미지
+    // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFit
@@ -26,7 +26,7 @@ class MovieDetailView: UIView {
         label.text = "영화 이름"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .black
         
         return label
     }()
@@ -37,7 +37,7 @@ class MovieDetailView: UIView {
         label.text = "2024.12.15 개봉 | 12세 이상 관람가 | 106분"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .black
         
         return label
     }()
@@ -46,7 +46,7 @@ class MovieDetailView: UIView {
     private let likeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("♥ 9,999", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         
         return button
@@ -58,7 +58,7 @@ class MovieDetailView: UIView {
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
         button.setImage(shareIcon, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.tintColor = .gray
+        button.tintColor = .lightGray
         button.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
         
         return button
@@ -76,6 +76,16 @@ class MovieDetailView: UIView {
         return button
     }()
     
+    // 영화 소개 설명 뷰
+    private let descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 13)
+        textView.textColor = .black
+        textView.isEditable = false // 편집 불가 상태 설정 함. 읽기 모드
+        textView.isScrollEnabled = true // 영화 설명이 길어질 경우 스크롤 가능
+        
+        return textView
+    }()
     
     
         
