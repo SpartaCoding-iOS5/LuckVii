@@ -52,6 +52,20 @@ class MovieDetailView: UIView {
         return button
     }()
     
+    // 공유 버튼
+    private let shareButton: UIButton = {
+        let button = UIButton()
+        let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
+        button.setImage(shareIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.tintColor = .gray
+        button.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
+        
+        return button
+    }()
+    
+    
+    
         
     }
 
