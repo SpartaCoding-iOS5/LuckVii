@@ -39,8 +39,8 @@ class MovieDetailView: UIView {
         label.text = "진격의 거인"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textAlignment = .center
-        label.textColor = .black
-        
+        label.textColor = .white
+        label.applyShadow()
         return label
     }()
     
@@ -50,7 +50,8 @@ class MovieDetailView: UIView {
         label.text = "2024.12.15 개봉 | 19세 이상 관람가 | 106분"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = .white
+        label.applyShadow()
         
         return label
     }()
@@ -98,7 +99,9 @@ class MovieDetailView: UIView {
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.text = """
-어느 날 갑자기 출현한 정체불명의 식인종 거인들에 의해 인류의 태반이 잡아 먹히며 인류는 절멸 위기에 처한다. 목숨을 부지한 생존자들은 높이 50m의 거대한 삼중의 방벽 월 마리아, 월 로제, 월 시나를 건설하여 그 곳으로 도피, 방벽 내부에서 100여 년에 걸쳐 평화의 시대를 영위하게 된다.
+어느 날 갑자기 출현한 정체불명의 식인종 거인들에 의해 인류의 태반이 잡아 먹히며 인류는 절멸 위기에 처한다.
+
+목숨을 부지한 생존자들은 높이 50m의 거대한 삼중의 방벽 월 마리아, 월 로제, 월 시나를 건설하여 그 곳으로 도피, 방벽 내부에서 100여 년에 걸쳐 평화의 시대를 영위하게 된다.
 
 그리고 100여 년이 지난 845년, 대부분 주민들이 오래도록 지속되어 온 평화에 안주하는 반면, 주인공 엘런 예거는 사람들이 거인들에게 둘러싸여 벽 안에서 가축같이 살아가는 세계에 커다란 불만을 느낀다. 그는 벽 밖의 세계로 나가서 세계를 자유롭게 누비며 탐험하는 것을 열망한다. 
 
@@ -204,5 +207,17 @@ class MovieDetailView: UIView {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)
         }
+    }
+}
+
+extension UILabel {
+    func applyShadow(color: UIColor = .black,
+                     offset: CGSize = CGSize(width: 2, height: 2),
+                     opacity: Float = 0.7,
+                     radius: CGFloat = 3) {
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowOffset = offset
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = radius
     }
 }
