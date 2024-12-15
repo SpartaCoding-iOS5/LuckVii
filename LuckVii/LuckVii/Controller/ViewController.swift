@@ -8,12 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    let searchView: SearchView = .init()
-    
-    override func loadView() {
-        self.view = searchView
-    }
 
     override func viewDidLoad() {
         view.backgroundColor = .black
