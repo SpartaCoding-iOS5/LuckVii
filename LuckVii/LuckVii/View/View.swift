@@ -64,6 +64,18 @@ class MovieDetailView: UIView {
         return button
     }()
     
+    // 예매하기 버튼 추가
+    private let bookingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("예매할까?", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(red: 73, green: 198, blue: 144, alpha: 1)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+        button.layer.cornerRadius = 10
+        
+        return button
+    }()
+    
     
     
         
