@@ -10,20 +10,9 @@ import UIKit
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        // 자식 컨트롤러로 추가
-        let searchVC = SearchViewController()
-        addChild(searchVC)
-        view.addSubview(searchVC.view)
-        
-        // 레이아웃 설정
-        searchVC.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        //자식 컨트롤러에 알림
-        searchVC.didMove(toParent: self)
     }
 
 
