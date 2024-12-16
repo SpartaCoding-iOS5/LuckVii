@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  LuckVii
 //
-//  Created by Jamong on 12/13/24.
+//  Created by 손겸 on 12/16/24.
 //
 
 import UIKit
@@ -17,4 +17,3 @@ class ViewController: UIViewController {
 
 
 }
-
