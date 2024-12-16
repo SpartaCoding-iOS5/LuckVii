@@ -136,11 +136,6 @@ extension SearchView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         let width = 112
         let height = 198
         return CGSize(width: width, height: height)
-//        let itemsPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
-//        let spacing: CGFloat = 12 // 셀 간 간격
-//        let totalSpacing = (itemsPerRow - 1) * spacing // 전체 간격 계산
-//        let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 셀 너비 계산
-//        return CGSize(width: width, height: width * 1.7) // 세로 크기를 비율로 설정
     }
     
     // 셀 선택 처리 메서드
