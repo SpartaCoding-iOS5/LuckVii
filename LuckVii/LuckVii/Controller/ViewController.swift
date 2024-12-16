@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         
         // 레이아웃 설정
         searchVC.view.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         //자식 컨트롤러에 알림
         searchVC.didMove(toParent: self)

@@ -57,8 +57,7 @@ class SearchViewCell: UICollectionViewCell {
         // 영화 이름 레이아웃
         movieNameLabel.snp.makeConstraints{
             $0.top.equalTo(movieImageView.snp.bottom).offset(12)
-            $0.leading.equalTo(contentView)
-            $0.trailing.equalTo(contentView).offset(-46)
+            $0.leading.trailing.equalTo(contentView)
             $0.bottom.equalTo(contentView.snp.bottom).offset(-1)
         }
     }

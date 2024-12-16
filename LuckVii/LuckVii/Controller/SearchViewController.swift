@@ -39,8 +39,11 @@ class SearchViewController: UIViewController {
         // 초기 상태에서는 전체 데이터를 표시
         searchMovies = dummyMovies
         
+        // delegate, dataSource를 self로 설정
         searchView.movieCollectionView.delegate = self
         searchView.movieCollectionView.dataSource = self
+        
+        // searchView의 텍스트필드 addTarget 설정
         searchView.searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
     }
     
@@ -51,7 +54,7 @@ class SearchViewController: UIViewController {
         if input.isEmpty {
             searchMovies = dummyMovies // 입력이 없으면 전체 데이터 출력
         } else {
-            searchMovies = dummyMovies.filter { $0.name.contains(input)
+            searchMovies = dummyMovies.filter { $0.name.contains(input) // 제목에 입력값이 포함된 영화 필터링
             }
         }
         
