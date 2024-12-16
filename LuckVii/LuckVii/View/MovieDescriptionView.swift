@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-class MovieDescriptionView: UIView {
+class MovieDescriptionView: UIScrollView {
+    let contentView = UIView()
     let buttonStackView = UIStackView() // 스택뷰
     
     let descriptionLabel: UILabel = {
@@ -52,10 +53,16 @@ class MovieDescriptionView: UIView {
     
     private func setupUI() {
         [
+            contentView,
             descriptionLabel,
             toggleButton
             
         ].forEach { addSubview($0) }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -66,11 +73,13 @@ class MovieDescriptionView: UIView {
         toggleButton.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom)
             $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(10)
         }
         
         toggleButton.addTarget(self, action: #selector(toggleText), for: .touchUpInside)
     }
     
+    // 더보기, 접기 동작 메서드
     @objc private func toggleText() {
         isExpanded.toggle()
         
@@ -81,5 +90,9 @@ class MovieDescriptionView: UIView {
             descriptionLabel.numberOfLines = 5
             toggleButton.setTitle("더보기", for: .normal)
         }
+        
+        // 토클 클릭시 스크롤뷰 컨텐츠 크기 즉시 갱신
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 }

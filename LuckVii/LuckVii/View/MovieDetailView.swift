@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 class MovieDetailView: UIView {
     let movieDescriptionView = MovieDescriptionView() // 영화 소개글 뷰
     
