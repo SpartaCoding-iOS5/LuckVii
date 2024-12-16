@@ -10,6 +10,18 @@ import SnapKit
 
 class SignUpView: UIView {
     
+    // 스크롤뷰
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
+    // 스크롤뷰 안에 넣을 전체 뷰
+    private let contentView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     // 이메일 뷰(라벨 + 스택뷰(텍스트필드 + 버튼))
     private let emailView: UIView = {
         let view = UIView()
@@ -247,7 +259,7 @@ class SignUpView: UIView {
             phoneNumberTextField
         ].forEach { phoneNumberView.addSubview($0) }
         
-        // 뷰에 추가
+        // content 뷰에 추가
         [
             emailView,
             pwView,
@@ -256,13 +268,19 @@ class SignUpView: UIView {
             birthView,
             phoneNumberView,
             signupButton
-        ].forEach { addSubview($0) }
+        ].forEach { contentView.addSubview($0) }
+        
+        // 스크롤 뷰에 콘텐트뷰 추가
+        scrollView.addSubview(contentView)
+        
+        // 스크롤 뷰를 뷰에 추가
+        addSubview(scrollView)
         
         // MARK: - layout
         
         // 이메일 뷰(라벨 + 스택뷰) Layout
         emailView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(130)
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(74)
         }
@@ -401,9 +419,21 @@ class SignUpView: UIView {
         
         // 회원가입 버튼 Layout
         signupButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(60)
+            make.top.equalTo(phoneNumberView.snp.bottom).offset(120)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
+        }
+        
+        // 콘텐트 뷰 Layout
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+            make.height.equalTo(1000)
+        }
+        
+        // 스크롤 뷰 Layout
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
