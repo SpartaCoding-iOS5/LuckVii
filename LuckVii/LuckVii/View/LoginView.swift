@@ -130,7 +130,7 @@ class LoginView: UIView {
         return button
     }()
     
-    //MARK: - setting
+    // MARK: - setting
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -144,7 +144,7 @@ class LoginView: UIView {
     
     func setupUI() {
         
-        //MARK: - add view
+        // MARK: - add view
         
         // 이메일 뷰 추가
         [
@@ -152,7 +152,7 @@ class LoginView: UIView {
             emailTextField
         ].forEach { emailView.addSubview($0) }
         
-        // 패스워드 뷰 추가
+        // 비밀번호 뷰 추가
         [
             pwIconImageView,
             pwTextField
@@ -175,7 +175,7 @@ class LoginView: UIView {
             noMemberButton
         ].forEach { addSubview($0) }
 
-        //MARK: - layout
+        // MARK: - layout
         
         // 로고 이미지 Layout
         logoImageView.snp.makeConstraints { make in
@@ -204,24 +204,23 @@ class LoginView: UIView {
             make.centerY.equalToSuperview()
             make.leading.equalTo(emailIconImageView.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(15)
-
         }
         
-        // 패스워드 뷰(아이콘 + 텍스트필드) Layout
+        // 비밀번호 뷰(아이콘 + 텍스트필드) Layout
         pwView.snp.makeConstraints { make in
             make.top.equalTo(emailView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         
-        // 패스워드 아이콘 Layout
+        // 비밀번호 아이콘 Layout
         pwIconImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.width.equalTo(19)
             make.leading.equalToSuperview().offset(16)
         }
         
-        // 패스워드 텍스트필드 Layout
+        // 비밀번호 텍스트필드 Layout
         pwTextField.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(emailIconImageView.snp.trailing).offset(10)
