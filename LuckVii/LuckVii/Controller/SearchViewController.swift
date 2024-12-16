@@ -28,24 +28,20 @@ class SearchViewController: UIViewController {
     private var searchMovies = [(image: UIImage?, name: String)]()
     
     // 기본 뷰를 searchView로 설정
-    let searchView = SearchView()
+    private let searchView = SearchView()
     override func loadView() {
         self.view = searchView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchView.delegate = self
         
         // 초기 상태에서는 전체 데이터를 표시
         searchMovies = dummyMovies
         
         // delegate, dataSource를 self로 설정
-        searchView.movieCollectionView.delegate = self
-        searchView.movieCollectionView.dataSource = self
-        
-        // searchView의 텍스트필드 설정
-        searchView.searchTextField.delegate = self  // textFieldShouldReturn 메서드 호출을 위한 delegate 설정
-        searchView.searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
+        searchView.setCollectionView(self, self)
     }
 }
 
@@ -87,11 +83,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 
 // MARK: - 텍스트 필드 메서드
 
-extension SearchViewController: UITextFieldDelegate {
+extension SearchViewController: textFieldDelegate {
     
-    // 키보드 입력에 따른 컬렉션 뷰 출력 값 바꾸는 메서드
-    @objc func searchTextChanged(_ textField: UITextField) {
-        let input = textField.text ?? ""
+    // 키보드 입력에 따라 컬렉션 뷰 출력 바꾸는 메서드
+    @objc func searchingMovie(_ input: String) {
         print(input)
         
         if input.isEmpty {
@@ -102,12 +97,11 @@ extension SearchViewController: UITextFieldDelegate {
         }
         
         // 컬렉션 뷰 리로드
-        searchView.movieCollectionView.reloadData()
+        searchView.reloadCollectionView()
     }
     
     // 키보드의 return 버튼 클릭시 키보드 내리는 메서드
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    func pressReturnKey() {
+        view.endEditing(true)
     }
 }
