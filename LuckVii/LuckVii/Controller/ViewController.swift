@@ -16,7 +16,7 @@ class MovieDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
+        setNavigationBarStyle()
     }
     
     override func viewDidLoad() {
@@ -27,6 +27,16 @@ class MovieDetailViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
+    }
+    
+    // 네비게이션 바 설정
+    private func setNavigationBarStyle() {
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        
+        // 네비게이션 바 반투명
+        navigationController?.navigationBar.isTranslucent = true
+        // 네비게이션 바 하단 줄 없애기
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     // 버튼 액션만 따로 정리

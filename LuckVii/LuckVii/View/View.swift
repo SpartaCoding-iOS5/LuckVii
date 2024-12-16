@@ -12,32 +12,21 @@ import SnapKit
 class MovieDetailView: UIView {
     
     // 뒤로가기 버튼
-    private let backButton: UIButton = {
-        let button = UIButton(type: .system)
-        let icon = UIImage(systemName: "chevron.backward") // 뒤로가기 심볼
-        button.setImage(icon, for: .normal)
-        button.tintColor = .white
-        button.imageView?.contentMode = .scaleAspectFit
-        
-        return button
-    }()
-    
-    // 홈 버튼
-    private let homeButton: UIButton = {
-        let button = UIButton(type: .system)
-        let icon = UIImage(systemName: "house") // 홈 심볼
-        button.setImage(icon, for: .normal)
-        button.tintColor = .white
-        button.imageView?.contentMode = .scaleAspectFit
-        
-        return button
-    }()
+//    private let backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        let icon = UIImage(systemName: "chevron.backward") // 뒤로가기 심볼
+//        button.setImage(icon, for: .normal)
+//        button.tintColor = .white
+//        button.imageView?.contentMode = .scaleAspectFit
+//        
+//        return button
+//    }()
     
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFit
-        imageview.backgroundColor = .darkGray
+        imageview.backgroundColor = .lightGray
         
         return imageview
     }()
@@ -87,7 +76,7 @@ class MovieDetailView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 17
+        button.layer.cornerRadius = 25
         
         return button
     }()
@@ -96,13 +85,13 @@ class MovieDetailView: UIView {
     private let shareButton: UIButton = {
         let button = UIButton(type: .system)
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
-        let configuration = UIImage.SymbolConfiguration(pointSize: 10, weight: .bold)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
         button.setImage(shareIcon?.withConfiguration(configuration), for: .normal) // 심볼 크기 설정
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = .lightGray
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 17
+        button.layer.cornerRadius = 25
         
         return button
     }()
@@ -110,10 +99,10 @@ class MovieDetailView: UIView {
     // 예매하기 버튼 추가
     private let bookingButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("예매할까?", for: .normal)
+        button.setTitle("예매하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.layer.cornerRadius = 17
+        button.layer.cornerRadius = 14
         button.backgroundColor = .systemGreen
         
         return button
@@ -148,7 +137,7 @@ class MovieDetailView: UIView {
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 13
+        stackView.spacing = 10
         stackView.alignment = .center
         
         return stackView
@@ -173,8 +162,7 @@ class MovieDetailView: UIView {
             descriptionTextView,
             buttonStackView,
             trailerButton,
-            backButton,
-            homeButton
+            //backButton
             
         ].forEach { addSubview($0) }
         
@@ -184,20 +172,8 @@ class MovieDetailView: UIView {
             bookingButton
             
         ].forEach { buttonStackView.addArrangedSubview($0) }
-        
-        // 제약 조건
-        backButton.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
-            $0.leading.equalToSuperview().inset(20)
-            $0.width.height.equalTo(25)
-        }
-        
-        homeButton.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
-            $0.leading.equalTo(backButton.snp.trailing).offset(15)
-            $0.width.height.equalTo(25)
-        }
 
+        // 제약 조건
         posterImageView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalToSuperview().multipliedBy(0.65) // 영화 포스터 높이를 뷰 크기의 65%로 설정
@@ -205,7 +181,7 @@ class MovieDetailView: UIView {
         
         trailerButton.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).multipliedBy(0.65)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(10)
             $0.width.equalTo(90)
             $0.height.equalTo(30)
         }
@@ -222,28 +198,30 @@ class MovieDetailView: UIView {
         
         buttonStackView.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).offset(20)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().inset(10)
         }
         
         likeButton.snp.makeConstraints {
             $0.width.equalTo(80)
-            $0.height.equalTo(35)
+            $0.height.equalTo(50)
         }
         
         shareButton.snp.makeConstraints {
-            $0.width.height.equalTo(35)
+            $0.width.height.equalTo(50)
         }
         
         bookingButton.snp.makeConstraints {
             $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
             $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(35)
+            $0.height.equalTo(50)
             $0.width.equalTo(180)
         }
         
         descriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalTo(buttonStackView.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().inset(10)
             $0.bottom.equalToSuperview().inset(40)
         }
     }
