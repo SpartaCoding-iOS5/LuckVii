@@ -87,7 +87,7 @@ class MovieDescriptionView: UIScrollView {
             descriptionLabel.numberOfLines = 0
             toggleButton.setTitle("접기", for: .normal)
         } else {
-            descriptionLabel.numberOfLines = 5
+            descriptionLabel.numberOfLines = 7
             toggleButton.setTitle("더보기", for: .normal)
         }
         
