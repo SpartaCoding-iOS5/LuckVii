@@ -43,23 +43,9 @@ class SearchViewController: UIViewController {
         searchView.movieCollectionView.delegate = self
         searchView.movieCollectionView.dataSource = self
         
-        // searchView의 텍스트필드 addTarget 설정
+        // searchView의 텍스트필드 설정
+        searchView.searchTextField.delegate = self  // textFieldShouldReturn 메서드 호출을 위한 delegate 설정
         searchView.searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
-    }
-    
-    @objc func searchTextChanged(_ textField: UITextField) {
-        let input = textField.text ?? ""
-        print(input)
-        
-        if input.isEmpty {
-            searchMovies = dummyMovies // 입력이 없으면 전체 데이터 출력
-        } else {
-            searchMovies = dummyMovies.filter { $0.name.contains(input) // 제목에 입력값이 포함된 영화 필터링
-            }
-        }
-        
-        // 컬렉션 뷰 리로드
-        searchView.movieCollectionView.reloadData()
     }
 }
 
@@ -67,10 +53,12 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // 섹션당 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchMovies.count
     }
     
+    // 셀 속성 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchViewCell", for: indexPath) as! SearchViewCell
         
@@ -92,5 +80,34 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     // 셀 선택 처리 메서드
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchView.endEditing(true) // 키보드 내리기
+        
+        /* 영화 세부 페이지로 이동 처리 구현해야함 */
+    }
+}
+
+// MARK: - 텍스트 필드 메서드
+
+extension SearchViewController: UITextFieldDelegate {
+    
+    // 키보드 입력에 따른 컬렉션 뷰 출력 값 바꾸는 메서드
+    @objc func searchTextChanged(_ textField: UITextField) {
+        let input = textField.text ?? ""
+        print(input)
+        
+        if input.isEmpty {
+            searchMovies = dummyMovies // 입력이 없으면 전체 데이터 출력
+        } else {
+            searchMovies = dummyMovies.filter { $0.name.contains(input) // 제목에 입력값이 포함된 영화 필터링
+            }
+        }
+        
+        // 컬렉션 뷰 리로드
+        searchView.movieCollectionView.reloadData()
+    }
+    
+    // 키보드의 return 버튼 클릭시 키보드 내리는 메서드
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
