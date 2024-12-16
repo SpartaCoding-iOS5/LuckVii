@@ -50,14 +50,16 @@ class SearchViewCell: UICollectionViewCell {
         movieImageView.snp.makeConstraints{
             $0.top.equalTo(contentView.snp.top)
             $0.leading.trailing.equalTo(contentView)
-            $0.width.height.equalTo(contentView.snp.height).multipliedBy(0.7)
+            $0.width.equalTo(112)
+            $0.height.equalTo(163)
         }
         
         // 영화 이름 레이아웃
         movieNameLabel.snp.makeConstraints{
-            $0.top.equalTo(movieImageView.snp.bottom)
-            $0.leading.trailing.equalTo(contentView).inset(12)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-4)
+            $0.top.equalTo(movieImageView.snp.bottom).offset(12)
+            $0.leading.equalTo(contentView)
+            $0.trailing.equalTo(contentView).offset(-46)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-1)
         }
     }
     
@@ -67,7 +69,7 @@ class SearchViewCell: UICollectionViewCell {
         if let data = movieImage, let image = UIImage(data: data) {
             movieImageView.image = image
         } else {
-            movieImageView.image = UIImage(systemName: "photo")
+            movieImageView.backgroundColor = .systemGray4
         }
         movieNameLabel.text = movieName.isEmpty ? "영화 제목 없음" : movieName
     }

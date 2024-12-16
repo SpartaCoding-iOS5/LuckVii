@@ -10,6 +10,17 @@ import SnapKit
 
 class SearchView: UIView {
     
+    // 앱 로고 레이블
+    private let logoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "LuckVii"
+        label.textAlignment = .center
+        label.textColor = .label
+        label.backgroundColor = .systemBackground
+        label.font = .boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
     // 검색을 위한 텍스트 필드
     let searchTextField: UITextField = {
         let textField = UITextField()
@@ -17,7 +28,13 @@ class SearchView: UIView {
         textField.textColor = .label
         textField.placeholder = "영화명을 입력해주세요."
         textField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
-        textField.clearButtonMode = .whileEditing
+        textField.clearButtonMode = .whileEditing // 텍스트 입력 중에만 x 버튼
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.layer.cornerRadius = 22
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
+        textField.leftView = paddingView    // 텍스트와 경계선 사이에 여백 추가
+        textField.leftViewMode = .always
         return textField
     }()
     
@@ -49,19 +66,26 @@ class SearchView: UIView {
     // MARK: - UI 셋업
     private func setupUI() {
         [
+            logoLabel,
             searchTextField,
             movieCollectionView
         ].forEach { addSubview($0) }
         
+        logoLabel.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(78)
+            $0.leading.trailing.equalToSuperview().inset(130)
+        }
+        
         searchTextField.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(120)
-            $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(12)
-            $0.height.equalTo(40)
+            $0.top.equalTo(logoLabel.snp.bottom).offset(22)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(44)
         }
         
         movieCollectionView.snp.makeConstraints{
-            $0.top.equalTo(searchTextField.snp.bottom).offset(12)
-            $0.leading.trailing.bottom.equalTo(safeAreaLayoutGuide).inset(12)
+            $0.top.equalTo(searchTextField.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().offset(-36)
         }
         
     }
@@ -109,11 +133,14 @@ extension SearchView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
-        let spacing: CGFloat = 16 // 셀 간 간격
-        let totalSpacing = (itemsPerRow - 1) * spacing // 전체 간격 계산
-        let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 셀 너비 계산
-        return CGSize(width: width, height: width * 1.5) // 세로 크기를 비율로 설정
+        let width = 112
+        let height = 198
+        return CGSize(width: width, height: height)
+//        let itemsPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
+//        let spacing: CGFloat = 12 // 셀 간 간격
+//        let totalSpacing = (itemsPerRow - 1) * spacing // 전체 간격 계산
+//        let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 셀 너비 계산
+//        return CGSize(width: width, height: width * 1.7) // 세로 크기를 비율로 설정
     }
     
     // 셀 선택 처리 메서드
