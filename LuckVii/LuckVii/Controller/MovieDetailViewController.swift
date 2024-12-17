@@ -42,7 +42,9 @@ class MovieDetailViewController: UIViewController {
     // 버튼 액션만 따로 정리
     private func buttonActions() {
         movieDetailView.likeButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
+        movieDetailView.bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside) // 예매하기 버튼에 액션 추가
     }
+
     
     // 버튼 클릭 애니메이션
     private func animateButtonPress(_ button: UIButton) {
@@ -57,6 +59,11 @@ class MovieDetailViewController: UIViewController {
                 button.transform = CGAffineTransform.identity
             }
         })
+    }
+    // 예매하기 클릭 시 날짜/시간 선택 화면으로 이동
+    @objc func bookingButtonTapped() {
+        let selectDateVC = SelectDateViewController()
+        navigationController?.pushViewController(selectDateVC, animated: true)
     }
     
     // 좋아요 버튼 클릭 시 색 변경

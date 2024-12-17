@@ -98,7 +98,7 @@ class MovieDetailView: UIView {
     }()
     
     // 예매하기 버튼 추가
-    private let bookingButton: UIButton = {
+    public let bookingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("예매하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
