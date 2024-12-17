@@ -15,9 +15,9 @@ final class NetworkManager {
     
     private init() {} //single ton 객체
     
-    // MARK: - 가장 권장된다는 async/await 기반 네트워크 요청
+    // MARK: - fetch method
     
-    func fetchMovieDataUsingAsync<T: Decodable>(
+    func fetchData<T: Decodable>(
         endpoint: URLEndpointSet,
         parameters: URLParameters
     ) async throws -> T {
@@ -34,7 +34,7 @@ final class NetworkManager {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //        decoder.dateDecodingStrategy = .iso8601 //추후 날짜를 필요로 하게 될 때 날짜를 자동으로 Date객체로 변환시켜주는 것이 목표
+        decoder.dateDecodingStrategy = .iso8601 //convert string to date
         
         do {
             return try decoder.decode(T.self, from: data)
@@ -46,6 +46,8 @@ final class NetworkManager {
     // MARK: - Helper 메서드
     
     private func buildURL(endpoint: String, parameters: URLParameters) -> URL? {
+        
+        
         var components: URLComponents? = URLComponents(string: baseURL + endpoint)
         var queryItems: Array<URLQueryItem> = [URLQueryItem(name: "api_key", value: apiKey)]//apikey를 가진 쿼리 아이템 배열 생성
         
