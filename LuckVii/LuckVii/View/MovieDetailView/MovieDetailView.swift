@@ -22,9 +22,9 @@ class MovieDetailView: UIView {
         gradientLayer.frame = imageview.bounds
         gradientLayer.colors = [
             UIColor.clear.cgColor, // 상단은 투명으로
-            UIColor.black.withAlphaComponent(0.7).cgColor // 하단은 반투명 검정
+            UIColor.black.withAlphaComponent(1.0).cgColor // 하단은 반투명 검정
         ]
-        gradientLayer.locations = [0.5, 1.0] // 그라데이션 시작 위치 조정
+        gradientLayer.locations = [0.3, 1.0] // 그라데이션 시작 위치 조정
         imageview.layer.addSublayer(gradientLayer)
         
         // 레이아웃이 변경될 때마다 그라데이션 레이어의 크기를 업데이트
