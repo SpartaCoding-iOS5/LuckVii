@@ -14,7 +14,7 @@ class MovieDetailView: UIView {
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFit
+        imageview.contentMode = .scaleAspectFill
         imageview.backgroundColor = .lightGray
         
         // 제목 잘 보이게 그라데이션 추가
@@ -219,5 +219,14 @@ extension UILabel {
         self.layer.shadowOffset = offset
         self.layer.shadowOpacity = opacity
         self.layer.shadowRadius = radius
+    }
+}
+
+extension MovieDetailView {
+    
+    func setDetailView(_ dataSource: MovieDataSource) {
+        movieNameLabel.text = dataSource.movieData.title
+        movieDescriptionView.descriptionLabel.text = dataSource.movieData.overview
+        posterImageView.image = dataSource.image
     }
 }
