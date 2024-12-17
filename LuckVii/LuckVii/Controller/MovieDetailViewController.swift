@@ -9,6 +9,7 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
     let movieDetailView = MovieDetailView()
+    private var likeCount: Int = 2999
     
     override func loadView() {
         view = movieDetailView
@@ -39,7 +40,6 @@ class MovieDetailViewController: UIViewController {
         movieDetailView.likeButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
         movieDetailView.bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside) // 예매하기 버튼에 액션 추가
     }
-
     
     // 버튼 클릭 애니메이션
     private func animateButtonPress(_ button: UIButton) {
@@ -65,14 +65,25 @@ class MovieDetailViewController: UIViewController {
     @objc private func likeButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
         
-        // 버튼 색상 변경
         if sender.titleColor(for: .normal) == .lightGray {
+            // 좋아요 상태로 변경
+            likeCount += 1
+            sender.setTitle("♥ \(formatNumber(likeCount))", for: .normal)
             sender.setTitleColor(.systemRed, for: .normal)
             sender.layer.borderColor = UIColor.red.cgColor
-        } else {
+        } else if sender.titleColor(for: .normal) == .systemRed {
+            // 좋아요 취소 상태로 변경
+            likeCount -= 1
+            sender.setTitle("♥ \(formatNumber(likeCount))", for: .normal)
             sender.setTitleColor(.lightGray, for: .normal)
             sender.layer.borderColor = UIColor.lightGray.cgColor
         }
+    }
+    // 숫자 쉼표
+    private func formatNumber(_ number: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: number)) ?? "\(number)"
     }
 }
 

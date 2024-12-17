@@ -72,7 +72,7 @@ class MovieDetailView: UIView {
     // 좋아요 버튼
     public let likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("♥ 9,999", for: .normal)
+        button.setTitle("♥ 2,999", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.layer.borderWidth = 1
