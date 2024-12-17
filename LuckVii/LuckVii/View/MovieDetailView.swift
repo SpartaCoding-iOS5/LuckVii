@@ -16,6 +16,7 @@ class MovieDetailView: UIView {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFit
         imageview.backgroundColor = .lightGray
+        //
         
         // 제목 잘 보이게 그라데이션 추가
         let gradientLayer = CAGradientLayer()
