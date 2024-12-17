@@ -20,6 +20,7 @@ struct Movie: Decodable {
     let overview: String //설명
     let popularity: Double//인기도
     let posterPath: String?//포스터 > 없을 경우 대비 하여 옵셔널
+    let title: String
 }
 
 // TODO:  genre id converte

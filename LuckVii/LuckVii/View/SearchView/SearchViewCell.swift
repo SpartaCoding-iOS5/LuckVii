@@ -64,12 +64,12 @@ class SearchViewCell: UICollectionViewCell {
     
     
     // MARK: - 이미지뷰, 레이블 값 변경 메서드
-    func setCellData(movieImage: Data?, movieName: String) {
-        if let data = movieImage, let image = UIImage(data: data) {
+    func setCellData(_ dataSource: MovieDataSource) {
+        if let image = dataSource.image {
             movieImageView.image = image
         } else {
             movieImageView.backgroundColor = .systemGray4
         }
-        movieNameLabel.text = movieName.isEmpty ? "영화 제목 없음" : movieName
+        movieNameLabel.text = dataSource.movieData.title.isEmpty ? "영화 제목 없음" : dataSource.movieData.title
     }
 }
