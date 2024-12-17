@@ -10,6 +10,11 @@ import SnapKit
 
 class LoginView: UIView {
     
+    // ButtonAction(클로저)
+    var loginButtonAction: (() -> Void)?
+    var signUpButtonAction: (() -> Void)?
+    var noMemberButtonAction: (() -> Void)?
+    
     // 로고 이미지
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,7 +40,7 @@ class LoginView: UIView {
     }()
     
     // 이메일 텍스트필드
-    private let emailTextField: UITextField = {
+    var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Email을 입력해주세요."
         textField.textColor = .gray
@@ -61,16 +66,26 @@ class LoginView: UIView {
     }()
     
     // 비밀번호 텍스트필드
-    private let pwTextField: UITextField = {
+    var pwTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "패스워드를 입력해주세요."
+        textField.placeholder = "비밀번호를 입력해주세요."
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         return textField
     }()
     
+    // 로그인 시 상태 라벨
+    var checkLoginInfo: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .red
+        label.textAlignment = .right
+        return label
+    }()
+    
     // 로그인 버튼
-    private let loginButton: UIButton = {
+    var loginButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .green
         button.setTitle("로그인", for: .normal)
@@ -99,7 +114,7 @@ class LoginView: UIView {
     }()
     
     // 회원가입 버튼
-    private let signUpButton: UIButton = {
+    var signUpButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원가입", for: .normal)
         button.setTitleColor(.gray, for: .normal)
@@ -117,7 +132,7 @@ class LoginView: UIView {
     }()
     
     // 비회원 버튼
-    private let noMemberButton: UIButton = {
+    var noMemberButton: UIButton = {
         let button = UIButton()
         button.setTitle("비회원으로 이용하기", for: .normal)
         button.setTitleColor(.gray, for: .normal)
@@ -170,6 +185,7 @@ class LoginView: UIView {
             logoImageView,
             emailView,
             pwView,
+            checkLoginInfo,
             loginButton,
             horiziontalStackView,
             noMemberButton
@@ -227,9 +243,16 @@ class LoginView: UIView {
             make.trailing.equalToSuperview().inset(15)
         }
         
+        // 로그인 시 상태 라벨 Layout
+        checkLoginInfo.snp.makeConstraints { make in
+            make.top.equalTo(pwView.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(40)
+            make.height.equalTo(20)
+        }
+        
         // 로그인 버튼 Layout
         loginButton.snp.makeConstraints { make in
-            make.top.equalTo(pwView.snp.bottom).offset(27)
+            make.top.equalTo(checkLoginInfo.snp.bottom).offset(10) // 기존 27
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
