@@ -18,10 +18,11 @@ extension NetworkManager {
     }
     
     enum URLEndpointSet: RawRepresentable {
-        case nowPlaying /*= "/now_playing"*/
-        case popular /*= "/popular"*/
-        case upcoming /*= "/upcoming"*/
-        case video(id: Int) /*= "/\(String(id))/videos"*/
+        case nowPlaying
+        case popular
+        case upcoming
+        case detail(id: Int)
+        case video(id: Int)
         case custom(path: String)
         
         var rawValue: String {
@@ -32,6 +33,8 @@ extension NetworkManager {
                 return "popular"
             case .upcoming:
                 return "upcoming"
+            case .detail(let id):
+                return "/\(String(id))"
             case .video(let id):
                 return "/\(String(id))/videos"
             case .custom(let path):

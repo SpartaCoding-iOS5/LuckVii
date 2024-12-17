@@ -34,7 +34,6 @@ final class NetworkManager {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601 //convert string to date
         
         do {
             return try decoder.decode(T.self, from: data)
