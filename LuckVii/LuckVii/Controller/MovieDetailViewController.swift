@@ -9,7 +9,8 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
     let movieDetailView = MovieDetailView()
-    private var likeCount: Int = 2999
+    private var likeCount: Int = 0
+    private var isLiked: Bool = false
     
     override func loadView() {
         view = movieDetailView
@@ -24,6 +25,7 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         buttonActions()
+        setupLikeCount()
     }
     
     private func setupUI() {
@@ -33,6 +35,13 @@ class MovieDetailViewController: UIViewController {
     // 네비게이션 바 설정
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    // 서버 없어서 좋아요 랜덤으로 가져옴
+    private func setupLikeCount() {
+        likeCount = Int.random(in: 1001...3001)
+        updateLikeButtonTitle()
+
     }
     
     // 버튼 액션만 따로 정리
@@ -65,25 +74,33 @@ class MovieDetailViewController: UIViewController {
     @objc private func likeButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
         
-        if sender.titleColor(for: .normal) == .lightGray {
-            // 좋아요 상태로 변경
+        if isLiked {
+            // 이미 좋아요가 눌려있다면 취소하고 카운트 감소
+            likeCount -= 1
+        } else {
+            // 좋아요가 눌려있지 않으면 카운트 증가
             likeCount += 1
-            sender.setTitle("♥ \(formatNumber(likeCount))", for: .normal)
+        }
+        
+        // 좋아요 상태 반전시키는 토글
+        isLiked.toggle()
+        
+        updateLikeButtonTitle()
+        
+        // 버튼 색상 변경
+        if isLiked {
             sender.setTitleColor(.systemRed, for: .normal)
             sender.layer.borderColor = UIColor.red.cgColor
-        } else if sender.titleColor(for: .normal) == .systemRed {
-            // 좋아요 취소 상태로 변경
-            likeCount -= 1
-            sender.setTitle("♥ \(formatNumber(likeCount))", for: .normal)
+        } else {
             sender.setTitleColor(.lightGray, for: .normal)
             sender.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
-    // 숫자 쉼표
-    private func formatNumber(_ number: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: NSNumber(value: number)) ?? "\(number)"
+    
+    // 좋아요 버튼에 표시될 텍스트 업데이트
+    private func updateLikeButtonTitle() {
+        let updatedTitle = "♥ \(likeCount.formatted())" // 형식화된 숫자
+        movieDetailView.likeButton.setTitle(updatedTitle, for: .normal)
     }
 }
 
