@@ -8,10 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		E28AC8462D0C000100B25C03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E28AC8452D0C000100B25C03 /* SnapKit */; };
+		F98F3BFD2D11880100098BF1 /* UserInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */; };
+		F98F3BFE2D11880100098BF1 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E28AC8222D0BFF8500B25C03 /* LuckVii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckVii.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,6 +54,8 @@
 		E28AC8192D0BFF8500B25C03 = {
 			isa = PBXGroup;
 			children = (
+				F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */,
+				F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */,
 				E28AC8242D0BFF8500B25C03 /* LuckVii */,
 				E28AC8232D0BFF8500B25C03 /* Products */,
 			);
@@ -141,6 +147,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F98F3BFD2D11880100098BF1 /* UserInfo+CoreDataProperties.swift in Sources */,
+				F98F3BFE2D11880100098BF1 /* UserInfo+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
