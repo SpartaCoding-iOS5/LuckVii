@@ -15,6 +15,11 @@ class SelectDateViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        self.title = "날짜/시간 선택"
     }
     
     private func setupUI() {

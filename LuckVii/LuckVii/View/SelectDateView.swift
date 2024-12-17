@@ -23,6 +23,16 @@ class SelectDateView: UIView {
         return picker
     }()
     
+    private let nextButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("다음", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.backgroundColor = .systemGreen
+        button.layer.cornerRadius = 6
+
+        return button
+    }()
+    
     // 시간 선택
     public let timePicker: UIPickerView = {
         let picker = UIPickerView()
@@ -48,7 +58,8 @@ class SelectDateView: UIView {
     private func setupUI() {
         [
             datePicker,
-            timePicker
+            timePicker,
+            nextButton
         ].forEach { addSubview($0) }
 
         // 제약 조건
@@ -61,6 +72,13 @@ class SelectDateView: UIView {
             $0.top.equalTo(datePicker.snp.bottom).offset(50)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(150)
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.width.equalTo(150)
+            $0.height.equalTo(50)
+            $0.trailing.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(50)
         }
     }
 
