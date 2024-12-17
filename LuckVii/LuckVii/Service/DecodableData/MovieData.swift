@@ -22,4 +22,4 @@ struct Movie: Decodable {
     let posterPath: String?//포스터 > 없을 경우 대비 하여 옵셔널
 }
 
-// TODO:  genre id converteㅅㄷㄱ
+// TODO:  genre id converte

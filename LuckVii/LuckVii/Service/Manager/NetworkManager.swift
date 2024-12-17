@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class MovieDataManager {
-    static let shared = MovieDataManager()
+final class NetworkManager {
+    static let shared = NetworkManager()
     private let successRange: Range = (200..<300)
     private let apiKey: String = "b73e6f73276501cdee3491a188cf2e93"//api 요청 키(진홍 거)
     private let baseURL: String = "https://api.themoviedb.org/3/movie"//기본 url
@@ -16,6 +16,7 @@ final class MovieDataManager {
     private init() {} //single ton 객체
     
     // MARK: - 가장 권장된다는 async/await 기반 네트워크 요청
+    
     func fetchMovieDataUsingAsync<T: Decodable>(
         endpoint: URLEndpointSet,
         parameters: URLParameters

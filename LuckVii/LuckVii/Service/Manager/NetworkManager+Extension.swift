@@ -7,7 +7,7 @@
 
 typealias URLParameters = [String: String]
 
-extension MovieDataManager {
+extension NetworkManager {
     enum URLParameterSet {
         static let basic: URLParameters = ["language": "ko-KR", "page": "1"]
         
@@ -20,5 +20,9 @@ extension MovieDataManager {
         case nowPlaying = "/now_playing"
         case popular = "/popular"
         case upcoming = "/upcoming"
+        
+        static func custom(endpoint: String) -> String {
+            return endpoint
+        }
     }
 }
