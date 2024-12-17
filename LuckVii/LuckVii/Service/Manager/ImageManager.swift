@@ -27,7 +27,7 @@ final class ImageManager {
     
     // MARK: - await만을 활용한 개선된 메서드
     
-    func fetchImageUsingAsync(
+    func fetchImage(
         from path: String,
         size: ImageWidth
     ) async throws -> UIImage? {

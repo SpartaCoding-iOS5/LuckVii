@@ -121,7 +121,7 @@ extension SearchViewController {
                 // 2. 가져온 영화 목록을 순회하며 각 영화에 대한 이미지 데이터를 요청
                 for movie in movieData.results {
                     let posterPath = movie.posterPath   // 영화의 포스터 이미지 경로
-                    let image = try await ImageManager.shared.fetchImageUsingAsync(
+                    let image = try await ImageManager.shared.fetchImage(
                         from: posterPath ?? "",
                         size: .w342
                     )
