@@ -10,9 +10,17 @@ import UIKit
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        let searchVC = SearchViewController()
+        addChild(searchVC)
+        view.addSubview(searchVC.view)
+        searchVC.view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        searchVC.didMove(toParent: self)
     }
 
 

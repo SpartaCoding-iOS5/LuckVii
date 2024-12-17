@@ -73,3 +73,10 @@ class MovieDetailViewController: UIViewController {
         }
     }
 }
+
+extension MovieDetailViewController {
+    
+    func setDetailViewData(_ dataSource: MovieDataSource) {
+        movieDetailView.setDetailView(dataSource)
+    }
+}
