@@ -10,6 +10,9 @@ import SnapKit
 
 class SignUpView: UIView {
     
+    var duplicateButtonAction: (() -> Void)?
+    var signUpButtonAction: (() -> Void)?
+    
     // 스크롤뷰
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -36,6 +39,15 @@ class SignUpView: UIView {
         return label
     }()
     
+    // 이메일 확인 라벨
+    var checkEmailLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .red
+        return label
+    }()
+    
     // 스택뷰(텍스트필드 + 버튼)
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -46,7 +58,7 @@ class SignUpView: UIView {
     }()
     
     // 이메일 텍스트필드
-    private let emailTextField: UITextField = {
+    var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "이메일 주소"
         textField.font = .systemFont(ofSize: 14)
@@ -57,7 +69,7 @@ class SignUpView: UIView {
     }()
     
     // 중복확인 버튼
-    private let duplicateCheckButton: UIButton = {
+    var duplicateCheckButton: UIButton = {
         let button = UIButton()
         button.setTitle("중복확인", for: .normal)
         button.setTitleColor(.green, for: .normal)
@@ -82,12 +94,13 @@ class SignUpView: UIView {
     }()
     
     // 비밀번호 텍스트필드
-    private let pwTextField: UITextField = {
+    var pwTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "비밀번호"
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -105,13 +118,23 @@ class SignUpView: UIView {
         return label
     }()
     
+    // 비밀번호 동일한 상태 확인 라벨
+    var checkPwLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .red
+        return label
+    }()
+    
     // 비밀번호 확인 텍스트필드
-    private let pwCheckTextField: UITextField = {
+    var pwCheckTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "비밀번호 확인"
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -130,7 +153,7 @@ class SignUpView: UIView {
     }()
     
     // 이름 텍스트필드
-    private let nameTextField: UITextField = {
+    var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "실명을 입력하세요."
         textField.font = .systemFont(ofSize: 14)
@@ -154,7 +177,7 @@ class SignUpView: UIView {
     }()
     
     // 생년월일 텍스트필드
-    private let birthTextField: UITextField = {
+    var birthTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "8자리 입력"
         textField.font = .systemFont(ofSize: 14)
@@ -179,7 +202,7 @@ class SignUpView: UIView {
     }()
     
     // 휴대폰번호 텍스트필드
-    private let phoneNumberTextField: UITextField = {
+    var phoneNumberTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "'-' 구분없이 입력"
         textField.font = .systemFont(ofSize: 14)
@@ -190,7 +213,7 @@ class SignUpView: UIView {
     }()
     
     // 회원가입 버튼
-    private let signupButton: UIButton = {
+    var signUpButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .green
         button.setTitle("회원가입", for: .normal)
@@ -226,6 +249,7 @@ class SignUpView: UIView {
         // 이메일 뷰(라벨 + 스택뷰) 추가
         [
             emailLabel,
+            checkEmailLabel,
             horizontalStackView
         ].forEach { emailView.addSubview($0) }
         
@@ -238,6 +262,7 @@ class SignUpView: UIView {
         // 비밀번호 확인 뷰(라벨 + 텍스트필드) 추가
         [
             pwCheckLabel,
+            checkPwLabel,
             pwCheckTextField
         ].forEach { pwCheckView.addSubview($0) }
         
@@ -267,7 +292,7 @@ class SignUpView: UIView {
             nameView,
             birthView,
             phoneNumberView,
-            signupButton
+            signUpButton
         ].forEach { contentView.addSubview($0) }
         
         // 스크롤 뷰에 콘텐트뷰 추가
@@ -288,7 +313,15 @@ class SignUpView: UIView {
         // 이메일 라벨 Layout
         emailLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.height.equalTo(22)
+            make.width.equalTo(100)
+        }
+        
+        // 이메일 확인 라벨 Layout
+        checkEmailLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalTo(emailLabel.snp.trailing).offset(5)
             make.height.equalTo(22)
         }
         
@@ -329,7 +362,7 @@ class SignUpView: UIView {
         // 비밀번호 텍스트필드 Layout
         pwTextField.snp.makeConstraints { make in
             make.top.equalTo(pwLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(44)
         }
         
@@ -343,14 +376,22 @@ class SignUpView: UIView {
         // 비밀번호 확인 라벨 Layout
         pwCheckLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.height.equalTo(22)
+            make.width.equalTo(100)
+        }
+        
+        // 비밀번호 동일한 상태 확인 라벨 Layout
+        checkPwLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalTo(pwCheckLabel.snp.trailing).offset(5)
             make.height.equalTo(22)
         }
         
         // 비밀번호 확인 텍스트필드 Layout
         pwCheckTextField.snp.makeConstraints { make in
             make.top.equalTo(pwCheckLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(44)
         }
         
@@ -371,7 +412,7 @@ class SignUpView: UIView {
         // 이름 텍스트필드 Layout
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(44)
         }
         
@@ -392,7 +433,7 @@ class SignUpView: UIView {
         // 생년월일 텍스트필드 Layout
         birthTextField.snp.makeConstraints { make in
             make.top.equalTo(birthLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(44)
         }
         
@@ -413,12 +454,12 @@ class SignUpView: UIView {
         // 휴대폰번호 텍스트필드 Layout
         phoneNumberTextField.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
             make.height.equalTo(44)
         }
         
         // 회원가입 버튼 Layout
-        signupButton.snp.makeConstraints { make in
+        signUpButton.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberView.snp.bottom).offset(120)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
