@@ -11,7 +11,6 @@ struct MovieData: Decodable {//인코딩 될 일이 없기 때문에 디코더�
     let results: [Movie]
 }
 
-
 struct Movie: Decodable {
     let adult: Bool//성인영화 여부
     let originalLanguage: String//영화 원래 언어
