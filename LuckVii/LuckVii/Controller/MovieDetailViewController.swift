@@ -43,7 +43,7 @@ class MovieDetailViewController: UIViewController {
     private func setupLikeCount() {
         likeCount = Int.random(in: 1001...3001)
         updateLikeButtonTitle()
-
+        
     }
     
     // 버튼 액션만 따로 정리
@@ -120,35 +120,40 @@ class MovieDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
     }
-
     
-    // 예고편 재생
+    // 예고편 버튼 누를 때
     @objc private func playTrailer() {
-        Task {
-            do {
-                // 1. 네트워크 요청으로 예고편 데이터 가져오기
-                let videoData: VideoData = try await NetworkManager.shared.fetchData(
-                    endpoint: .video(id: 1234),
-                    parameters: NetworkManager.URLParameterSet.common
-                )
-                
-                // 2. YouTube 링크 가져오기
-                guard let video = videoData.results.first(where: { $0.site.lowercased() == "youtube" }),
-                      let url = video.getVideoURL() else {
-                    showAlert(message: "예고편 URL을 가져올 수 없습니다.")
-                    return
+            guard let movieId = movie?.id else {
+                showAlert(message: "영화 ID가 유효하지 않습니다.")
+                return
+            }
+            
+            Task {
+                do {
+                    // 예고편 데이터 요청
+                    let videoData: VideoData = try await NetworkManager.shared.fetchData(
+                        endpoint: .video(id: movieId),
+                        parameters: NetworkManager.URLParameterSet.common
+                    )
+                    
+                    // YouTube 영상 찾기
+                    guard let video = videoData.results.first(where: { $0.site.lowercased() == "youtube" }),
+                          let url = video.getVideoURL() else {
+                        showAlert(message: "예고편 URL을 가져올 수 없습니다.")
+                        return
+                    }
+                    
+                    // Safari로 예고편 재생
+                    let safariVC = SFSafariViewController(url: url)
+                    present(safariVC, animated: true)
+                    
+                } catch {
+                    // 오류 처리
+                    showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
                 }
-                
-                // 3. Safari로 예고편 재생
-                let safariVC = SFSafariViewController(url: url)
-                present(safariVC, animated: true)
-                
-            } catch {
-                // 오류 처리
-                showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
-    }
+
     // 예고편 예외 상황 알림창
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
@@ -157,10 +162,12 @@ class MovieDetailViewController: UIViewController {
     }
 }
 
-
 extension MovieDetailViewController {
-    
     func setDetailViewData(_ dataSource: MovieDataSource) {
         movieDetailView.setDetailView(dataSource)
+        self.movie = dataSource.movieData // movie 객체 설정 추가함
+        print("\(dataSource)")
+
     }
 }
+
