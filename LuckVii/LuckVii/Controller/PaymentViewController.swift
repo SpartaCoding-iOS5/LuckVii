@@ -12,6 +12,8 @@ class PaymentViewController: UIViewController {
 
     let paymentView = PaymentView()
 
+    var movie: Movie?
+
     // MARK: - 기본 설정
 
     override func loadView() {
@@ -73,5 +75,16 @@ extension PaymentViewController: AgreementTermsViewControllerDelegate {
         } else {
             paymentView.termsAgreementButton.isSelected = false // 약관 비동의
         }
+    }
+}
+
+// MARK: - 데이터 설정
+
+extension PaymentViewController {
+    // 데이터 전달받고 저장하는 메서드
+    func setPaymentViewMovieData(movie: MovieDataSource, date: String, time: String) {
+        self.movie = movie.movieData
+        paymentView.setPaymentView(movie: movie, date: date, time: time)
+
     }
 }

@@ -60,9 +60,9 @@ class PaymentView: UIView {
         return label
     }()
 
-    private let moviePeopleCountLabel: UILabel = {
+    private let movieAgeLabel: UILabel = {
         let label = UILabel()
-        label.text = "12세 이상 관람가" // 테스트 코드
+        label.text = "전체 관람가"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .lightGray
         return label
@@ -277,7 +277,7 @@ class PaymentView: UIView {
         [
             movieTitleLabel,
             movieDateTimeLabel,
-            moviePeopleCountLabel,
+            movieAgeLabel,
             movieLocationLabel
         ].forEach {
             movieInformationStackView.addArrangedSubview($0)
@@ -457,5 +457,22 @@ class PaymentView: UIView {
             ticketCountLabel.text = "x \(ticketCount)"
         }
         totalPriceLabel.text = "\(PriceFormatModel.wonFormat(ticketCount * 30000))"
+    }
+}
+
+
+extension PaymentView {
+
+    // 전달 받은 데이터 설정
+    func setPaymentView(movie: MovieDataSource, date: String, time: String) {
+        movieTitleLabel.text = movie.movieData.title
+        moviePosterImageView.image = movie.image
+        movieDateTimeLabel.text = date
+
+        if movie.movieData.adult {
+            movieAgeLabel.text = "19세 이상 관람가"
+        } else {
+            movieAgeLabel.text = "전체 관람가"
+        }
     }
 }
