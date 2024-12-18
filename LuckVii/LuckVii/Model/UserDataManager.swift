@@ -36,7 +36,7 @@ class UserDataManger {
         }
     }
     
-//MARK: - CRUD 메서드
+    //MARK: - CRUD 메서드
     
     // Create 메서드
     func createUserData(_ userInfoData: UserInfoData) {
@@ -69,7 +69,7 @@ class UserDataManger {
     func checkEmail(_ inputEmail: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
         fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
-           
+        
         do {
             let matchingEmails = try context.fetch(fetch)
             return !matchingEmails.isEmpty
@@ -84,37 +84,49 @@ class UserDataManger {
     func getUserInfos() -> [UserInfoData] {
         var userInfoDatas: [UserInfoData] = []
         let fetchResults = fetchUserInfoData()
+        for result in fetchResults {
+            let userInfo = UserInfoData(
+                email: result.email ?? "",
+                password: result.password ?? "",
+                name: result.name ?? "",
+                birth: result.birth ?? "",
+                phoneNumber: result.phoneNumber ?? ""
+            )
+            userInfoDatas.append(userInfo)
+        }
+        return userInfoDatas
+    }
+    
+    // 유저 정보 삭제
+    func deleteUserInfos() {
+        do {
+            let fetchResults = fetchUserInfoData()
             for result in fetchResults {
-                let userInfo = UserInfoData(
-                    email: result.name ?? "",
-                    password: result.password ?? "",
-                    name: result.name ?? "",
-                    birth: result.birth ?? "",
-                    phoneNumber: result.phoneNumber ?? ""
-                )
-                userInfoDatas.append(userInfo)
+                context.delete(result)
             }
-            return userInfoDatas
+            try context.save()
+        } catch {
+            print("실패")
         }
         
-    
-    
-//    // Delete 메서드
-//    func deleteData(name: String?) {
-//        guard let name = name else { return }
-//        let fetchRequset = PhoneBook.fetchRequest()
-//        fetchRequset.predicate = NSPredicate(format: "name == %@", name)
-//        
-//        do {
-//            let result = try context.fetch(fetchRequset)
-//            
-//            for data in result {
-//                self.context.delete(data)
-//            }
-//            try context.save()
-//            print("데이터 삭제 성공")
-//        } catch {
-//            print("데이터 삭제 실패")
-//        }
-//    }
+        
+        //    // Delete 메서드
+        //    func deleteData(name: String?) {
+        //        guard let name = name else { return }
+        //        let fetchRequset = PhoneBook.fetchRequest()
+        //        fetchRequset.predicate = NSPredicate(format: "name == %@", name)
+        //
+        //        do {
+        //            let result = try context.fetch(fetchRequset)
+        //
+        //            for data in result {
+        //                self.context.delete(data)
+        //            }
+        //            try context.save()
+        //            print("데이터 삭제 성공")
+        //        } catch {
+        //            print("데이터 삭제 실패")
+        //        }
+        //    }
+    }
 }
