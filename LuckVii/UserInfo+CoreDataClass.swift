@@ -11,5 +11,12 @@ import CoreData
 
 @objc(UserInfo)
 public class UserInfo: NSManagedObject {
-
+    public static let className = "UserInfo"
+    public enum Key {
+        static let email = "email"
+        static let password = "password"
+        static let name = "name"
+        static let birth = "birth"
+        static let phoneNumber = "phoneNumber"
+    }
 }
