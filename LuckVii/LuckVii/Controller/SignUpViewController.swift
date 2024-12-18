@@ -13,7 +13,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupUI()
         applyAction()
         textFieldSetup()
@@ -36,7 +36,7 @@ class SignUpViewController: UIViewController {
 // MARK: - action Part
 
 extension SignUpViewController {
-
+    
     private func applyAction() {
         signUpView.duplicateCheckButton.addAction(UIAction { [weak self] _ in
             self?.tappedCheckDuplicateButton()
@@ -54,30 +54,54 @@ extension SignUpViewController {
         } else {
             signUpView.checkEmailLabel.text = "중복된 아이디입니다."
         }
-        
-        print("tappedCheckDuplicateButton")
+        checkPassword()
     }
     
     private func tappedSignUpButton() {
-        checkPassword()
-        print("tappedSignUpButton")
+        createUserInfo()
     }
+        
 }
 
 // MARK: - method Part
 
 extension SignUpViewController {
- 
+    
     func checkPassword() {
         if signUpView.pwTextField.text == signUpView.pwCheckTextField.text {
             signUpView.checkPwLabel.text = ""
         } else {
             signUpView.checkPwLabel.text = "비밀번호가 동일하지 않습니다."
         }
+        
+        checkDuplicateEmail()
+    }
+    
+    func createUserInfo() {
+        print("email : \(signUpView.emailTextField.text ?? "nil")")
+        guard let email = signUpView.emailTextField.text,
+              let password = signUpView.pwTextField.text,
+              let name = signUpView.nameTextField.text,
+              let birth = signUpView.birthTextField.text,
+              let phoneNumber = signUpView.phoneNumberTextField.text
+        else {
+            print("모든 데이터를 입력해야합니다")
+            return
+        }
+        
+        let userInfo = UserInfoData.init(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
+        UserDataManger.shared.createUserData(userInfo)
     }
     
     func checkDuplicateEmail() {
-        
+        readUserInfo()
+    }
+    
+    func readUserInfo() {
+        let users = UserDataManger.shared.getUserInfos()
+        for user in users {
+            print("User: \(user.email), \(user.password), \(user.name), \(user.birth), \(user.phoneNumber)")
+        }
     }
 }
 
@@ -93,7 +117,4 @@ extension SignUpViewController: UITextFieldDelegate {
         signUpView.birthTextField.delegate = self
         signUpView.phoneNumberTextField.delegate = self
     }
-    
-    
-    
 }

@@ -183,7 +183,6 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
-        textField.keyboardType = .phonePad
         return textField
     }()
     
@@ -208,7 +207,6 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
-        textField.keyboardType = .phonePad
         return textField
     }()
     

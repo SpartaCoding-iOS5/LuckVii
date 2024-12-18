@@ -7,9 +7,9 @@
 import CoreData
 
 struct UserInfoData {
-    let email: String?
-    let password: String?
-    let name: String?
-    let birth: String?
-    let phoneNumber: String?
+    let email: String
+    let password: String
+    let name: String
+    let birth: String
+    let phoneNumber: String
 }

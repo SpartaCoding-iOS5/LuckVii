@@ -38,13 +38,15 @@ class UserDataManger {
     
 //MARK: - CRUD 메서드
     // Create 메서드
-    func createUserData(_ dataSource: UserInfoData) {
+    func createUserData(_ userInfoData: UserInfoData) {
         guard let entity = userInfoEntity else { return }
         do {
             let newUser = NSManagedObject(entity: entity, insertInto: context)
-            newUser.setValue(dataSource.name, forKey: PhoneBook.Key.name)
-            newUser.setValue(dataSource.phoneNumber, forKey: PhoneBook.Key.phoneNumber)
-            newUser.setValue(dataSource.profilesImage, forKey: PhoneBook.Key.profilesImage)
+            newUser.setValue(userInfoData.email, forKey: UserInfo.Key.email)
+            newUser.setValue(userInfoData.password, forKey: UserInfo.Key.password)
+            newUser.setValue(userInfoData.name, forKey: UserInfo.Key.name)
+            newUser.setValue(userInfoData.birth, forKey: UserInfo.Key.birth)
+            newUser.setValue(userInfoData.phoneNumber, forKey: UserInfo.Key.phoneNumber)
             try context.save()
             print("데이터 생성 성공")
         } catch {
@@ -52,61 +54,31 @@ class UserDataManger {
         }
     }
     
-//    // Read & Fetch 메서드
-//    func fetchDataSource() -> [DataSource] {
-//        // NSSortDescriptor을 이용해 오름차순으로 정렬
-//        let fetchRequest = PhoneBook.fetchRequest()
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-//        
-//        do {
-//            let phoneBooks = try context.fetch(fetchRequest)
-//            return phoneBooks.map { phoneBook in
-//                DataSource( name: phoneBook.name,
-//                            phoneNumber: phoneBook.phoneNumber,
-//                            profilesImage: phoneBook.profilesImage )
-//            }
-//        } catch {
-//            print("데이터 불러오기 실패")
-//        }
-//        return []
-//    }
-//    
-//    // Update 메서드
-//    func updateData(_ dataSource: DataSource) {
-//        let fetchRequset = PhoneBook.fetchRequest()
-//        fetchRequset.predicate = NSPredicate(format: "name == %@", dataSource.name!)
-//        
-//        do {
-//            let result = try context.fetch(fetchRequset)
-//            
-//            for data in result {
-//                data.setValue(dataSource.name, forKey: PhoneBook.Key.name)
-//                data.setValue(dataSource.phoneNumber, forKey: PhoneBook.Key.phoneNumber)
-//                data.setValue(dataSource.profilesImage, forKey: PhoneBook.Key.profilesImage)
-//            }
-//            try context.save()
-//            print("데이터 업데이트 성공")
-//        } catch {
-//            print("데이터 업데이트 실패")
-//        }
-//    }
-//    
-//    // Delete 메서드
-//    func deleteData(name: String?) {
-//        guard let name = name else { return }
-//        let fetchRequset = PhoneBook.fetchRequest()
-//        fetchRequset.predicate = NSPredicate(format: "name == %@", name)
-//        
-//        do {
-//            let result = try context.fetch(fetchRequset)
-//            
-//            for data in result {
-//                self.context.delete(data)
-//            }
-//            try context.save()
-//            print("데이터 삭제 성공")
-//        } catch {
-//            print("데이터 삭제 실패")
-//        }
-//    }
+    // Read & Fetch 메서드
+    func fetchUserInfoData() -> [UserInfo] {
+        print("read func enter")
+        do {
+            let userInfo = try context.fetch(UserInfo.fetchRequest())
+            return userInfo
+        } catch {
+            print("데이터 불러오기 실패")
+        }
+        return []
+    }
+    
+    func getUserInfos() -> [UserInfoData] {
+        var userInfoDatas: [UserInfoData] = []
+        let fetchResults = fetchUserInfoData()
+            for result in fetchResults {
+                let userInfo = UserInfoData(
+                    email: result.name ?? "",
+                    password: result.password ?? "",
+                    name: result.name ?? "",
+                    birth: result.birth ?? "",
+                    phoneNumber: result.phoneNumber ?? ""
+                )
+                userInfoDatas.append(userInfo)
+            }
+            return userInfoDatas
+        }
 }
