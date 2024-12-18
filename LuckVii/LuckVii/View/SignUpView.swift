@@ -65,6 +65,9 @@ class SignUpView: UIView {
         textField.textColor = .gray
         textField.clearButtonMode = .always
         textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -159,6 +162,9 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -179,11 +185,10 @@ class SignUpView: UIView {
     // 생년월일 텍스트필드
     var birthTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "8자리 입력"
+        textField.placeholder = "8자리 입력(ex.20241231)"
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
-        textField.keyboardType = .phonePad
         return textField
     }()
     
@@ -208,7 +213,6 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
-        textField.keyboardType = .phonePad
         return textField
     }()
     
