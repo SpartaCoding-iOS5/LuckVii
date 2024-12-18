@@ -126,7 +126,7 @@ class AgreementTermsView: UIView {
     }()
 
     //
-    private let disagreementButton: UIButton = {
+    var disagreementButton: UIButton = {
         let button = UIButton()
         button.setTitle("비동의", for: .normal)
         button.backgroundColor = .lightGray
@@ -135,7 +135,7 @@ class AgreementTermsView: UIView {
         return button
     }()
 
-    private let agreementButton: UIButton = {
+    var agreementButton: UIButton = {
         let button = UIButton()
         button.setTitle("전체 동의", for: .normal)
         button.backgroundColor = .systemGreen
