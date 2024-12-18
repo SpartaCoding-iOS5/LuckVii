@@ -24,7 +24,7 @@ class SelectDateView: UIView {
         return picker
     }()
     
-    var nextButton: UIButton = { // dlksejpd안돼여ㅛ
+    var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("다음", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
