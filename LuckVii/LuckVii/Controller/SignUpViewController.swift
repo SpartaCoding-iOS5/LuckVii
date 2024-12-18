@@ -37,26 +37,39 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController {
     
+    // 버튼에 액션 연결
     private func applyAction() {
+        
+        // 중복확인 버튼 연결
         signUpView.duplicateCheckButton.addAction(UIAction { [weak self] _ in
             self?.tappedCheckDuplicateButton()
         }, for: .touchUpInside)
         
+        // 회원가입 버튼 연결
         signUpView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
         }, for: .touchUpInside)
     }
     
+    
+    // 중복확인 버튼 동작
     private func tappedCheckDuplicateButton() {
-        guard let emailText = signUpView.emailTextField.text else { return }
-        if emailText.isEmpty {
+        // 1. 이메일 입력값 가져오기
+        guard let emailText = signUpView.emailTextField.text, !emailText.isEmpty else {
             signUpView.checkEmailLabel.text = "이메일을 입력해주세요."
-        } else {
-            signUpView.checkEmailLabel.text = "중복된 아이디입니다."
+            return
         }
-        checkPassword()
+        
+        // 2. 저장된 데이터 이메일과 중복 비교
+        if UserDataManger.shared.checkEmail(emailText) {
+            signUpView.checkEmailLabel.text = "중복된 이메일입니다."
+        } else {
+            signUpView.checkEmailLabel.text = "사용 가능한 이메일입니다."
+        }
     }
     
+
+
     private func tappedSignUpButton() {
         createUserInfo()
     }
@@ -67,6 +80,7 @@ extension SignUpViewController {
 
 extension SignUpViewController {
     
+    // 입력한 비밀번호가 맞는지 확인
     func checkPassword() {
         if signUpView.pwTextField.text == signUpView.pwCheckTextField.text {
             signUpView.checkPwLabel.text = ""
@@ -77,8 +91,8 @@ extension SignUpViewController {
         checkDuplicateEmail()
     }
     
+    // 유저 데이터 생성
     func createUserInfo() {
-        print("email : \(signUpView.emailTextField.text ?? "nil")")
         guard let email = signUpView.emailTextField.text,
               let password = signUpView.pwTextField.text,
               let name = signUpView.nameTextField.text,
@@ -89,14 +103,17 @@ extension SignUpViewController {
             return
         }
         
+        // 텍스트필드 값을 UserInfoData에 추가 후 생성
         let userInfo = UserInfoData.init(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         UserDataManger.shared.createUserData(userInfo)
     }
     
+    // 이메일 중복 확인
     func checkDuplicateEmail() {
         readUserInfo()
     }
     
+    // 저장된 유저 정보를 읽기
     func readUserInfo() {
         let users = UserDataManger.shared.getUserInfos()
         for user in users {
@@ -109,6 +126,7 @@ extension SignUpViewController {
 
 extension SignUpViewController: UITextFieldDelegate {
     
+    // 텍스트필드 setting
     private func textFieldSetup() {
         signUpView.emailTextField.delegate = self
         signUpView.pwTextField.delegate = self

@@ -37,6 +37,7 @@ class UserDataManger {
     }
     
 //MARK: - CRUD 메서드
+    
     // Create 메서드
     func createUserData(_ userInfoData: UserInfoData) {
         guard let entity = userInfoEntity else { return }
@@ -56,7 +57,6 @@ class UserDataManger {
     
     // Read & Fetch 메서드
     func fetchUserInfoData() -> [UserInfo] {
-        print("read func enter")
         do {
             let userInfo = try context.fetch(UserInfo.fetchRequest())
             return userInfo
@@ -66,6 +66,21 @@ class UserDataManger {
         return []
     }
     
+    func checkEmail(_ inputEmail: String) -> Bool {
+        let fetch = UserInfo.fetchRequest()
+        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+           
+        do {
+            let matchingEmails = try context.fetch(fetch)
+            return !matchingEmails.isEmpty
+        } catch {
+            print("이메일 체크 실패")
+            return false
+        }
+    }
+    
+    
+    // 정보 전체 확인
     func getUserInfos() -> [UserInfoData] {
         var userInfoDatas: [UserInfoData] = []
         let fetchResults = fetchUserInfoData()
@@ -81,4 +96,25 @@ class UserDataManger {
             }
             return userInfoDatas
         }
+        
+    
+    
+//    // Delete 메서드
+//    func deleteData(name: String?) {
+//        guard let name = name else { return }
+//        let fetchRequset = PhoneBook.fetchRequest()
+//        fetchRequset.predicate = NSPredicate(format: "name == %@", name)
+//        
+//        do {
+//            let result = try context.fetch(fetchRequset)
+//            
+//            for data in result {
+//                self.context.delete(data)
+//            }
+//            try context.save()
+//            print("데이터 삭제 성공")
+//        } catch {
+//            print("데이터 삭제 실패")
+//        }
+//    }
 }
