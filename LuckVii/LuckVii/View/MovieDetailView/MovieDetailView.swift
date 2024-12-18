@@ -33,7 +33,7 @@ class MovieDetailView: UIView {
     }()
     
     // 예고편 재생 버튼
-    private let trailerButton: UIButton = {
+    public let trailerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("예고편 재생 ▶︎", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -83,7 +83,7 @@ class MovieDetailView: UIView {
     }()
     
     // 공유 버튼
-    private let shareButton: UIButton = {
+    public let shareButton: UIButton = {
         let button = UIButton(type: .system)
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
         let configuration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)

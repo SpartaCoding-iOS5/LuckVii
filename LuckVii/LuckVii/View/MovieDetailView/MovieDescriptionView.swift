@@ -14,7 +14,7 @@ class MovieDescriptionView: UIScrollView {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 7
+        label.numberOfLines = 5
         label.text = """
 어느 날 갑자기 출현한 정체불명의 식인종 거인들에 의해 인류의 태반이 잡아 먹히며 인류는 절멸 위기에 처한다.
 
@@ -87,7 +87,7 @@ class MovieDescriptionView: UIScrollView {
             descriptionLabel.numberOfLines = 0
             toggleButton.setTitle("접기", for: .normal)
         } else {
-            descriptionLabel.numberOfLines = 7
+            descriptionLabel.numberOfLines = 5
             toggleButton.setTitle("더보기", for: .normal)
         }
         
