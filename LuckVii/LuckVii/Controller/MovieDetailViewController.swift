@@ -159,33 +159,40 @@ class MovieDetailViewController: UIViewController {
                     showAlert(message: "영화 ID가 유효하지 않습니다.")
                     return
                 }
-                
+
                 // 영화 상세 정보 요청
                 let detailData: DetailData = try await NetworkManager.shared.fetchData(
                     endpoint: .detail(id: movieId),
                     parameters: NetworkManager.URLParameterSet.common
                 )
-                
+
                 // 받은 데이터 처리
-                let releaseDate: Date = try detailData.getReleaseDate() // 에러 던짐을 처리
-                let runtime: Int = detailData.runtime
-                let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
-                
-                // 상영 시간
-                let formattedString = "\(releaseDate) 개봉 | \(ageRating) | \(runtime)분"
-                
-                // 영화 정보 레이블 업데이트
-                movieDetailView.movieInformationLabel.text = formattedString
-                
-            } catch let error as AppError.ConvertError  {
-                    showAlert(message: "날짜 포맷이 잘못되었습니다.")// 날짜 포맷 오류 처리
-                
+                if let releaseDate = try detailData.getReleaseDate() {  // 옵셔널 값 안전하게 언래핑
+                    let runtime: Int = detailData.runtime
+                    let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
+
+                    // 날짜를 "yyyy.MM.dd" 형식으로 포맷팅
+                    let formattedReleaseDate = DateFormatter.shared.string(from: releaseDate)
+
+                    // 상영 시간
+                    let formattedString = "\(formattedReleaseDate) 개봉 | \(ageRating) | \(runtime)분"
+
+                    // 영화 정보 레이블 업데이트
+                    movieDetailView.movieInformationLabel.text = formattedString
+                } else {
+                    showAlert(message: "유효한 개봉일을 가져올 수 없습니다.")
+                }
+
+            } catch let error as DateError {
+                // 날짜 포맷 오류 처리
+                showAlert(message: "날짜 포맷이 잘못되었습니다.")
             } catch {
                 // 다른 오류 처리
                 showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
     }
+
 
     // MARK: - 날짜 포맷터
     private var dateFormatter: DateFormatter {
