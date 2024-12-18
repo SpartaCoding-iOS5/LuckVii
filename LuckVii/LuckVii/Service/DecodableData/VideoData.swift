@@ -19,7 +19,7 @@ extension Video {
     func getVideoURL() throws -> URL {
         let baseURL: String = "https://www.youtube.com/watch?v="
         
-        if site != "youtube" { throw AppError.convertError(.URLMakingError) }
+        if site != "YouTube" { throw AppError.convertError(.URLMakingError) }
         
         guard let url =  URL(string: baseURL + key) else {
             throw AppError.convertError(.URLMakingError)
