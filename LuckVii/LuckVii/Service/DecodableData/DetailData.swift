@@ -9,6 +9,7 @@ import Foundation
 struct DetailData: Decodable {
     let releaseDate: String
     let runtime: Int
+    let adult: Bool
     
 }
 
