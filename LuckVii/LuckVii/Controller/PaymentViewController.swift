@@ -29,6 +29,7 @@ class PaymentViewController: UIViewController {
 
         configureNavigation()
         configureUI()
+        setupAction()
     }
 
     // 네비게이션 설정
@@ -39,5 +40,38 @@ class PaymentViewController: UIViewController {
 
     private func configureUI() {
         view.backgroundColor = .lightGray
+    }
+
+    // 액션 연결
+    private func setupAction() {
+        paymentView.termsAgreementButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.didTapAreementButton()
+
+        }, for: .touchUpInside)
+    }
+
+    // 버튼 액션
+    func didTapAreementButton() {
+
+        let agreementTermsVC = AgreementTermsViewController()
+        agreementTermsVC.delegate = self // delegate 설정
+
+        self.navigationController?.modalPresentationStyle = .fullScreen
+        present(agreementTermsVC, animated: true)
+    }
+}
+
+// MARK: - AgreementTermsViewController Delegate
+
+extension PaymentViewController: AgreementTermsViewControllerDelegate {
+
+    func updateButtonToggle(_ viewController: AgreementTermsViewController, isAgreed: Bool) {
+        // 약관 동의 여부 분기 처리
+        if isAgreed {
+            paymentView.termsAgreementButton.isSelected = true // 약관 동의
+        } else {
+            paymentView.termsAgreementButton.isSelected = false // 약관 비동의
+        }
     }
 }

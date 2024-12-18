@@ -205,11 +205,11 @@ class PaymentView: UIView {
         return label
     }()
 
-    private let termsAgreementButton: UIButton = {
+    var termsAgreementButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "circle"), for: .normal)
         button.setImage(UIImage(systemName: "checkmark.circle"), for: .selected)
-        button.addTarget(self, action: #selector(didTapAreementButton), for: .touchUpInside)
+
         return button
     }()
 
@@ -457,10 +457,5 @@ class PaymentView: UIView {
             ticketCountLabel.text = "x \(ticketCount)"
         }
         totalPriceLabel.text = "\(PriceFormatModel.wonFormat(ticketCount * 30000))"
-    }
-
-    // 약관 동의 버튼
-    @objc func didTapAreementButton(_ sender: UIButton) {
-        sender.isSelected.toggle()
     }
 }
