@@ -33,7 +33,7 @@ class MovieDetailView: UIView {
     }()
     
     // 예고편 재생 버튼
-    private let trailerButton: UIButton = {
+    public let trailerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("예고편 재생 ▶︎", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -58,9 +58,8 @@ class MovieDetailView: UIView {
     }()
     
     // 영화 정보 레이블
-    private let movieInformationLabel: UILabel = {
+    public let movieInformationLabel: UILabel = {
         let label = UILabel()
-        label.text = "2024.12.15 개봉 | 19세 이상 관람가 | 106분"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textAlignment = .center
         label.textColor = .white
@@ -72,7 +71,7 @@ class MovieDetailView: UIView {
     // 좋아요 버튼
     public let likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("♥ 9,999", for: .normal)
+        button.setTitle("♥ 2,999", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.layer.borderWidth = 1
@@ -83,7 +82,7 @@ class MovieDetailView: UIView {
     }()
     
     // 공유 버튼
-    private let shareButton: UIButton = {
+    public let shareButton: UIButton = {
         let button = UIButton(type: .system)
         let shareIcon = UIImage(systemName: "square.and.arrow.up") // 공유 심볼
         let configuration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
@@ -98,7 +97,7 @@ class MovieDetailView: UIView {
     }()
     
     // 예매하기 버튼 추가
-    private let bookingButton: UIButton = {
+    public let bookingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("예매하기", for: .normal)
         button.setTitleColor(.white, for: .normal)

@@ -72,6 +72,7 @@ class SearchView: UIView {
     // MARK: - UI 셋업
     
     private func setupUI() {
+        backgroundColor = .white
         [
             logoLabel,
             searchTextField,
