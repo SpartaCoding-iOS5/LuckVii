@@ -65,6 +65,9 @@ class SignUpView: UIView {
         textField.textColor = .gray
         textField.clearButtonMode = .always
         textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -159,6 +162,9 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -183,6 +189,7 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -207,6 +214,7 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.keyboardType = .phonePad
         return textField
     }()
     

@@ -56,20 +56,21 @@ extension SignUpViewController {
     private func tappedCheckDuplicateButton() {
         // 1. 이메일 입력값 가져오기
         guard let emailText = signUpView.emailTextField.text, !emailText.isEmpty else {
+            signUpView.checkEmailLabel.textColor = .red
             signUpView.checkEmailLabel.text = "이메일을 입력해주세요."
             return
         }
         
         // 2. 저장된 데이터 이메일과 중복 비교
         if UserDataManger.shared.checkEmail(emailText) {
+            signUpView.checkEmailLabel.textColor = .red
             signUpView.checkEmailLabel.text = "중복된 이메일입니다."
         } else {
+            signUpView.checkEmailLabel.textColor = .green
             signUpView.checkEmailLabel.text = "사용 가능한 이메일입니다."
         }
     }
     
-
-
     private func tappedSignUpButton() {
         createUserInfo()
     }
@@ -80,16 +81,7 @@ extension SignUpViewController {
 
 extension SignUpViewController {
     
-    // 입력한 비밀번호가 맞는지 확인
-    func checkPassword() {
-        if signUpView.pwTextField.text == signUpView.pwCheckTextField.text {
-            signUpView.checkPwLabel.text = ""
-        } else {
-            signUpView.checkPwLabel.text = "비밀번호가 동일하지 않습니다."
-        }
-        
-        checkDuplicateEmail()
-    }
+    
     
     // 유저 데이터 생성
     func createUserInfo() {
@@ -134,5 +126,23 @@ extension SignUpViewController: UITextFieldDelegate {
         signUpView.nameTextField.delegate = self
         signUpView.birthTextField.delegate = self
         signUpView.phoneNumberTextField.delegate = self
+    }
+    
+    // 비밀번호 확인 텍스트필드 입력 마쳤을 때 함수 호출
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == signUpView.pwCheckTextField {
+            checkPassword()
+        }
+    }
+    
+    // 입력한 비밀번호가 일치하는지 확인
+    func checkPassword() {
+        if signUpView.pwTextField.text == signUpView.pwCheckTextField.text {
+            signUpView.checkPwLabel.textColor = .green
+            signUpView.checkPwLabel.text = "비밀번호가 일치합니다."
+        } else {
+            signUpView.checkPwLabel.textColor = .red
+            signUpView.checkPwLabel.text = "비밀번호가 동일하지 않습니다."
+        }
     }
 }
