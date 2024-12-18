@@ -10,11 +10,6 @@ import SnapKit
 
 class LoginView: UIView {
     
-    // ButtonAction(클로저)
-    var loginButtonAction: (() -> Void)?
-    var signUpButtonAction: (() -> Void)?
-    var noMemberButtonAction: (() -> Void)?
-    
     // 로고 이미지
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
