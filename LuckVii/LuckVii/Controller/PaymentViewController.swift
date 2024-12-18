@@ -29,6 +29,7 @@ class PaymentViewController: UIViewController {
 
         configureNavigation()
         configureUI()
+        setupAction()
     }
 
     // 네비게이션 설정
@@ -39,5 +40,20 @@ class PaymentViewController: UIViewController {
 
     private func configureUI() {
         view.backgroundColor = .lightGray
+    }
+
+    // 액션 연결
+    private func setupAction() {
+        paymentView.termsAgreementButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.didTapAreementButton()
+
+        }, for: .touchUpInside)
+    }
+
+    // 버튼 액션
+    func didTapAreementButton() {
+        self.navigationController?.modalPresentationStyle = .fullScreen
+        present(AgreementTermsViewController(), animated: true)
     }
 }
