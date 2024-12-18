@@ -7,16 +7,17 @@
 
 import Foundation
 
-final class MovieDataManager {
-    static let shared = MovieDataManager()
+final class NetworkManager {
+    static let shared = NetworkManager()
     private let successRange: Range = (200..<300)
     private let apiKey: String = "b73e6f73276501cdee3491a188cf2e93"//api 요청 키(진홍 거)
     private let baseURL: String = "https://api.themoviedb.org/3/movie"//기본 url
     
     private init() {} //single ton 객체
     
-    // MARK: - 가장 권장된다는 async/await 기반 네트워크 요청
-    func fetchMovieDataUsingAsync<T: Decodable>(
+    // MARK: - fetch method
+    
+    func fetchData<T: Decodable>(
         endpoint: URLEndpointSet,
         parameters: URLParameters
     ) async throws -> T {
@@ -33,7 +34,6 @@ final class MovieDataManager {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //        decoder.dateDecodingStrategy = .iso8601 //추후 날짜를 필요로 하게 될 때 날짜를 자동으로 Date객체로 변환시켜주는 것이 목표
         
         do {
             return try decoder.decode(T.self, from: data)
@@ -45,6 +45,8 @@ final class MovieDataManager {
     // MARK: - Helper 메서드
     
     private func buildURL(endpoint: String, parameters: URLParameters) -> URL? {
+        
+        
         var components: URLComponents? = URLComponents(string: baseURL + endpoint)
         var queryItems: Array<URLQueryItem> = [URLQueryItem(name: "api_key", value: apiKey)]//apikey를 가진 쿼리 아이템 배열 생성
         

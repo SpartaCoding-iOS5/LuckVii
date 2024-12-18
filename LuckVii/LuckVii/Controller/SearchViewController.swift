@@ -111,9 +111,9 @@ extension SearchViewController {
         Task { [weak self] in
             do {
                 // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
-                let movieData: MovieData = try await MovieDataManager.shared.fetchMovieDataUsingAsync(
+                let movieData: MovieData = try await NetworkManager.shared.fetchData(
                     endpoint: .nowPlaying,  // 'nowPlaying' 엔드포인트를 사용하여 현재 상영 중인 영화 목록을 요청
-                    parameters: MovieDataManager.URLParameterSet.basic
+                    parameters: NetworkManager.URLParameterSet.common
                 )
                 
                 var tempMovies = [MovieDataSource]()    // 임시로 데이터를 저장할 배열
@@ -121,8 +121,8 @@ extension SearchViewController {
                 // 2. 가져온 영화 목록을 순회하며 각 영화에 대한 이미지 데이터를 요청
                 for movie in movieData.results {
                     let posterPath = movie.posterPath   // 영화의 포스터 이미지 경로
-                    let image = try await ImageManager.shared.fetchImageUsingAsync(
-                        frome: posterPath ?? "",
+                    let image = try await ImageManager.shared.fetchImage(
+                        from: posterPath ?? "",
                         size: .w342
                     )
                     // MovieDataSource 구조체로 영화 데이터와 이미지를 묶어 저장
