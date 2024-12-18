@@ -20,8 +20,9 @@ class SelectDateViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.title = "날짜/시간 선택"
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
+
     private func setupUI() {
         [
             selectDateView
