@@ -30,7 +30,7 @@ class SignUpViewController: UIViewController {
     }
 }
 
-// MARK: - 버튼 연결
+// MARK: - Connect Button Part
 
 extension SignUpViewController {
     
@@ -49,7 +49,7 @@ extension SignUpViewController {
     }
 }
 
-// MARK: - 버튼 동작
+// MARK: - Button Action Part
 
 extension SignUpViewController {
     
@@ -81,8 +81,19 @@ extension SignUpViewController {
     
     // 회원가입 버튼 동작
     private func tappedSignUpButton() {
+        guard let email = signUpView.emailTextField.text, !email.isEmpty,
+              let password = signUpView.pwTextField.text, !password.isEmpty,
+              let name = signUpView.nameTextField.text, !name.isEmpty,
+              let birth = signUpView.birthTextField.text, !birth.isEmpty,
+              let phoneNumber = signUpView.phoneNumberTextField.text, !phoneNumber.isEmpty
+        else {
+            // 전체 입력이 되어있지 않다면 경고창을 띄움
+            presentAlert()
+            return
+        }
         // CoreData에 저장
-        createUserInfo()
+        createUserInfo(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
+        // 저장된 데이터 보기
         readUserInfo()
         // 로그인 화면으로 이동
         navigationController?.dismiss(animated: true)
@@ -109,6 +120,16 @@ extension SignUpViewController {
             signUpView.checkPwLabel.text = "비밀번호가 동일하지 않습니다."
         }
     }
+    
+    // 경고창 생성
+    func presentAlert() {
+        let alert = UIAlertController(title: "경 고", message: "입력을 모두 해주시기 바랍니다.", preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확 인", style: .default) { _ in
+            print("확인 버튼을 눌렀습니다.")
+        }
+        alert.addAction(confirm)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - CoreData Part
@@ -116,17 +137,7 @@ extension SignUpViewController {
 extension SignUpViewController {
     
     // CoreData에 유저 데이터 생성
-    func createUserInfo() {
-        guard let email = signUpView.emailTextField.text,
-              let password = signUpView.pwTextField.text,
-              let name = signUpView.nameTextField.text,
-              let birth = signUpView.birthTextField.text,
-              let phoneNumber = signUpView.phoneNumberTextField.text
-        else {
-            print("모든 데이터를 입력해야합니다")
-            return
-        }
-        
+    func createUserInfo(email: String, password: String, name: String, birth: String, phoneNumber: String) {
         // 텍스트필드 값을 UserInfoData에 추가 후 생성
         let userInfo = UserInfoData.init(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         UserDataManger.shared.createUserData(userInfo)
