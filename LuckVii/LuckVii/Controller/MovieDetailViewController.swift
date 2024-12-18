@@ -10,6 +10,7 @@ import SafariServices
 
 class MovieDetailViewController: UIViewController {
     let movieDetailView = MovieDetailView()
+    private var movieData: MovieDataSource?
     private var movie: Movie?
     private var likeCount: Int = 0
     private var isLiked: Bool = false
@@ -78,6 +79,9 @@ class MovieDetailViewController: UIViewController {
     // MARK: - 버튼 클릭 액션들
     @objc func bookingButtonTapped() {
         let selectDateVC = SelectDateViewController()
+        guard let movieData = movieData else { return }
+
+        selectDateVC.setSelectDateViewData(movieData) // selectDataVC에 영화 정보 전달
         navigationController?.pushViewController(selectDateVC, animated: true)
     }
     
@@ -213,6 +217,7 @@ class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController {
     func setDetailViewData(_ dataSource: MovieDataSource) {
         movieDetailView.setDetailView(dataSource)
+        self.movieData = dataSource 
         self.movie = dataSource.movieData // movie 객체 설정 추가함
         print("\(dataSource)")
     }
