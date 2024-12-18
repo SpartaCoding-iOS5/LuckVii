@@ -96,12 +96,14 @@ extension LoginViewController {
     
     // 회원가입 버튼 누를 시(회원가입화면으로)
     private func tappedSignUpButton() {
-        print("moveToSignUpViewController")
+        let signUpVC = SignUpViewController()
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     // 비회원 버튼 누를 시(메인화면으로)
     private func tappedNoMemberButton() {
-        print("moveToMainViewController")
+        let searchViewVC = SearchViewController()
+        navigationController?.pushViewController(searchViewVC, animated: true)
     }
 }
 
