@@ -138,16 +138,15 @@ class MovieDetailViewController: UIViewController {
                     parameters: NetworkManager.URLParameterSet.common
                 )
                 
-                // YouTube 영상 찾기
-                guard let video = videoData.results.first(where: { $0.site.lowercased() == "youtube" }),
-                      let url = video.getVideoURL() else {
+                do {// YouTube 영상 찾기
+                    guard let video = videoData.results.first else { throw AppError.networkError(.noData) }//id에 맞는 videoData가 없다면 error
+                    let url = try video.getVideoURL()//url 생성 시도
+                    let safariVC = SFSafariViewController(url: url)// Safari로 예고편 재생
+                    
+                    present(safariVC, animated: true)
+                } catch {
                     showAlert(message: "예고편 URL을 가져올 수 없습니다.")
-                    return
                 }
-                
-                // Safari로 예고편 재생
-                let safariVC = SFSafariViewController(url: url)
-                present(safariVC, animated: true)
                 
             } catch {
                 // 오류 처리
@@ -172,23 +171,19 @@ class MovieDetailViewController: UIViewController {
                 )
                 
                 // 받은 데이터 처리
-                let releaseDate = try detailData.getReleaseDate() // 에러 던짐을 처리
-                let runtime = detailData.runtime
-                let adult = detailData.adult // true (성인 등급)
-
-                // 개봉일 포맷팅
-                let formattedReleaseDate = releaseDate != nil ? DateFormatter.shared.string(from: releaseDate!) : "정보 없음"
-                // 나이 제한
-                let ageRating = adult ? "19 성인 관람가" : "전체 관람가"
+                let releaseDate: Date = try detailData.getReleaseDate() // 에러 던짐을 처리
+                let runtime: Int = detailData.runtime
+                let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
+                
                 // 상영 시간
-                let formattedString = "\(formattedReleaseDate) 개봉 | \(ageRating) | \(runtime)분"
+                let formattedString = "\(releaseDate) 개봉 | \(ageRating) | \(runtime)분"
                 
                 // 영화 정보 레이블 업데이트
                 movieDetailView.movieInformationLabel.text = formattedString
-
-            } catch let error as DateError {
-                // 날짜 포맷 오류 처리
-                showAlert(message: "날짜 포맷이 잘못되었습니다.")
+                
+            } catch let error as AppError.ConvertError  {
+                    showAlert(message: "날짜 포맷이 잘못되었습니다.")// 날짜 포맷 오류 처리
+                
             } catch {
                 // 다른 오류 처리
                 showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")

@@ -16,9 +16,16 @@ struct Video: Decodable {
 }
 
 extension Video {
-    func getVideoURL() -> URL? {
+    func getVideoURL() throws -> URL {
         let baseURL: String = "https://www.youtube.com/watch?v="
-        return URL(string: baseURL + key)
+        
+        if site != "youtube" { throw AppError.convertError(.URLMakingError) }
+        
+        guard let url =  URL(string: baseURL + key) else {
+            throw AppError.convertError(.URLMakingError)
+        }
+        
+        return url
     }
 }
 

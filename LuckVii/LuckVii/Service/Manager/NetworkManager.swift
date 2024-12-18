@@ -22,14 +22,14 @@ final class NetworkManager {
         parameters: URLParameters
     ) async throws -> T {
         guard let url = buildURL(endpoint: endpoint.rawValue, parameters: parameters) else {//URL생성
-            throw NetworkError.invalidURL
+            throw AppError.networkError(.invalidURL)
         }
         
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
         
         guard let response = response as? HTTPURLResponse,
               successRange.contains(response.statusCode) else {
-            throw NetworkError.invalidResponse
+            throw AppError.networkError(.invalidResponse)
         }
         
         let decoder = JSONDecoder()
@@ -38,7 +38,7 @@ final class NetworkManager {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw NetworkError.decodingError
+            throw AppError.networkError(.decodingError)
         }
     }
     
