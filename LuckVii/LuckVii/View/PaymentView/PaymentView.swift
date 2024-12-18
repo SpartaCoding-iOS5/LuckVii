@@ -467,7 +467,7 @@ extension PaymentView {
     func setPaymentView(movie: MovieDataSource, date: String, time: String) {
         movieTitleLabel.text = movie.movieData.title
         moviePosterImageView.image = movie.image
-        movieDateTimeLabel.text = date
+        movieDateTimeLabel.text = "\(date) \(time)"
 
         if movie.movieData.adult {
             movieAgeLabel.text = "19세 이상 관람가"

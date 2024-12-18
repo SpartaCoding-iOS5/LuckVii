@@ -9,8 +9,11 @@ import UIKit
 import SnapKit
 
 class SelectDateView: UIView {
-    
-    public let buttonTitles = ["9:00~10:50", "11:00~12:50", "13:00~14:50", "15:00~16:50", "17:00~18:50", "19:00~20:50", "21:00~22:50"]
+
+    // 컬렉션뷰 데이터
+    let startTime = ["07:00", "09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00"]
+    let endTime = ["08:50", "10:50", "12:50", "14:50", "16:50", "18:50", "20:50", "22:50"]
+    var selectedItemOfIndex = 0 // 컬렉션뷰 선택된 아이템 인덱스 저장
 
     // 달력 뷰
     var datePicker: UIDatePicker = {
@@ -21,6 +24,7 @@ class SelectDateView: UIView {
         picker.date = Date() // 최초 선택 날짜 오늘로 설정
         picker.tintColor = .systemGreen
         picker.locale = Locale(identifier: "ko_KR")
+        picker.addTarget(self, action: #selector(changedDate), for: .valueChanged)
         return picker
     }()
     
@@ -33,7 +37,17 @@ class SelectDateView: UIView {
 
         return button
     }()
-    
+
+    private let timeCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        //layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.itemSize = .init(width: 80, height: 80)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(TimeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        return collectionView
+    }()
+
     // 시간 선택
     public let timePicker: UIPickerView = {
         let picker = UIPickerView()
@@ -48,7 +62,7 @@ class SelectDateView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupTimePicker()
+        setupTimeCollectionView()
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +73,8 @@ class SelectDateView: UIView {
     private func setupUI() {
         [
             datePicker,
-            timePicker,
+            //timePicker,
+            timeCollectionView,
             nextButton
         ].forEach { addSubview($0) }
 
@@ -68,13 +83,13 @@ class SelectDateView: UIView {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
         }
-        
-        timePicker.snp.makeConstraints {
+
+        timeCollectionView.snp.makeConstraints {
             $0.top.equalTo(datePicker.snp.bottom).offset(50)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(150)
+            $0.height.equalTo(180)
         }
-        
+
         nextButton.snp.makeConstraints {
             $0.width.equalTo(150)
             $0.height.equalTo(50)
@@ -83,8 +98,13 @@ class SelectDateView: UIView {
         }
     }
 
-    private func setupTimePicker() {
-        timePicker.dataSource = self
-        timePicker.delegate = self
+    private func setupTimeCollectionView() {
+        timeCollectionView.dataSource = self
+        timeCollectionView.delegate = self
+    }
+
+    @objc func changedDate() {
+        selectedItemOfIndex = 0
+        timeCollectionView.reloadData()
     }
 }
