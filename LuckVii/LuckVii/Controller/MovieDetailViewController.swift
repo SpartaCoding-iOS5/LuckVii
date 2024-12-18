@@ -28,6 +28,7 @@ class MovieDetailViewController: UIViewController {
         setupUI()
         buttonActions()
         setupLikeCount()
+        fetchMovieDetails()
     }
     
     private func setupUI() {
@@ -123,36 +124,78 @@ class MovieDetailViewController: UIViewController {
     
     // 예고편 버튼 누를 때
     @objc private func playTrailer() {
-            guard let movieId = movie?.id else {
-                showAlert(message: "영화 ID가 유효하지 않습니다.")
-                return
-            }
-            
-            Task {
-                do {
-                    // 예고편 데이터 요청
-                    let videoData: VideoData = try await NetworkManager.shared.fetchData(
-                        endpoint: .video(id: movieId),
-                        parameters: NetworkManager.URLParameterSet.common
-                    )
-                    
-                    // YouTube 영상 찾기
-                    guard let video = videoData.results.first(where: { $0.site.lowercased() == "youtube" }),
-                          let url = video.getVideoURL() else {
-                        showAlert(message: "예고편 URL을 가져올 수 없습니다.")
-                        return
-                    }
-                    
-                    // Safari로 예고편 재생
-                    let safariVC = SFSafariViewController(url: url)
-                    present(safariVC, animated: true)
-                    
-                } catch {
-                    // 오류 처리
-                    showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
+        guard let movieId = movie?.id else {
+            showAlert(message: "영화 ID가 유효하지 않습니다.")
+            return
+        }
+        
+        Task {
+            do {
+                // 예고편 데이터 요청
+                let videoData: VideoData = try await NetworkManager.shared.fetchData(
+                    endpoint: .video(id: movieId),
+                    parameters: NetworkManager.URLParameterSet.common
+                )
+                
+                // YouTube 영상 찾기
+                guard let video = videoData.results.first(where: { $0.site.lowercased() == "youtube" }),
+                      let url = video.getVideoURL() else {
+                    showAlert(message: "예고편 URL을 가져올 수 없습니다.")
+                    return
                 }
+                
+                // Safari로 예고편 재생
+                let safariVC = SFSafariViewController(url: url)
+                present(safariVC, animated: true)
+                
+            } catch {
+                // 오류 처리
+                showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
+    }
+    // 영화 상세 정보를 가져오는 함수
+    private func fetchMovieDetails() {
+        Task {
+            do {
+                guard let movieId = movie?.id else {
+                    showAlert(message: "영화 ID가 유효하지 않습니다.")
+                    return
+                }
+                
+                // 영화 상세 정보 요청
+                let detailData: DetailData = try await NetworkManager.shared.fetchData(
+                    endpoint: .detail(id: movieId),
+                    parameters: NetworkManager.URLParameterSet.common
+                )
+                
+                // 받은 데이터 처리
+                let releaseDate = detailData.getReleaseDate()
+                let runtime = detailData.runtime
+                let adult = detailData.adult // true (성인 등급)
+
+                // 개봉일 포맷팅
+                let formattedReleaseDate = releaseDate != nil ? dateFormatter.string(from: releaseDate!) : "정보 없음"
+                // 나이 제한
+                let ageRating = adult ? "19 성인 관람가" : "전체 관람가"
+                // 상영 시간
+                let formattedString = "\(formattedReleaseDate) 개봉 | \(ageRating) | \(runtime)분"
+                
+                // 영화 정보 레이블 업데이트
+                movieDetailView.movieInformationLabel.text = formattedString
+
+            } catch {
+                showAlert(message: "영화 정보를 가져오는 데 실패했습니다.")
+            }
+        }
+    }
+
+    // 날짜 포맷터 
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter
+    }
 
     // 예고편 예외 상황 알림창
     private func showAlert(message: String) {
@@ -161,6 +204,7 @@ class MovieDetailViewController: UIViewController {
         present(alert, animated: true)
     }
 }
+
 
 extension MovieDetailViewController {
     func setDetailViewData(_ dataSource: MovieDataSource) {

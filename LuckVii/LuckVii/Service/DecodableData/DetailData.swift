@@ -9,7 +9,7 @@ import Foundation
 struct DetailData: Decodable {
     let releaseDate: String
     let runtime: Int
-    let adult: Bool
+    let adult: Bool // 추가함. 없으면 영화 세부화면에서 표시되지않음
     
 }
 

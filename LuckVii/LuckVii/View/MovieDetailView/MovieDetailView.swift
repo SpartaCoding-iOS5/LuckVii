@@ -58,9 +58,8 @@ class MovieDetailView: UIView {
     }()
     
     // 영화 정보 레이블
-    private let movieInformationLabel: UILabel = {
+    public let movieInformationLabel: UILabel = {
         let label = UILabel()
-        label.text = "2024.12.15 개봉 | 19세 이상 관람가 | 106분"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textAlignment = .center
         label.textColor = .white
