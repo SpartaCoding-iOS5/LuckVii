@@ -13,17 +13,18 @@ class SelectDateView: UIView {
     public let buttonTitles = ["9:00~10:50", "11:00~12:50", "13:00~14:50", "15:00~16:50", "17:00~18:50", "19:00~20:50", "21:00~22:50"]
 
     // 달력 뷰
-    private let datePicker: UIDatePicker = {
+    var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date() // 최소 날짜는 오늘로 설정
+        picker.date = Date() // 최초 선택 날짜 오늘로 설정
         picker.tintColor = .systemGreen
         picker.locale = Locale(identifier: "ko_KR")
         return picker
     }()
     
-    private let nextButton: UIButton = {
+    var nextButton: UIButton = { // dlksejpd안돼여ㅛ
         let button = UIButton()
         button.setTitle("다음", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
@@ -87,6 +88,3 @@ class SelectDateView: UIView {
         timePicker.delegate = self
     }
 }
-
-
-
