@@ -20,6 +20,7 @@ enum AppError: Error {
     
     enum DataError: Error {
         case noIdData
+        case noMovieData
     }
     
     enum ConvertError: Error {
