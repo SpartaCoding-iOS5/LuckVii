@@ -9,8 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let paymentResultView = PaymentResultView()
+    override func loadView() {
+        self.view = paymentResultView
+    }
     override func viewDidLoad() {
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
