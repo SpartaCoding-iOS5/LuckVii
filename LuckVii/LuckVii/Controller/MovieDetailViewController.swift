@@ -14,6 +14,7 @@ class MovieDetailViewController: UIViewController {
     private var likeCount: Int = 0
     private var isLiked: Bool = false
     
+    // MARK: - 생명주기 메서드
     override func loadView() {
         view = movieDetailView
     }
@@ -31,23 +32,23 @@ class MovieDetailViewController: UIViewController {
         fetchMovieDetails()
     }
     
+    // MARK: - UI 설정
     private func setupUI() {
         view.backgroundColor = .white
     }
     
-    // 네비게이션 바 설정
+    // MARK: - 네비게이션 바 설정
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-    // 서버 없어서 좋아요 랜덤으로 가져옴
+    // MARK: - 좋아요 설정
     private func setupLikeCount() {
         likeCount = Int.random(in: 1001...3001)
         updateLikeButtonTitle()
-        
     }
     
-    // 버튼 액션만 따로 정리
+    // MARK: - 버튼 액션 설정
     private func buttonActions() {
         movieDetailView.likeButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
         movieDetailView.bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
@@ -55,34 +56,31 @@ class MovieDetailViewController: UIViewController {
         movieDetailView.shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
     
-    // 버튼 클릭 애니메이션
+    // MARK: - 버튼 애니메이션
     private func animateButtonPress(_ button: UIButton) {
         UIView.animate(withDuration: 0.1,
                        animations: {
-            // 눌렸을 때 크기가 작아짐
             button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         },
                        completion: { _ in
-            // 애니메이션 완료 후 원래 크기로 돌아옴
             UIView.animate(withDuration: 0.1) {
                 button.transform = CGAffineTransform.identity
             }
         })
     }
     
-    // 좋아요 버튼에 표시될 텍스트 업데이트
+    // MARK: - 좋아요 버튼 텍스트 업데이트
     private func updateLikeButtonTitle() {
         let updatedTitle = "♥ \(likeCount.formatted())" // 형식화된 숫자
         movieDetailView.likeButton.setTitle(updatedTitle, for: .normal)
     }
     
-    // 예매하기 클릭 시 날짜/시간 선택 화면으로 이동
+    // MARK: - 버튼 클릭 액션들
     @objc func bookingButtonTapped() {
         let selectDateVC = SelectDateViewController()
         navigationController?.pushViewController(selectDateVC, animated: true)
     }
     
-    // 좋아요 버튼 클릭 시 색 변경
     @objc private func likeButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
         
@@ -109,7 +107,6 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    // 공유 버튼
     @objc private func shareButtonTapped() {
         let appURL = "https://github.com/SpartaCoding-iOS5/LuckVii"
         
@@ -122,7 +119,7 @@ class MovieDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    // 예고편 버튼 누를 때
+    // MARK: - 예고편 버튼 누를 때
     @objc private func playTrailer() {
         guard let movieId = movie?.id else {
             showAlert(message: "영화 ID가 유효하지 않습니다.")
@@ -154,7 +151,8 @@ class MovieDetailViewController: UIViewController {
             }
         }
     }
-    // 영화 상세 정보를 가져오는 함수
+    
+    // MARK: - 영화 상세 정보 가져오는 함수
     private func fetchMovieDetails() {
         Task {
             do {
@@ -170,12 +168,12 @@ class MovieDetailViewController: UIViewController {
                 )
                 
                 // 받은 데이터 처리
-                let releaseDate = detailData.getReleaseDate()
+                let releaseDate = try detailData.getReleaseDate() // 에러 던짐을 처리
                 let runtime = detailData.runtime
                 let adult = detailData.adult // true (성인 등급)
 
                 // 개봉일 포맷팅
-                let formattedReleaseDate = releaseDate != nil ? dateFormatter.string(from: releaseDate!) : "정보 없음"
+                let formattedReleaseDate = releaseDate != nil ? DateFormatter.shared.string(from: releaseDate!) : "정보 없음"
                 // 나이 제한
                 let ageRating = adult ? "19 성인 관람가" : "전체 관람가"
                 // 상영 시간
@@ -184,20 +182,24 @@ class MovieDetailViewController: UIViewController {
                 // 영화 정보 레이블 업데이트
                 movieDetailView.movieInformationLabel.text = formattedString
 
+            } catch let error as DateError {
+                // 날짜 포맷 오류 처리
+                showAlert(message: "날짜 포맷이 잘못되었습니다.")
             } catch {
-                showAlert(message: "영화 정보를 가져오는 데 실패했습니다.")
+                // 다른 오류 처리
+                showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
     }
 
-    // 날짜 포맷터 
+    // MARK: - 날짜 포맷터
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }
 
-    // 예고편 예외 상황 알림창
+    // MARK: - 예고편 예외 상황 알림창
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
@@ -205,13 +207,11 @@ class MovieDetailViewController: UIViewController {
     }
 }
 
-
+// MARK: - 영화 상세 정보 뷰 설정
 extension MovieDetailViewController {
     func setDetailViewData(_ dataSource: MovieDataSource) {
         movieDetailView.setDetailView(dataSource)
         self.movie = dataSource.movieData // movie 객체 설정 추가함
         print("\(dataSource)")
-
     }
 }
-
