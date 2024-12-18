@@ -32,7 +32,7 @@ final class ImageManager {
         size: ImageWidth
     ) async throws -> UIImage? {
         guard let url: URL = URL(string: "\(baseURL)\(size.rawValue)\(path)") else {
-            throw NetworkError.invalidURL
+            throw AppError.networkError(.invalidURL)
         }
         
         if let image = cache.object(forKey: url as NSURL) {//cache된 이미지가 있으면 사용
@@ -43,11 +43,11 @@ final class ImageManager {
         
         guard let response = response as? HTTPURLResponse,
               successRange.contains(response.statusCode) else {
-            throw NetworkError.invalidResponse
+            throw AppError.networkError(.invalidResponse)
         }
         
         guard let image = UIImage(data: data) else {
-            throw NetworkError.decodingError
+            throw AppError.networkError(.decodingError)
         }
         
         cache.setObject(image, forKey: url as NSURL)
