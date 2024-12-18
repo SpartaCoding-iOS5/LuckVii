@@ -16,6 +16,8 @@ protocol textFieldDelegate: AnyObject {
 
 class SearchView: UIView {
     
+    private let height = UIScreen.main.bounds.height
+    
     weak var delegate: textFieldDelegate?
     
     // 앱 로고 레이블
@@ -80,7 +82,7 @@ class SearchView: UIView {
         ].forEach { addSubview($0) }
         
         logoLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(78)
+            $0.top.equalToSuperview().offset(height / 10) // 전체 높이의 1/10 지점에 세팅
             $0.leading.trailing.equalToSuperview().inset(130)
         }
         
