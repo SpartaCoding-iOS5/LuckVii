@@ -65,9 +65,9 @@ final class CategoryViewController: UIViewController {
     }
 
     private func setupCollectionViews() {
-        setupCollectionView(collectionView: upcomingCollectionView, title: "Upcoming Movies")
-        setupCollectionView(collectionView: nowPlayingCollectionView, title: "Now Playing")
-        setupCollectionView(collectionView: popularCollectionView, title: "Popular Movies")
+        setupCollectionView(collectionView: upcomingCollectionView, title: "    Upcoming Movies")
+        setupCollectionView(collectionView: nowPlayingCollectionView, title: "    Now Playing")
+        setupCollectionView(collectionView: popularCollectionView, title: "    Popular Movies")
     }
 
     // MARK: - 컬렉션 뷰 셋업
