@@ -12,13 +12,13 @@ class MovieDetailView: UIView {
     let movieDescriptionView = MovieDescriptionView() // 영화 소개글 뷰
     let scrollview = UIScrollView()
     let contentView = UIView()
-    
+  
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
         let imageview = UIImageView()
         imageview.contentMode = .scaleAspectFill
         imageview.backgroundColor = .lightGray
-        
+
         // 제목 잘 보이게 그라데이션 추가
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = imageview.bounds
@@ -28,12 +28,12 @@ class MovieDetailView: UIView {
         ]
         gradientLayer.locations = [0.3, 1.0] // 그라데이션 시작 위치 조정
         imageview.layer.addSublayer(gradientLayer)
-        
+
         // 레이아웃이 변경될 때마다 그라데이션 레이어의 크기를 업데이트
         imageview.layer.masksToBounds = true
         return imageview
     }()
-    
+
     // 예고편 재생 버튼
     public let trailerButton: UIButton = {
         let button = UIButton(type: .system)
@@ -43,10 +43,10 @@ class MovieDetailView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.cornerRadius = 15
-        
+
         return button
     }()
-    
+
     // 영화 이름 레이블
     private let movieNameLabel: UILabel = {
         let label = UILabel()
@@ -55,10 +55,10 @@ class MovieDetailView: UIView {
         label.textAlignment = .center
         label.textColor = .white
         label.applyShadow()
-        
+
         return label
     }()
-    
+
     // 영화 정보 레이블
     public let movieInformationLabel: UILabel = {
         let label = UILabel()
@@ -66,10 +66,10 @@ class MovieDetailView: UIView {
         label.textAlignment = .center
         label.textColor = .white
         label.applyShadow()
-        
+
         return label
     }()
-    
+
     // 좋아요 버튼
     public let likeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -79,10 +79,10 @@ class MovieDetailView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.cornerRadius = 25
-        
+
         return button
     }()
-    
+
     // 공유 버튼
     public let shareButton: UIButton = {
         let button = UIButton(type: .system)
@@ -94,10 +94,10 @@ class MovieDetailView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.cornerRadius = 25
-        
+
         return button
     }()
-    
+
     // 예매하기 버튼 추가
     public let bookingButton: UIButton = {
         let button = UIButton(type: .system)
@@ -106,20 +106,20 @@ class MovieDetailView: UIView {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.layer.cornerRadius = 14
         button.backgroundColor = .systemGreen
-        
+
         return button
     }()
-    
+
     // 버튼 스택뷰
     public let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.alignment = .center
-        
+
         return stackView
     }()
-    
+
     // 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -130,7 +130,7 @@ class MovieDetailView: UIView {
         super.init(coder: coder)
         setupUI()
     }
-    
+
     // 모든 UI를 뷰에 추가
     private func setupUI() {
         
@@ -144,16 +144,15 @@ class MovieDetailView: UIView {
             buttonStackView,
             trailerButton,
             movieDescriptionView
-            
-        ].forEach { contentView.addSubview($0) }
-        
+        ].forEach { addSubview($0) }
+      
         [
             likeButton,
             shareButton,
             bookingButton
-            
+
         ].forEach { buttonStackView.addArrangedSubview($0) }
-        
+
         // 제약 조건
         scrollview.snp.makeConstraints{
             $0.edges.equalTo(safeAreaLayoutGuide)
@@ -168,39 +167,39 @@ class MovieDetailView: UIView {
             $0.top.leading.trailing.equalTo(contentView)
             $0.height.equalTo(contentView.snp.width).multipliedBy(1.5) // 영화 포스터 높이를 가로 길이의 1.5배로 설정
         }
-        
+
         trailerButton.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).multipliedBy(0.65)
             $0.trailing.equalToSuperview().inset(10)
             $0.width.equalTo(90)
             $0.height.equalTo(30)
         }
-        
+
         movieNameLabel.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).multipliedBy(0.8) // 항상 포스터 아래의 20% 지점에 영화 이름 배치
             $0.centerX.equalToSuperview()
         }
-        
+
         movieInformationLabel.snp.makeConstraints {
             $0.top.equalTo(movieNameLabel.snp.bottom).offset(10)
             $0.centerX.equalToSuperview()
         }
-        
+
         buttonStackView.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().inset(10)
         }
-        
+
         likeButton.snp.makeConstraints {
             $0.width.equalTo(80)
             $0.height.equalTo(50)
         }
-        
+
         shareButton.snp.makeConstraints {
             $0.width.height.equalTo(50)
         }
-        
+
         bookingButton.snp.makeConstraints {
             $0.top.equalTo(buttonStackView.snp.bottom).offset(20)
             $0.trailing.equalToSuperview().inset(16)
@@ -214,7 +213,7 @@ class MovieDetailView: UIView {
             $0.bottom.equalToSuperview().inset(40)
         }
     }
-    
+
     // 레이아웃 변경될 때마다 그라데이션 레이어 크기 변경
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -238,7 +237,7 @@ extension UILabel {
 }
 
 extension MovieDetailView {
-    
+
     func setDetailView(_ dataSource: MovieDataSource) {
         movieNameLabel.text = dataSource.movieData.title
         movieDescriptionView.descriptionLabel.text = dataSource.movieData.overview

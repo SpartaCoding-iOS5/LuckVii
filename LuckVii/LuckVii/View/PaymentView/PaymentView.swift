@@ -264,7 +264,7 @@ class PaymentView: UIView {
         [
             movieInformationView,
             totalPriceListView,
-            termsView,
+            termsView
         ].forEach {
             contentView.addSubview($0)
         }
@@ -333,7 +333,6 @@ class PaymentView: UIView {
         [termsDetatilLabel, termsAgreementButton].forEach {
             termsDetailView.addSubview($0)
         }
-
 
         let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
 
@@ -463,7 +462,6 @@ class PaymentView: UIView {
         totalPriceLabel.text = "\(PriceFormatModel.wonFormat(ticketCount * 30000))"
     }
 }
-
 
 extension PaymentView {
 

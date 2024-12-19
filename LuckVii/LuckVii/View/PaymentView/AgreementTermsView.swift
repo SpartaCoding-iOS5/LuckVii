@@ -53,7 +53,7 @@ class AgreementTermsView: UIView {
         label.numberOfLines = 0
         label.text = """
 제 1조 (목적)
-본 약관은 럭비시네마(이하 "회사”)가 제공하는 영화 예매 서비스와 결제 시 랜덤 당첨 기능을 이용하는 고객(이하 "이용자") 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다. 
+본 약관은 럭비시네마(이하 "회사”)가 제공하는 영화 예매 서비스와 결제 시 랜덤 당첨 기능을 이용하는 고객(이하 "이용자") 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다.
 
 제 2조 (약관의 적용 및 변경)
 본 약관은 회사의 서비스 화면에 게시하여 공지함으로써 효력이 발생합니다. 회사는 필요한 경우 관련 법령을 위반하지 않는 범위에서 약관을 변경할 수 있으며, 변경된 약관은 동일한 방법으로 공지합니다. 변경된 약관에 동의하지 않을 경우 이용자는 서비스 이용을 중단할 수 있습니다.
@@ -155,7 +155,7 @@ class AgreementTermsView: UIView {
             serviceTermsTitleLabel,
             serviceTermsScrollView,
             randomTermsTitleLabel,
-            randomTermsScrollView,
+            randomTermsScrollView
         ].forEach {
             contentView.addSubview($0)
         }
@@ -167,7 +167,6 @@ class AgreementTermsView: UIView {
         randomTermsScrollView.addSubview(randomTermsTextLabel)
 
         let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
-
 
         titleLable.snp.makeConstraints {
             $0.top.equalTo(safeArea.snp.top).offset(30)

@@ -59,7 +59,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
 
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -91,7 +91,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
         startTimeLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(6)
             $0.centerX.equalToSuperview()
-        
+
         }
 
         timeConnectingLabel.snp.makeConstraints {
@@ -105,7 +105,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - 데이터 설정
-    
+
     func configureData(startTime: String, endTime: String, isSelected: Bool) {
         startTimeLabel.text = startTime
         endTimeLabel.text = endTime

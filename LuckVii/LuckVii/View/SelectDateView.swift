@@ -55,10 +55,10 @@ class SelectDateView: UIView {
     // 시간 선택
     public let timePicker: UIPickerView = {
         let picker = UIPickerView()
-        
+
         return picker
     }()
-    
+
     // 선택된 시간
     public var selectedTime: String?
 
@@ -68,12 +68,12 @@ class SelectDateView: UIView {
         setupUI()
         setupTimeCollectionView()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
     }
-    
+
     private func setupUI() {
         [
             datePicker,

@@ -5,19 +5,19 @@
 //  Created by 박진홍 on 12/17/24.
 //
 
-typealias URLParameters = Dictionary<String, String>
+typealias URLParameters = [String: String]
 
 extension NetworkManager {
     enum URLParameterSet {
         static let empty: URLParameters = [:]
         static let common: URLParameters = ["language": "ko-KR", "page": "1"]
         static let secondPage: URLParameters = ["language": "ko-KR", "page": "2"]
-        
+
         static func custom(parameters: URLParameters) -> URLParameters {
             return parameters
         }
     }
-    
+
     enum URLEndpointSet: RawRepresentable {
         case nowPlaying
         case popular
@@ -25,7 +25,7 @@ extension NetworkManager {
         case detail(id: Int)
         case video(id: Int)
         case custom(path: String)
-        
+
         var rawValue: String {
             switch self {
             case .nowPlaying:
@@ -42,7 +42,7 @@ extension NetworkManager {
                 return path
             }
         }
-        
+
         init?(rawValue: String) {
             switch rawValue {
             case "/now_playing":
@@ -55,6 +55,6 @@ extension NetworkManager {
                 self = .custom(path: rawValue)
             }
         }
-        
+
     }
 }

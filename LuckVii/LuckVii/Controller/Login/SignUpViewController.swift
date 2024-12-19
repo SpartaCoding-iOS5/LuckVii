@@ -8,21 +8,21 @@ import UIKit
 import SnapKit
 
 class SignUpViewController: UIViewController {
-    
+
     private let signUpView = SignUpView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         applyAction()
         textFieldSetup()
     }
-    
+
     private func setupUI() {
         navigationItem.title = "회원가입"
-        
+
         view.addSubview(signUpView)
-        
+
         signUpView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -32,15 +32,15 @@ class SignUpViewController: UIViewController {
 // MARK: - Connect Button Part
 
 extension SignUpViewController {
-    
+
     // 버튼에 액션 연결
     private func applyAction() {
-        
+
         // 중복확인 버튼 연결
         signUpView.duplicateCheckButton.addAction(UIAction { [weak self] _ in
             self?.tappedCheckDuplicateButton()
         }, for: .touchUpInside)
-        
+
         // 회원가입 버튼 연결
         signUpView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
@@ -51,24 +51,24 @@ extension SignUpViewController {
 // MARK: - Button Action Part
 
 extension SignUpViewController {
-    
+
     // 중복확인 버튼 동작
     private func tappedCheckDuplicateButton() {
-        
+
         // 1. 이메일 입력값 가져오기
         guard let emailText = signUpView.emailTextField.text, !emailText.isEmpty else {
             signUpView.checkEmailLabel.textColor = .red
             signUpView.checkEmailLabel.text = "이메일을 입력해주세요."
             return
         }
-        
+
         // 2. 이메일 형식 확인
         if !checkEmailFormat(emailText) {
             signUpView.checkEmailLabel.textColor = .red
             signUpView.checkEmailLabel.text = "유효한 이메일 형식이 아닙니다."
             return
         }
-        
+
         // 3. 저장된 데이터 이메일과 중복 비교
         if UserDataManger.shared.checkEmail(emailText) {
             signUpView.checkEmailLabel.textColor = .red
@@ -78,7 +78,7 @@ extension SignUpViewController {
             signUpView.checkEmailLabel.text = "사용 가능한 이메일입니다."
         }
     }
-    
+
     // 회원가입 버튼 동작
     private func tappedSignUpButton() {
         guard let email = signUpView.emailTextField.text, !email.isEmpty,
@@ -100,7 +100,7 @@ extension SignUpViewController {
     }
 }
 
-//MARK: - Metod Part
+// MARK: - Metod Part
 
 extension SignUpViewController {
     // 입력한 이메일이 올바른 형식인지 확인
@@ -109,7 +109,7 @@ extension SignUpViewController {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: email)
     }
-    
+
     // 입력한 비밀번호가 일치하는지 확인
     func checkPassword() {
         if signUpView.pwTextField.text == signUpView.pwCheckTextField.text {
@@ -120,7 +120,7 @@ extension SignUpViewController {
             signUpView.checkPwLabel.text = "비밀번호가 동일하지 않습니다."
         }
     }
-    
+
     // 경고창 생성
     func presentAlert() {
         let alert = UIAlertController(title: "경 고", message: "입력을 모두 해주시기 바랍니다.", preferredStyle: .alert)
@@ -135,14 +135,14 @@ extension SignUpViewController {
 // MARK: - CoreData Part
 
 extension SignUpViewController {
-    
+
     // CoreData에 유저 데이터 생성
     func createUserInfo(email: String, nickName: String, password: String, name: String, birth: String, phoneNumber: String) {
         // 텍스트필드 값을 UserInfoData에 추가 후 생성
         let userInfo = UserInfoData.init(email: email, nickName: nickName, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         UserDataManger.shared.createUserData(userInfo)
     }
-    
+
     // 저장된 유저 정보를 읽기
     func readUserInfo() {
         let users = UserDataManger.shared.getUserInfos()
@@ -155,7 +155,7 @@ extension SignUpViewController {
 // MARK: - TextField Part
 
 extension SignUpViewController: UITextFieldDelegate {
-    
+
     // 텍스트필드 setting
     private func textFieldSetup() {
         signUpView.emailTextField.delegate = self
@@ -166,14 +166,14 @@ extension SignUpViewController: UITextFieldDelegate {
         signUpView.birthTextField.delegate = self
         signUpView.phoneNumberTextField.delegate = self
     }
-    
+
     // 텍스트필드 입력 마쳤을 때 함수 호출(비밀번호 입력값이 동일한지 체크)
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == signUpView.pwCheckTextField {
             checkPassword()
         }
     }
-    
+
     // 다음 텍스트필드로 넘어가기
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
