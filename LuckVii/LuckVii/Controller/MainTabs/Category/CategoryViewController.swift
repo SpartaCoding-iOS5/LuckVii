@@ -33,6 +33,11 @@ final class CategoryViewController: UIViewController {
         setupStackView()
         setupCollectionViews()
         
+        // 네비게이션 타이틀 폰트와 색상 설정
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
     }
 
     // MARK: - UI 셋업
