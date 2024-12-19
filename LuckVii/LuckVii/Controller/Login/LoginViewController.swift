@@ -81,8 +81,10 @@ extension LoginViewController {
         // 1. 아이디와 비밀번호가 입력이 되었는지 확인
         if loginView.emailTextField.text == "" {
             loginView.checkLoginInfo.text = "아이디를 입력해주세요"
+            return
         } else if loginView.pwTextField.text == "" {
             loginView.checkLoginInfo.text = "비밀번호를 입력해주세요"
+            return
         }
         
         // 2. 두개의 값을 변수에 저장 후
@@ -92,9 +94,10 @@ extension LoginViewController {
         // 3. 맞으면 다음 화면, 틀리면 다시 값을 입력
         if emailInfo != "" && pwInfo != "" {
             guard let id = emailInfo, let pw = pwInfo else { return }
+            
             if checkUserInfo(id,pw) {
-                let searchViewVC = SearchViewController()
-                navigationController?.pushViewController(searchViewVC, animated: true)
+                UserDefaultsManager.shared.setLoggedInStatus(true)
+                self.dismiss(animated: true)
             } else {
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."
                 loginView.pwTextField.text = ""
@@ -110,13 +113,13 @@ extension LoginViewController {
     // 회원가입 버튼 누를 시(회원가입화면으로)
     private func tappedSignUpButton() {
         let signUpVC = SignUpViewController()
-        navigationController?.pushViewController(signUpVC, animated: true)
+        self.present(signUpVC, animated: true, completion: nil)
     }
     
     // 비회원 버튼 누를 시(메인화면으로)
     private func tappedNoMemberButton() {
-        let searchViewVC = SearchViewController()
-        navigationController?.pushViewController(searchViewVC, animated: true)
+        self.dismiss(animated: true)
+        
     }
 }
 

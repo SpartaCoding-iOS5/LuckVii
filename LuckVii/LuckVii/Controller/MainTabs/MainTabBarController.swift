@@ -8,15 +8,22 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-
+    private let loginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
+    private var isFirstLaunch: Bool = true
+    
     override func viewDidLoad() {
         view.backgroundColor = .white
         super.viewDidLoad()
         setupTabBar()
+        
     }
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
+        if isFirstLaunch {
+            loginManager.ensurePresentLoginModal(viewController: self)
+            isFirstLaunch = false
+        }
     }
 
     // MARK: - set up tab bar controller
@@ -29,9 +36,7 @@ class MainTabBarController: UITabBarController {
         let categoryNav: UINavigationController = UINavigationController(rootViewController: categoryVC)
         let searchNav: UINavigationController = UINavigationController(rootViewController: searchVC)
         let myPageNav: UINavigationController = UINavigationController(rootViewController: myPageVC)
-//        let categoryNav: CategoryViewController = CategoryViewController()
-//        let searchNav: SearchViewController = SearchViewController()
-//        let myPageNav: MyPageViewController = MyPageViewController()
+
         //set tab bar item
         categoryNav.tabBarItem = UITabBarItem(
             title: "Category",
