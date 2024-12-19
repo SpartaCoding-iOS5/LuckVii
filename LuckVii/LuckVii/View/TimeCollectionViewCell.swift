@@ -15,6 +15,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = .white
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.borderWidth = 0.8
+        view.layer.cornerRadius = 7
         return view
     }()
 
@@ -111,9 +112,17 @@ class TimeCollectionViewCell: UICollectionViewCell {
 
         // 선택된 아이템인지 확인
         if isSelected {
-            view.backgroundColor = .green
+            view.backgroundColor = .systemGreen
+            startTimeLabel.textColor = .white
+            timeConnectingLabel.textColor = .white
+            endTimeLabel.textColor = .white
+            view.layer.borderColor = UIColor.systemGreen.cgColor
         } else {
             view.backgroundColor = .white
+            startTimeLabel.textColor = .black
+            timeConnectingLabel.textColor = .black
+            endTimeLabel.textColor = .black
+            view.layer.borderColor = UIColor.gray.cgColor
         }
     }
 }
