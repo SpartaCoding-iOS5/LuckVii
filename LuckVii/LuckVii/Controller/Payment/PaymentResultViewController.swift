@@ -43,12 +43,6 @@ class PaymentResultViewController: UIViewController {
         setupAction()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-
-        self.navigationController?.isNavigationBarHidden = false
-    }
-
     // MARK: - 액션 연결
 
     private func setupAction() {

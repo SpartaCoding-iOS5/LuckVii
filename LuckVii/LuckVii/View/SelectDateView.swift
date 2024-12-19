@@ -18,16 +18,21 @@ class SelectDateView: UIView {
     // 달력 뷰
     var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
+        var components = DateComponents()
+        components.day = 14
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date() // 최소 날짜는 오늘로 설정
+        picker.maximumDate = Calendar.autoupdatingCurrent.date(byAdding: components, to: Date()) // 최대 선택 날짜는 + 14일
         picker.date = Date() // 최초 선택 날짜 오늘로 설정
         picker.tintColor = .systemGreen
         picker.locale = Locale(identifier: "ko_KR")
         picker.addTarget(self, action: #selector(changedDate), for: .valueChanged)
         return picker
     }()
-    
+
+    var bottomButtonView = BottomButonView()
+
     var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("다음", for: .normal)
@@ -40,7 +45,6 @@ class SelectDateView: UIView {
 
     private let timeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        //layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
         layout.itemSize = .init(width: 80, height: 80)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -73,9 +77,8 @@ class SelectDateView: UIView {
     private func setupUI() {
         [
             datePicker,
-            //timePicker,
             timeCollectionView,
-            nextButton
+            bottomButtonView
         ].forEach { addSubview($0) }
 
         // 제약 조건
@@ -90,11 +93,10 @@ class SelectDateView: UIView {
             $0.height.equalTo(180)
         }
 
-        nextButton.snp.makeConstraints {
-            $0.width.equalTo(150)
-            $0.height.equalTo(50)
-            $0.trailing.equalToSuperview().inset(30)
+        bottomButtonView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalToSuperview().inset(50)
+            $0.height.equalTo(50)
         }
     }
 

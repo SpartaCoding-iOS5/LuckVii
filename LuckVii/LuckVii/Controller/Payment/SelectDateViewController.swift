@@ -22,8 +22,16 @@ class SelectDateViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.title = "날짜/시간 선택"
+        self.title = "상영 시간 선택"
         navigationController?.navigationBar.shadowImage = UIImage()
+        let backButtonImage = UIImage(systemName: "arrow.left")
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(tappedPreviousButtion)
+        )
     }
 
     // MARK: - 레이아웃 설정
@@ -41,15 +49,13 @@ class SelectDateViewController: UIViewController {
 
     // 버튼 액션 연결
     private func setupAction() {
-        selectDateView.nextButton.addAction(UIAction { [weak self] _ in
+        selectDateView.bottomButtonView.nextButton.addAction(UIAction { [weak self] _ in
             self?.tappedNextButton()
         }, for: .touchUpInside)
-    }
 
-    // 선택된 시간 가져오기
-    func getSelectedTime() -> String? {
-        print(selectDateView.selectedTime)
-        return selectDateView.selectedTime
+        selectDateView.bottomButtonView.previousButton.addAction(UIAction { [weak self] _ in
+            self?.tappedPreviousButtion()
+        }, for: .touchUpInside)
     }
 }
 
@@ -67,8 +73,7 @@ extension SelectDateViewController {
     func tappedNextButton() {
         let paymentVC = PaymentViewController()
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateFormatter = DateFormatter.shared
         let dateString = dateFormatter.string(from: selectDateView.datePicker.date)
 
         do {
@@ -80,6 +85,10 @@ extension SelectDateViewController {
         } catch {
             
         }
+    }
+
+    @objc func tappedPreviousButtion() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
