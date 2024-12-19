@@ -18,7 +18,7 @@ class BottomButonView: UIView {
     }()
 
     var previousButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("이전", for: .normal)
         button.setTitleColor(.gray, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
@@ -30,8 +30,9 @@ class BottomButonView: UIView {
     }()
 
     var nextButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("다음", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = .systemGreen
         button.layer.borderWidth = 1

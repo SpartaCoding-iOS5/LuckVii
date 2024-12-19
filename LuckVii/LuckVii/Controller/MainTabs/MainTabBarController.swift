@@ -14,7 +14,11 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabBar()
     }
-    
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+    }
+
     // MARK: - set up tab bar controller
     
     private func setupTabBar() {

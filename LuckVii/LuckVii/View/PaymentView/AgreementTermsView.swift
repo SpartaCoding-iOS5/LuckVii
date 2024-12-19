@@ -19,6 +19,13 @@ class AgreementTermsView: UIView {
         return label
     }()
 
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+
     // 서비스 이용약관 타이틀 Label
     private let serviceTermsTitleLabel: UILabel = {
         let label = UILabel()
@@ -115,34 +122,7 @@ class AgreementTermsView: UIView {
         return label
     }()
 
-    // 버튼 StackView
-    private let buttonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 20
-        stackView.alignment = .center
-        return stackView
-    }()
-
-    //
-    var disagreementButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("비동의", for: .normal)
-        button.backgroundColor = .lightGray
-        button.setTitleColor(.darkGray, for: .normal)
-        button.layer.cornerRadius = 10
-        return button
-    }()
-
-    var agreementButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("전체 동의", for: .normal)
-        button.backgroundColor = .systemGreen
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        return button
-    }()
+    var bottomButtonView = BottomButonView()
 
     // MARK: - 기본 설정
 
@@ -159,16 +139,25 @@ class AgreementTermsView: UIView {
     // MARK: - 레이아웃 설정
 
     private func configureUI() {
+
+        bottomButtonView.previousButton.setTitle("비동의", for: .normal)
+        bottomButtonView.nextButton.setTitle("동의", for: .normal)
+
+        [titleLable, scrollView, bottomButtonView].forEach {
+            self.addSubview($0)
+        }
+
+        let contentView = UIView()
+        scrollView.addSubview(contentView)
+
         // 뷰에 추가
         [
-            titleLable,
             serviceTermsTitleLabel,
             serviceTermsScrollView,
             randomTermsTitleLabel,
             randomTermsScrollView,
-            buttonStackView
         ].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
 
         // 서비스 이용약관 ScrillView에 추가
@@ -177,20 +166,27 @@ class AgreementTermsView: UIView {
         // 랜덤 티켓 약관 ScrollView에 추가
         randomTermsScrollView.addSubview(randomTermsTextLabel)
 
-        // 버튼 StackView에 추가
-        [disagreementButton, agreementButton].forEach {
-            buttonStackView.addArrangedSubview($0)
-        }
-
         let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
+
 
         titleLable.snp.makeConstraints {
             $0.top.equalTo(safeArea.snp.top).offset(30)
             $0.centerX.equalToSuperview()
         }
 
+        scrollView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(titleLable.snp.bottom).inset(-30)
+            $0.bottom.equalTo(bottomButtonView.snp.top).offset(-10)
+        }
+
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+        }
+
         serviceTermsTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLable.snp.bottom).offset(50)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
         }
 
@@ -213,6 +209,7 @@ class AgreementTermsView: UIView {
 
         randomTermsScrollView.snp.makeConstraints {
             $0.top.equalTo(randomTermsTitleLabel.snp.bottom).offset(15)
+            $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(200)
         }
@@ -223,16 +220,9 @@ class AgreementTermsView: UIView {
             $0.centerX.equalToSuperview()
         }
 
-        buttonStackView.snp.makeConstraints {
+        bottomButtonView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalTo(safeArea.snp.bottom).inset(10)
-            $0.leading.trailing.equalToSuperview().inset(20)
-        }
-
-        disagreementButton.snp.makeConstraints {
-            $0.height.equalTo(50)
-        }
-
-        agreementButton.snp.makeConstraints {
             $0.height.equalTo(50)
         }
     }

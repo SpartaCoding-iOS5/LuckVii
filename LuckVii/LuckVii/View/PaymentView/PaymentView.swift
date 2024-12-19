@@ -12,18 +12,26 @@ class PaymentView: UIView {
 
     var ticketCount = 1 // 티켓 갯수를 저장할 변수
 
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+
     // 영화 정보 View
     private let movieInformationView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.backgroundColor = .white
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.borderWidth = 1
         return view
     }()
 
     // 영화 포스터 ImageView
     private let moviePosterImageView: UIImageView = {
         let imageView = UIImageView()
-        // imageView.image = UIImage(named: "poster") 테스트 코드
         imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
         return imageView
@@ -88,6 +96,8 @@ class PaymentView: UIView {
         stackView.spacing = 5
         stackView.layer.cornerRadius = 10
         stackView.clipsToBounds = true
+        stackView.layer.borderColor = UIColor.gray.cgColor
+        stackView.layer.borderWidth = 1
         return stackView
     }()
 
@@ -136,16 +146,18 @@ class PaymentView: UIView {
     }()
 
     private let ticketCountPlusButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didTapCountButton), for: .touchUpInside)
         button.titleLabel?.font = .boldSystemFont(ofSize: 15)
         return button
     }()
 
     private let ticketCountMinusButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("-", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didTapCountButton), for: .touchUpInside)
         button.titleLabel?.font = .boldSystemFont(ofSize: 15)
         return button
@@ -195,6 +207,8 @@ class PaymentView: UIView {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.borderWidth = 1
         return view
     }()
 
@@ -222,23 +236,7 @@ class PaymentView: UIView {
         return stackView
     }()
 
-    var previousButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("이전", for: .normal)
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 6
-        return button
-    }()
-
-    var nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("결제", for: .normal)
-        button.backgroundColor = .green
-        button.layer.cornerRadius = 6
-
-        return button
-    }()
+    var bottomButtonView = BottomButonView()
 
     // MARK: - 기본 설정
 
@@ -254,15 +252,21 @@ class PaymentView: UIView {
     // MARK: - 레이아웃 설정
 
     private func configureUI() {
+        bottomButtonView.nextButton.setTitle("결제", for: .normal)
+
+        self.addSubview(scrollView)
+        self.addSubview(bottomButtonView)
+
+        let contentView = UIView()
+        scrollView.addSubview(contentView)
 
         // 뷰에 추가
         [
             movieInformationView,
             totalPriceListView,
             termsView,
-            bottomStackView
         ].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
 
         // 영화 정보 뷰 추가
@@ -330,15 +334,22 @@ class PaymentView: UIView {
             termsDetailView.addSubview($0)
         }
 
-        // 이전, 결제 뷰 추가
-        [previousButton, nextButton].forEach {
-            bottomStackView.addArrangedSubview($0)
-        }
 
         let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
 
+        scrollView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(safeArea.snp.top).inset(10)
+            $0.bottom.equalTo(bottomButtonView.snp.top).offset(-10)
+        }
+
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+        }
+
         movieInformationView.snp.makeConstraints {
-            $0.top.equalTo(safeArea.snp.top).inset(30)
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(15)
             $0.height.equalTo(200)
         }
@@ -405,6 +416,7 @@ class PaymentView: UIView {
 
         termsView.snp.makeConstraints {
             $0.top.equalTo(totalPriceView.snp.bottom).offset(40)
+            $0.bottom.equalToSuperview()
             $0.leading.trailing.equalTo(movieInformationView)
             $0.height.equalTo(80)
         }
@@ -428,17 +440,9 @@ class PaymentView: UIView {
             $0.centerY.equalToSuperview()
         }
 
-        bottomStackView.snp.makeConstraints {
-            $0.bottom.equalTo(safeArea.snp.bottom)
+        bottomButtonView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(15)
-            $0.height.equalTo(50)
-        }
-
-        previousButton.snp.makeConstraints {
-            $0.height.equalTo(50)
-        }
-
-        nextButton.snp.makeConstraints {
+            $0.bottom.equalTo(safeArea.snp.bottom).inset(10)
             $0.height.equalTo(50)
         }
     }

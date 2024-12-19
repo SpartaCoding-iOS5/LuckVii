@@ -159,6 +159,7 @@ class PaymentResultViewController: UIViewController {
         
         UserDataManger.shared.saveReservation(reservationInfo)
         self.navigationController?.popToRootViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
