@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-
 protocol textFieldDelegate: AnyObject {
     func searchingMovie(_ input: String)
     func pressReturnKey()
+    func didChangeSegment(index: Int)
 }
 
 class SearchView: UIView {
@@ -19,17 +19,6 @@ class SearchView: UIView {
     private let height = UIScreen.main.bounds.height
     
     weak var delegate: textFieldDelegate?
-    
-    // 앱 로고 레이블
-    private let logoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "LuckVii"
-        label.textAlignment = .center
-        label.textColor = .label
-        label.backgroundColor = .systemBackground
-        label.font = .boldSystemFont(ofSize: 20)
-        return label
-    }()
     
     // 검색을 위한 텍스트 필드
     private let searchTextField: UITextField = {
@@ -60,6 +49,18 @@ class SearchView: UIView {
         return view
     }()
     
+    // segmented Control
+    private let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["상영중", "상영예정"])
+        control.selectedSegmentIndex = 0
+        control.backgroundColor = .systemGray6
+        control.selectedSegmentTintColor = .white
+        control.setTitleTextAttributes([.font: UIFont.boldSystemFont(ofSize: 16)], for: .selected)
+        control.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
+        control.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        return control
+    }()
+    
     // MARK: - 생성자
     
     override init(frame: CGRect) {
@@ -76,24 +77,25 @@ class SearchView: UIView {
     private func setupUI() {
         backgroundColor = .white
         [
-            logoLabel,
             searchTextField,
-            movieCollectionView
+            movieCollectionView,
+            segmentedControl
         ].forEach { addSubview($0) }
         
-        logoLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(height / 10) // 전체 높이의 1/10 지점에 세팅
-            $0.leading.trailing.equalToSuperview().inset(130)
-        }
-        
         searchTextField.snp.makeConstraints {
-            $0.top.equalTo(logoLabel.snp.bottom).offset(22)
+            $0.top.equalToSuperview().offset(height / 6)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(44)
         }
         
-        movieCollectionView.snp.makeConstraints{
+        segmentedControl.snp.makeConstraints {
             $0.top.equalTo(searchTextField.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(40)
+        }
+        
+        movieCollectionView.snp.makeConstraints{
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(22)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().offset(-36)
         }
@@ -127,5 +129,10 @@ class SearchView: UIView {
     // return 입력 처리 메서드
     @objc func returnKeypressed() {
         delegate?.pressReturnKey()
+    }
+    
+    // segmentedControl 메뉴 선택 처리 메서드
+    @objc func segmentChanged() {
+        delegate?.didChangeSegment(index: segmentedControl.selectedSegmentIndex)
     }
 }
