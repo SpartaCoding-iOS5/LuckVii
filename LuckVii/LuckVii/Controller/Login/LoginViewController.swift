@@ -93,9 +93,9 @@ extension LoginViewController {
 
         // 3. 맞으면 다음 화면, 틀리면 다시 값을 입력
         if emailInfo != "" && pwInfo != "" {
-            guard let id = emailInfo, let pw = pwInfo else { return }
+            guard let id = emailInfo, let password = pwInfo else { return }
 
-            if checkUserInfo(id, pw) {
+            if checkUserInfo(id, password) {
                 UserDefaultsManager.shared.setLoggedInStatus(true)
                 self.dismiss(animated: true)
             } else {
@@ -106,8 +106,8 @@ extension LoginViewController {
     }
 
     // 유저 정보를 확인하는 메서드
-    private func checkUserInfo(_ id: String, _ pw: String) -> Bool {
-        UserDataManger.shared.checkUser(id, pw)
+    private func checkUserInfo(_ id: String, _ password: String) -> Bool {
+        UserDataManger.shared.checkUser(id, password)
     }
 
     // 회원가입 버튼 누를 시(회원가입화면으로)
