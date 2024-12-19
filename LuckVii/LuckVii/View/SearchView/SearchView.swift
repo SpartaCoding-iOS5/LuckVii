@@ -54,8 +54,8 @@ class SearchView: UIView {
         let control = UISegmentedControl(items: ["상영중", "상영예정"])
         control.selectedSegmentIndex = 0
         control.backgroundColor = .systemGray6
-        control.selectedSegmentTintColor = .white
-        control.setTitleTextAttributes([.font: UIFont.boldSystemFont(ofSize: 16)], for: .selected)
+        control.selectedSegmentTintColor = .systemGreen
+        control.setTitleTextAttributes([.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.white], for: .selected)
         control.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15)], for: .normal)
         control.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         return control

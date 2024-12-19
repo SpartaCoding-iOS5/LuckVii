@@ -84,7 +84,7 @@ class LoginView: UIView {
     // 로그인 버튼
     var loginButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .green
+        button.backgroundColor = .systemGreen
         button.setTitle("로그인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 14
