@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MovieDetailView: UIView {
+final class MovieDetailView: UIView {
     let movieDescriptionView = MovieDescriptionView() // 영화 소개글 뷰
     let scrollview = UIScrollView()
     let contentView = UIView()

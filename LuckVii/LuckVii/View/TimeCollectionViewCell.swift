@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TimeCollectionViewCell: UICollectionViewCell {
+final class TimeCollectionViewCell: UICollectionViewCell {
 
     private let view: UIView = {
         let view = UIView()

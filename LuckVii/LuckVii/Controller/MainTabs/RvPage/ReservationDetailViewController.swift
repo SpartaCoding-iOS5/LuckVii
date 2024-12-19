@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ReservationDetailViewController: UIViewController {
+final class ReservationDetailViewController: UIViewController {
 
    // MARK: - Properties
    private let detailView = ReservationDetailView()

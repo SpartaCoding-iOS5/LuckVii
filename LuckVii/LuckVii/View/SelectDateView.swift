@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SelectDateView: UIView {
+final class SelectDateView: UIView {
 
     // 컬렉션뷰 데이터
     let startTime = ["07:00", "09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00"]

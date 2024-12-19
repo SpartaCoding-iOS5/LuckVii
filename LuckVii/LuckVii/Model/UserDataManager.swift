@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-class UserDataManger {
+final class UserDataManger {
 
     // 싱글톤으로 생성
     static let shared = UserDataManger()

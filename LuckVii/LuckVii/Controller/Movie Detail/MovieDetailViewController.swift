@@ -8,7 +8,7 @@
 import UIKit
 import SafariServices
 
-class MovieDetailViewController: UIViewController {
+final class MovieDetailViewController: UIViewController {
     let movieDetailView = MovieDetailView()
     private var movieData: MovieDataSource?
     private var movie: Movie?

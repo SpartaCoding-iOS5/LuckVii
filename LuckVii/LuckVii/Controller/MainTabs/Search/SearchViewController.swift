@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
 
     // 영화 목록을 저장할 배열
     private var movieDataSource = [MovieDataSource]()

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SearchViewCell: UICollectionViewCell {
+final class SearchViewCell: UICollectionViewCell {
 
     // 영화포스터 이미지 뷰
     private let movieImageView: UIImageView = {
