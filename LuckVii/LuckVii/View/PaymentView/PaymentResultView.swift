@@ -8,9 +8,15 @@
 import UIKit
 import SnapKit
 
+protocol gachaButtonDelegate: AnyObject {
+    func didTapGachaButton()
+}
+
 class PaymentResultView: UIView {
     
     private let height =  UIScreen.main.bounds.height // 뷰의 세로 길이, 16pro 기준 874.0
+    
+    weak var delegate: gachaButtonDelegate?
     
     // 티켓 번호 레이블
     private let ticketNumberLabel: UILabel = {
@@ -57,7 +63,8 @@ class PaymentResultView: UIView {
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = .systemGreen
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(gachaButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -113,5 +120,9 @@ class PaymentResultView: UIView {
         amountLabel.text = "🎉 축하드립니다! \(amount)원 당첨!"
         seatLabel.text = "영등포 럭비관 1관 6층 (아이맥스) \(seat)"
     }
-
+    
+    @objc func gachaButtonTapped() {
+        delegate?.didTapGachaButton()
+    }
+    
 }
