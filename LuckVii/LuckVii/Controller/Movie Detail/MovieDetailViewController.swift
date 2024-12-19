@@ -77,7 +77,9 @@ class MovieDetailViewController: UIViewController {
     }
     
     // MARK: - 버튼 클릭 액션들
-    @objc func bookingButtonTapped() {
+    @objc func bookingButtonTapped(_ sender: UIButton) {
+        animateButtonPress(sender)
+        
         let selectDateVC = SelectDateViewController()
         guard let movieData = movieData else { return }
 
@@ -111,7 +113,9 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @objc private func shareButtonTapped() {
+    @objc private func shareButtonTapped(_ sender: UIButton) {
+        animateButtonPress(sender)
+        
         let appURL = "https://github.com/SpartaCoding-iOS5/LuckVii"
         
         // 클립보드에 URL 복사
@@ -159,7 +163,17 @@ class MovieDetailViewController: UIViewController {
                     endpoint: .detail(id: movieId),
                     parameters: NetworkManager.URLParameterSet.common
                 )
+                // 영화 설명 가져오기
+                let overviewText = detailData.overview
+                print("오버뷰텍스트 글자수: \(overviewText.count)")
                 
+                // overviewText가 비어 있으면 "해당 영화의 내용이 없습니다." 띄우기
+                if overviewText.isEmpty {
+                    movieDetailView.movieDescriptionView.updateDescription(with: "해당 영화의 내용이 없습니다.")
+                } else {
+                    movieDetailView.movieDescriptionView.updateDescription(with: overviewText)
+                }
+
                 let releaseDateString = detailData.releaseDate
                 let runtime: Int = detailData.runtime
                 let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
@@ -198,6 +212,9 @@ extension MovieDetailViewController {
         movieDetailView.setDetailView(dataSource)
         self.movieData = dataSource 
         self.movie = dataSource.movieData // movie 객체 설정 추가함
+        
+        let overviewText = dataSource.movieData.overview
+        movieDetailView.movieDescriptionView.updateDescription(with: overviewText) // description 업데이트
         print("\(dataSource)")
     }
 }
