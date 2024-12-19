@@ -8,12 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		E28AC8462D0C000100B25C03 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E28AC8452D0C000100B25C03 /* SnapKit */; };
+		E2AF270D2D145E8E00765ADA /* TicketInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF270B2D145E8E00765ADA /* TicketInfo+CoreDataClass.swift */; };
+		E2AF270E2D145E8E00765ADA /* ReservationInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF270A2D145E8E00765ADA /* ReservationInfo+CoreDataProperties.swift */; };
+		E2AF270F2D145E8E00765ADA /* TicketInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF270C2D145E8E00765ADA /* TicketInfo+CoreDataProperties.swift */; };
+		E2AF27102D145E8E00765ADA /* ReservationInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF27092D145E8E00765ADA /* ReservationInfo+CoreDataClass.swift */; };
 		F98F3BFD2D11880100098BF1 /* UserInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */; };
 		F98F3BFE2D11880100098BF1 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E28AC8222D0BFF8500B25C03 /* LuckVii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckVii.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2AF27092D145E8E00765ADA /* ReservationInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReservationInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E2AF270A2D145E8E00765ADA /* ReservationInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReservationInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E2AF270B2D145E8E00765ADA /* TicketInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E2AF270C2D145E8E00765ADA /* TicketInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,6 +62,10 @@
 		E28AC8192D0BFF8500B25C03 = {
 			isa = PBXGroup;
 			children = (
+				E2AF27092D145E8E00765ADA /* ReservationInfo+CoreDataClass.swift */,
+				E2AF270A2D145E8E00765ADA /* ReservationInfo+CoreDataProperties.swift */,
+				E2AF270B2D145E8E00765ADA /* TicketInfo+CoreDataClass.swift */,
+				E2AF270C2D145E8E00765ADA /* TicketInfo+CoreDataProperties.swift */,
 				F98F3BFB2D11880100098BF1 /* UserInfo+CoreDataClass.swift */,
 				F98F3BFC2D11880100098BF1 /* UserInfo+CoreDataProperties.swift */,
 				E28AC8242D0BFF8500B25C03 /* LuckVii */,
@@ -149,6 +161,10 @@
 			files = (
 				F98F3BFD2D11880100098BF1 /* UserInfo+CoreDataProperties.swift in Sources */,
 				F98F3BFE2D11880100098BF1 /* UserInfo+CoreDataClass.swift in Sources */,
+				E2AF270D2D145E8E00765ADA /* TicketInfo+CoreDataClass.swift in Sources */,
+				E2AF270E2D145E8E00765ADA /* ReservationInfo+CoreDataProperties.swift in Sources */,
+				E2AF270F2D145E8E00765ADA /* TicketInfo+CoreDataProperties.swift in Sources */,
+				E2AF27102D145E8E00765ADA /* ReservationInfo+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

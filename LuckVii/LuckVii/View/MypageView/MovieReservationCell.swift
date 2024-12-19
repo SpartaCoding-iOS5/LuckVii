@@ -115,5 +115,5 @@ struct MovieReservation {
     let dateTime: String
     let theater: String
     let price: Int
-    let posterImage: String?
+    let posterImage: UIImage?
 }

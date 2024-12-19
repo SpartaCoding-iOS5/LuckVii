@@ -280,17 +280,23 @@ class ReservationDetailView: UIView {
     
     
     // MARK: - Configuration
-    func configure(with movie: MovieReservation) {
-        titleLabel.text = movie.title
-        dateTimeLabel.text = movie.dateTime
-        theaterLabel.text = movie.theater
-        priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: movie.price), number: .decimal))원"
+    func configure(with reservation: ReservationInfoData) {
+        titleLabel.text = reservation.title
+        dateTimeLabel.text = reservation.dateTime
+        theaterLabel.text = reservation.theater
         
-        // 포스터 이미지 로드
-        if let imageName = movie.posterImage, let image = UIImage(named: imageName) {
-            posterImageView.image = image
+        let totalPrice = reservation.tickets.reduce(0) { $0 + $1.price }
+        priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: totalPrice), number: .decimal))원"
+        
+        let seatNumbers = reservation.tickets.map { $0.seatNumber }.joined(separator: ", ")
+        seatLabel.text = seatNumbers
+        
+        personCount.text = "\(reservation.ticketCount)명"
+        
+        if let posterImage = reservation.posterImage {
+            posterImageView.image = posterImage
         } else {
-            posterImageView.image = UIImage(named: "defaultPoster") // 기본 이미지
+            posterImageView.image = UIImage(named: "defaultPoster")
         }
     }
  }

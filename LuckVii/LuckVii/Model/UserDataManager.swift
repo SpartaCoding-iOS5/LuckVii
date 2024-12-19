@@ -141,3 +141,61 @@ class UserDataManger {
         }
     }
 }
+
+extension UserDataManger {
+    func saveReservation(_ reservation: ReservationInfoData) {
+        guard let entity = NSEntityDescription.entity(forEntityName: "ReservationInfo", in: context) else { return }
+        
+        let reservationInfo = NSManagedObject(entity: entity, insertInto: context)
+        reservationInfo.setValue(reservation.title, forKey: "title")
+        reservationInfo.setValue(reservation.dateTime, forKey: "dateTime")
+        reservationInfo.setValue(reservation.theater, forKey: "theater")
+        // posterImage Data 변환 수정
+        reservationInfo.setValue(reservation.posterImage?.pngData(), forKey: "posterImage")
+        reservationInfo.setValue(reservation.ticketCount, forKey: "ticketCount")
+        
+        // tickets 저장 수정
+        for ticket in reservation.tickets {
+            guard let ticketEntity = NSEntityDescription.entity(forEntityName: "TicketInfo", in: context) else { continue }
+            let ticketInfo = NSManagedObject(entity: ticketEntity, insertInto: context)
+            ticketInfo.setValue(ticket.seatNumber, forKey: "seatNumber")
+            ticketInfo.setValue(ticket.price, forKey: "price")
+        }
+        
+        saveContext()
+    }
+        
+    
+    // 예매 정보 불러오기
+    func fetchReservations() -> [ReservationInfoData] {
+        let fetchRequest = NSFetchRequest<ReservationInfo>(entityName: "ReservationInfo")
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result.map { reservation in
+                
+                let ticketsSet = reservation.tickets as? NSSet
+                let tickets = ticketsSet?.allObjects as? [TicketInfo]
+                
+                let ticketInfos = tickets?.map {
+                    TicketInfoData(
+                        seatNumber: $0.seatNumber ?? "",
+                        price: Int($0.price)
+                    )
+                } ?? []
+                
+                return ReservationInfoData(
+                    title: reservation.title ?? "",
+                    dateTime: reservation.dateTime ?? "",
+                    theater: reservation.theater ?? "",
+                    posterImage: (reservation.posterImage as? Data)?.toImage(),
+                    ticketCount: Int(reservation.ticketCount),
+                    tickets: ticketInfos
+                )
+            }
+        } catch {
+            print("예매 내역 조회 실패: \(error)")
+            return []
+        }
+    }
+}
