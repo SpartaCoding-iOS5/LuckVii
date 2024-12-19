@@ -187,7 +187,7 @@ class LoginView: UIView {
             horiziontalStackView,
             noMemberButton
         ].forEach { addSubview($0) }
-
+        
         // MARK: - layout
         
         // 로고 이미지 Layout

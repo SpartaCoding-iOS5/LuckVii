@@ -54,6 +54,7 @@ extension SignUpViewController {
     
     // 중복확인 버튼 동작
     private func tappedCheckDuplicateButton() {
+        
         // 1. 이메일 입력값 가져오기
         guard let emailText = signUpView.emailTextField.text, !emailText.isEmpty else {
             signUpView.checkEmailLabel.textColor = .red

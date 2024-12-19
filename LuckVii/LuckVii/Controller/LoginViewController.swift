@@ -45,24 +45,33 @@ class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - action Part
+// MARK: - Connect Button Part
 
 extension LoginViewController {
     
     // 버튼 동작 연결 및 동작 설정
     private func setupAction() {
+        
+        // 로그인 버튼 연결
         loginView.loginButton.addAction(UIAction { [weak self] _ in
             self?.tappedLoginButton()
         }, for: .touchUpInside)
         
+        // 회원가입 버튼 연결
         loginView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
         }, for: .touchUpInside)
         
+        // 비회원 버튼 연결
         loginView.noMemberButton.addAction(UIAction{ [weak self] _ in
             self?.tappedNoMemberButton()
         }, for: .touchUpInside)
     }
+}
+
+// MARK: - Button Action Part
+
+extension LoginViewController {
     
     // 로그인 버튼 누를 시
     private func tappedLoginButton() {
@@ -94,7 +103,6 @@ extension LoginViewController {
     }
     
     // 유저 정보를 확인하는 메서드
-    // 추후 코어데이터와 연결 예정
     private func checkUserInfo(_ id: String, _ pw: String) -> Bool {
         UserDataManger.shared.checkUser(id, pw)
     }
@@ -112,7 +120,7 @@ extension LoginViewController {
     }
 }
 
-// MARK: - textField Part
+// MARK: - TextField Part
 
 extension LoginViewController: UITextFieldDelegate {
     
