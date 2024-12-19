@@ -26,7 +26,7 @@ final class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Movies"
+        title = "Luck VII"
         
         insertMovieData()
         setupScrollView()

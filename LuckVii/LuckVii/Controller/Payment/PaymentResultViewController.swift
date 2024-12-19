@@ -19,11 +19,9 @@ import UIKit
  5,000원 5%
  */
 class PaymentResultViewController: UIViewController {
-    
     let paymentResultView = PaymentResultView()
     
     var ticketNumber: Int = 0 // 티켓 번호
-
     var ticketCount: Int? // 티켓 갯수
 
     override func loadView() {
@@ -127,8 +125,23 @@ class PaymentResultViewController: UIViewController {
 
     // 티켓 뽑기 종료
     private func complete() {
-        self.navigationController?.popToRootViewController(animated: true)
-        tabBarController?.tabBar.isHidden = false
+        Task {
+            await presentCompletePayAlert(on: self)
+            self.navigationController?.popToRootViewController(animated: true)
+            tabBarController?.tabBar.isHidden = false
+        }
+    }
+    
+    //결제 완료 시 알럿 await 사용을 비동기작업이지만 동기적으로 읽을 수 있게 처리
+    private func presentCompletePayAlert(on viewController: UIViewController) async {
+        await withCheckedContinuation { continuation in
+            let alert = UIAlertController(title: "결제 완료", message: "테스트\n\n\n\n\n\n\n\n\n\\n\n아", preferredStyle: .actionSheet)
+            let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                continuation.resume()
+            }
+            alert.addAction(confirmAction)
+            viewController.present(alert, animated: true)
+        }
     }
 }
 
