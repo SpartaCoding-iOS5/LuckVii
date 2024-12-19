@@ -82,6 +82,7 @@ extension SignUpViewController {
     // 회원가입 버튼 동작
     private func tappedSignUpButton() {
         guard let email = signUpView.emailTextField.text, !email.isEmpty,
+              let nickName = signUpView.nickNameTextField.text, !nickName.isEmpty,
               let password = signUpView.pwTextField.text, !password.isEmpty,
               let name = signUpView.nameTextField.text, !name.isEmpty,
               let birth = signUpView.birthTextField.text, !birth.isEmpty,
@@ -92,7 +93,7 @@ extension SignUpViewController {
             return
         }
         // CoreData에 저장
-        createUserInfo(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
+        createUserInfo(email: email, nickName: nickName, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         // 저장된 데이터 보기
         readUserInfo()
         // 로그인 화면으로 이동
@@ -137,9 +138,9 @@ extension SignUpViewController {
 extension SignUpViewController {
     
     // CoreData에 유저 데이터 생성
-    func createUserInfo(email: String, password: String, name: String, birth: String, phoneNumber: String) {
+    func createUserInfo(email: String, nickName: String, password: String, name: String, birth: String, phoneNumber: String) {
         // 텍스트필드 값을 UserInfoData에 추가 후 생성
-        let userInfo = UserInfoData.init(email: email, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
+        let userInfo = UserInfoData.init(email: email, nickName: nickName, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         UserDataManger.shared.createUserData(userInfo)
     }
     
@@ -147,7 +148,7 @@ extension SignUpViewController {
     func readUserInfo() {
         let users = UserDataManger.shared.getUserInfos()
         for user in users {
-            print("User: \(user.email), \(user.password), \(user.name), \(user.birth), \(user.phoneNumber)")
+            print("User: \(user.email), \(user.nickName), \(user.password), \(user.name), \(user.birth), \(user.phoneNumber)")
         }
     }
 }
@@ -159,6 +160,7 @@ extension SignUpViewController: UITextFieldDelegate {
     // 텍스트필드 setting
     private func textFieldSetup() {
         signUpView.emailTextField.delegate = self
+        signUpView.nickNameTextField.delegate = self
         signUpView.pwTextField.delegate = self
         signUpView.pwCheckTextField.delegate = self
         signUpView.nameTextField.delegate = self
@@ -177,6 +179,8 @@ extension SignUpViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case signUpView.emailTextField:
+            signUpView.nickNameTextField.becomeFirstResponder()
+        case signUpView.nickNameTextField:
             signUpView.pwTextField.becomeFirstResponder()
         case signUpView.pwTextField:
             signUpView.pwCheckTextField.becomeFirstResponder()

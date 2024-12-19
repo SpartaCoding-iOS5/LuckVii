@@ -101,7 +101,6 @@ class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
-        textField.isSecureTextEntry = true
         return textField
     }()
     
