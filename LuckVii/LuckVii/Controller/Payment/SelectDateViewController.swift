@@ -67,8 +67,7 @@ extension SelectDateViewController {
     func tappedNextButton() {
         let paymentVC = PaymentViewController()
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateFormatter = DateFormatter.shared
         let dateString = dateFormatter.string(from: selectDateView.datePicker.date)
 
         do {
