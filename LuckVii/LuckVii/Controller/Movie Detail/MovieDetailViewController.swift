@@ -41,6 +41,16 @@ class MovieDetailViewController: UIViewController {
     // MARK: - 네비게이션 바 설정
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.title = movie?.title
+        
+        let backButtonImage = UIImage(systemName: "arrow.left")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
     }
     
     // MARK: - 좋아요 설정
@@ -77,10 +87,12 @@ class MovieDetailViewController: UIViewController {
     }
     
     // MARK: - 버튼 클릭 액션들
-    @objc func bookingButtonTapped() {
+    @objc func bookingButtonTapped(_ sender: UIButton) {
+        animateButtonPress(sender)
+        
         let selectDateVC = SelectDateViewController()
         guard let movieData = movieData else { return }
-
+        
         selectDateVC.setSelectDateViewData(movieData) // selectDataVC에 영화 정보 전달
         navigationController?.pushViewController(selectDateVC, animated: true)
     }
@@ -111,7 +123,9 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @objc private func shareButtonTapped() {
+    @objc private func shareButtonTapped(_ sender: UIButton) {
+        animateButtonPress(sender)
+        
         let appURL = "https://github.com/SpartaCoding-iOS5/LuckVii"
         
         // 클립보드에 URL 복사
@@ -121,6 +135,11 @@ class MovieDetailViewController: UIViewController {
         let alert = UIAlertController(title: "URL 복사 완료!", message: "앱 링크가 복사되었습니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
+    }
+    
+    // 뒤로가기 동작 구현
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - 예고편 버튼 누를 때
@@ -144,7 +163,7 @@ class MovieDetailViewController: UIViewController {
             } catch AppError.convertError(.URLMakingError){
                 showAlert(message: "예고편 URL을 가져올 수 없습니다.")
             } catch {
-                showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
+                showAlert(message: "예고편이 준비되지 않았습니다.")
             }
         }
     }
@@ -159,35 +178,44 @@ class MovieDetailViewController: UIViewController {
                     endpoint: .detail(id: movieId),
                     parameters: NetworkManager.URLParameterSet.common
                 )
-                // 받은 데이터 처리
-                let releaseDate = detailData.releaseDate
+                // 영화 설명 가져오기
+                let overviewText = detailData.overview
+                print("오버뷰텍스트 글자수: \(overviewText.count)")
+                
+                // overviewText가 비어 있으면 "해당 영화의 내용이 없습니다." 띄우기
+                if overviewText.isEmpty {
+                    movieDetailView.movieDescriptionView.updateDescription(with: "해당 영화의 내용이 없습니다.")
+                } else {
+                    movieDetailView.movieDescriptionView.updateDescription(with: overviewText)
+                }
+                
+                let releaseDateString = detailData.releaseDate
                 let runtime: Int = detailData.runtime
                 let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
                 
-                // 상영 시간
-                let formattedString = "\(releaseDate) 개봉 | \(ageRating) | \(runtime)분"
-                
-                // 영화 정보 레이블 업데이트
-                movieDetailView.movieInformationLabel.text = formattedString
+                DateFormatter.shared.dateFormat = "yyyy-MM-dd" // releaseDate의 입력 포맷
+                if let releaseDate = DateFormatter.shared.date(from: releaseDateString) {
+                    // 출력 형식으로 다시 변경
+                    DateFormatter.shared.dateFormat = "yyyy.MM.dd" // 출력 포맷
+                    let formattedReleaseDate = DateFormatter.shared.string(from: releaseDate)
+                    let formattedString = "\(formattedReleaseDate) 개봉 | \(ageRating) | \(runtime)분"
+                    // 영화 정보 레이블 업데이트
+                    movieDetailView.movieInformationLabel.text = formattedString
+                } else {
+                    // 변환 실패 처리
+                    movieDetailView.movieInformationLabel.text = "날짜 정보 없음 | \(ageRating) | \(runtime)분"
+                }
             } catch AppError.dataError(.noIdData) {
                 showAlert(message: "영화 데이터가 유효하지 않습니다.")
             } catch {
-                showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")// 다른 오류 처리
+                showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
     }
     
-    
-    // MARK: - 날짜 포맷터
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        return formatter
-    }
-
     // MARK: - 예고편 예외 상황 알림창
     private func showAlert(message: String) {
-        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "죄송합니다.", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
     }
@@ -197,8 +225,11 @@ class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController {
     func setDetailViewData(_ dataSource: MovieDataSource) {
         movieDetailView.setDetailView(dataSource)
-        self.movieData = dataSource 
+        self.movieData = dataSource
         self.movie = dataSource.movieData // movie 객체 설정 추가함
+        
+        let overviewText = dataSource.movieData.overview
+        movieDetailView.movieDescriptionView.updateDescription(with: overviewText) // description 업데이트
         print("\(dataSource)")
     }
 }
