@@ -73,7 +73,7 @@ extension SelectDateViewController {
 
         do {
             guard let movie = movie else { throw AppError.dataError(.noMovieData) }
-            paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: "test")
+            paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: selectDateView.startTime[selectDateView.selectedItemOfIndex])
             self.navigationController?.pushViewController(paymentVC, animated: true)
         } catch AppError.dataError(.noMovieData) {
             //TODO 에러처리
