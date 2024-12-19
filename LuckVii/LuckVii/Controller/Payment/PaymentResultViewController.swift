@@ -30,13 +30,23 @@ class PaymentResultViewController: UIViewController {
         self.view = paymentResultView
         doGatcha()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+
+        self.navigationController?.isNavigationBarHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupAction()
+    }
 
-        //paymentResultView.delegate = self
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: - 액션 연결
@@ -123,7 +133,7 @@ class PaymentResultViewController: UIViewController {
 
     // 티켓 뽑기 종료
     private func complete() {
-        self.navigationController?.pushViewController(SearchViewController(), animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 
