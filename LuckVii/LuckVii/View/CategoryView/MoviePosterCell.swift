@@ -14,25 +14,37 @@ final class MoviePosterCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 14,weight: .bold)
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(titleLabel)
+        setupUI()
+    }
 
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    // MARK: - UI 셋업
+    
+    private func setupUI() {
+        [imageView, titleLabel].forEach { view in
+            view.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(view)
+        }
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -46,26 +58,12 @@ final class MoviePosterCell: UICollectionViewCell {
         ])
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func configure(with movie: Movie) {
-        titleLabel.text = movie.title
-
-        guard let posterPath = movie.posterPath else {
-            imageView.image = UIImage(systemName: "photo") // 기본 이미지
+    func configure(with movie: MovieDataSource) {//셀의 타이틀과 이미지 설정
+        titleLabel.text = movie.movieData.title
+        guard let image = movie.image else {
+            imageView.image = UIImage(systemName: "photo") // 오류 시 기본 이미지
             return
         }
-
-        Task {
-            do {
-                let image = try await ImageManager.shared.fetchImage(from: posterPath, size: .w185)
-                imageView.image = image
-            } catch {
-                print("Failed to load image: \(error)")
-                imageView.image = UIImage(systemName: "photo") // 오류 시 기본 이미지
-            }
-        }
+        imageView.image = image
     }
 }

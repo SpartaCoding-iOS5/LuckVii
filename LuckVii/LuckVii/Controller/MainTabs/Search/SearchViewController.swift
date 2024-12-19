@@ -8,11 +8,6 @@
 import UIKit
 import SnapKit
 
-struct MovieDataSource {
-    let movieData: Movie
-    let image: UIImage?
-}
-
 class SearchViewController: UIViewController {
     
     // 영화 목록을 저장할 배열
@@ -24,6 +19,9 @@ class SearchViewController: UIViewController {
     // 세그먼트 선택 메뉴 저장할 변수, 초기값은 .nowPlaying
     private var selectedCategory = NetworkManager.URLEndpointSet.nowPlaying
     
+    // 세그먼트에 따른 파라미터, 기본값은 common
+    private var selectedParameter = NetworkManager.URLParameterSet.common
+    
     // 검색 키워드 저장할 변수
     private var searchKeyword: String = ""
     
@@ -31,6 +29,10 @@ class SearchViewController: UIViewController {
     private let searchView = SearchView()
     override func loadView() {
         self.view = searchView
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLoad() {
@@ -44,7 +46,7 @@ class SearchViewController: UIViewController {
         searchView.setCollectionView(self, self)
         
         // 영화 데이터 가져오기
-        fetchMovieData(selectedCategory)
+        fetchMovieData(selectedCategory, parameter: selectedParameter)
     }
     
     func setupNavigationBar() {
@@ -122,7 +124,9 @@ extension SearchViewController: textFieldDelegate {
     // Segmented Control 선택 메서드
     func didChangeSegment(index: Int) {
         selectedCategory = (index == 0) ? .nowPlaying : .upcoming
-        fetchMovieData(selectedCategory)
+        selectedParameter = (index == 0) ? NetworkManager.URLParameterSet.common : NetworkManager.URLParameterSet.secondPage
+        
+        fetchMovieData(selectedCategory, parameter: selectedParameter)
     }
 }
 
@@ -130,13 +134,13 @@ extension SearchViewController: textFieldDelegate {
 
 extension SearchViewController {
     
-    private func fetchMovieData(_ endPoint: NetworkManager.URLEndpointSet) {
+    private func fetchMovieData(_ endPoint: NetworkManager.URLEndpointSet, parameter: URLParameters) {
         Task { [weak self] in
             do {
                 // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
                 let movieData: MovieData = try await NetworkManager.shared.fetchData(
                     endpoint: endPoint,  // 'nowPlaying' 엔드포인트를 사용하여 현재 상영 중인 영화 목록을 요청
-                    parameters: NetworkManager.URLParameterSet.common
+                    parameters: parameter
                 )
                 
                 var tempMovies = [MovieDataSource]()    // 임시로 데이터를 저장할 배열
