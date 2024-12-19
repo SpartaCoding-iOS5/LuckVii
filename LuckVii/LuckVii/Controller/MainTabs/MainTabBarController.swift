@@ -13,10 +13,12 @@ class MainTabBarController: UITabBarController {
         view.backgroundColor = .white
         super.viewDidLoad()
         setupTabBar()
+        
     }
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
+        LoginManager.shared.presentLoginModal(viewController: self)
     }
 
     // MARK: - set up tab bar controller
