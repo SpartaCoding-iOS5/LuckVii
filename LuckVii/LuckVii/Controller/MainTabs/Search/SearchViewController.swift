@@ -8,11 +8,6 @@
 import UIKit
 import SnapKit
 
-struct MovieDataSource {
-    let movieData: Movie
-    let image: UIImage?
-}
-
 class SearchViewController: UIViewController {
     
     // 영화 목록을 저장할 배열
