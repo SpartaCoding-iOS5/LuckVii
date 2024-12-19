@@ -18,11 +18,22 @@ import UIKit
  10,000원 10%
  5,000원 5%
  */
+
 final class PaymentResultViewController: UIViewController {
+    // 티켓 정보를 담을 배열
+    private var tickets: [TicketInfoData] = []
+    
     let paymentResultView = PaymentResultView()
 
     var ticketNumber: Int = 0 // 티켓 번호
     var ticketCount: Int? // 티켓 갯수
+    
+    // 영화 정보를 저장할 프로퍼티 생성
+    private var movieTitle: String = ""
+    private var movieDate: String = ""
+    private var movieTime: String = ""
+    private var movieTheater: String = ""
+    private var posterImage: UIImage?
 
     override func loadView() {
         self.view = paymentResultView
@@ -71,7 +82,7 @@ final class PaymentResultViewController: UIViewController {
     }
 
     // 당첨 금액 생성
-    private func genratePrizeAmount() -> String {
+    private func genratePrizeAmount() -> (string: String, value: Int) {
         let randomValue = Int.random(in: 0..<100)
         let amount: Int
 
@@ -93,7 +104,9 @@ final class PaymentResultViewController: UIViewController {
         // NumberFormatter를 사용해 금액 포맷 적용
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal // 천 단위 구분 기호 추가
-        return formatter.string(from: NSNumber(value: amount)) ?? "0"
+        let formattedString = formatter.string(from: NSNumber(value: amount)) ?? "0"
+        
+        return (formattedString, amount)
     }
 
     // '티켓 뽑기' 버튼 누를때마다 당첨금과 좌석 랜덤하게 변경
@@ -107,11 +120,23 @@ final class PaymentResultViewController: UIViewController {
             guard let self = self else { return }
             // 2. 새로운 값 설정
             let seat = self.generateSeatCode()
-            let prize = self.genratePrizeAmount()
+            let prizeResult = self.genratePrizeAmount()
+            let prize = prizeResult.string
+            let prizeValue = prizeResult.value
             self.ticketNumber += 1
             let isLastChance = ticketCount == ticketNumber // 마지막 기회인지 확인
+            
+            // 티켓 정보 저장
+            let ticketInfo = TicketInfoData(
+                seatNumber: seat,
+                price: prizeValue
+            )
+            
+            self.tickets.append(ticketInfo)
 
             self.paymentResultView.setUI(self.ticketNumber, prize, seat, isLastChance)
+            
+            print("Tickets:", tickets) // 로그로 좌석 번호와 가격 확인
 
             // 3. 뷰를 화면 오른쪽으로 이동
             self.paymentResultView.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
@@ -125,6 +150,19 @@ final class PaymentResultViewController: UIViewController {
 
     // 티켓 뽑기 종료
     private func complete() {
+        // 예매 정보 생성 및 저장
+        let reservationInfo = ReservationInfoData(
+            title: movieTitle,
+            dateTime: "\(movieDate) \(movieTime)",
+            theater: movieTheater,
+            posterImage: posterImage,
+            ticketCount: tickets.count,
+            tickets: tickets
+        )
+      
+        print("Reservation Info:", reservationInfo) // 전달할 데이터 확인
+        UserDataManger.shared.saveReservation(reservationInfo)
+      
         Task {
             await presentCompletePayAlert(on: self)
             self.navigationController?.popToRootViewController(animated: true)
@@ -150,7 +188,12 @@ final class PaymentResultViewController: UIViewController {
 extension PaymentResultViewController {
 
     // 데이터 전달 받는 메서드
-    func configureData(data: Int) {
+    func configureData(data: Int, movie: Movie, date: String, time: String, theater: String, poster: UIImage?) {
         ticketCount = data
+        movieTitle = movie.title
+        movieDate = date
+        movieTime = time
+        movieTheater = theater
+        posterImage = poster
     }
 }

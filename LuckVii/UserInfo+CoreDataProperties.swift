@@ -2,7 +2,7 @@
 //  UserInfo+CoreDataProperties.swift
 //  LuckVii
 //
-//  Created by jae hoon lee on 12/17/24.
+//  Created by Jamong on 12/19/24.
 //
 //
 
@@ -15,12 +15,12 @@ extension UserInfo {
         return NSFetchRequest<UserInfo>(entityName: "UserInfo")
     }
 
+    @NSManaged public var birth: String?
     @NSManaged public var email: String?
+    @NSManaged public var name: String?
     @NSManaged public var nickName: String?
     @NSManaged public var password: String?
     @NSManaged public var phoneNumber: String?
-    @NSManaged public var name: String?
-    @NSManaged public var birth: String?
 
 }
 
