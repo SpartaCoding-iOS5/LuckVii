@@ -37,7 +37,6 @@ class MovieDescriptionView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        showsVerticalScrollIndicator = false // 세로 스크롤 없애기
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
