@@ -14,6 +14,7 @@ class MovieDetailViewController: UIViewController {
     private var movie: Movie?
     private var likeCount: Int = 0
     private var isLiked: Bool = false
+    private let loginManager: LoginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
     
     // MARK: - 생명주기 메서드
     override func loadView() {
@@ -94,6 +95,9 @@ class MovieDetailViewController: UIViewController {
     // MARK: - 버튼 클릭 액션들
     @objc func bookingButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
+        
+        loginManager.ensurePresentLoginModal(viewController: self)
+        guard UserDefaultsManager.shared.getLoggedInStatus() else { return }
         
         let selectDateVC = SelectDateViewController()
         guard let movieData = movieData else { return }
