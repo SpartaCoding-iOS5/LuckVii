@@ -8,16 +8,9 @@
 import UIKit
 import SnapKit
 
-protocol gachaButtonDelegate: AnyObject {
-    func didTapGachaButton()
-}
-
 class PaymentResultView: UIView {
-    
     private let height =  UIScreen.main.bounds.height // 뷰의 세로 길이, 16pro 기준 874.0
-    
-    weak var delegate: gachaButtonDelegate?
-    
+
     // 티켓 번호 레이블
     private let ticketNumberLabel: UILabel = {
         let label = UILabel()
@@ -57,14 +50,13 @@ class PaymentResultView: UIView {
     }()
     
     // 뽑기 버튼
-    private let gachaButton: UIButton = {
+    var gachaButton: UIButton = {
         let button = UIButton()
         button.setTitle("티켓 뽑기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 16
-        button.addTarget(self, action: #selector(gachaButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -79,6 +71,8 @@ class PaymentResultView: UIView {
     
     // UI 셋업 메서드
     private func setupUI() {
+        self.backgroundColor = .white
+
         [
             ticketNumberLabel,
             amountLabel,
@@ -115,14 +109,15 @@ class PaymentResultView: UIView {
     }
     
     // UI 값 접근 메서드
-    func setUI(_ ticketNumer: Int, _ amount: String, _ seat: String) {
+    func setUI(_ ticketNumer: Int, _ amount: String, _ seat: String, _ isLastChance: Bool) {
         ticketNumberLabel.text = "티켓 \(ticketNumer) 당첨 결과"
         amountLabel.text = "🎉 축하드립니다! \(amount)원 당첨!"
         seatLabel.text = "영등포 럭비관 1관 6층 (아이맥스) \(seat)"
+
+        if isLastChance {
+            gachaButton.setTitle("완료", for: .normal)
+
+        }
     }
-    
-    @objc func gachaButtonTapped() {
-        delegate?.didTapGachaButton()
-    }
-    
+
 }

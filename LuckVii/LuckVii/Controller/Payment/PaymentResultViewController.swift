@@ -18,22 +18,56 @@ import UIKit
  10,000원 10%
  5,000원 5%
  */
-class PaymentResultViewController: UIViewController, gachaButtonDelegate {
+class PaymentResultViewController: UIViewController {
     
     let paymentResultView = PaymentResultView()
     
-    var ticketNumber: Int = 1 // 티켓 번호
-    
+    var ticketNumber: Int = 0 // 티켓 번호
+
+    var ticketCount: Int? // 티켓 갯수
+
     override func loadView() {
         self.view = paymentResultView
+        doGatcha()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+
+        self.navigationController?.isNavigationBarHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        paymentResultView.delegate = self
+
+        setupAction()
     }
-    
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+
+        self.navigationController?.isNavigationBarHidden = false
+    }
+
+    // MARK: - 액션 연결
+
+    private func setupAction() {
+        paymentResultView.gachaButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.didTappedButton()
+        }, for: .touchUpInside)
+    }
+
+    private func didTappedButton() {
+        guard let ticketCount = ticketCount else { return }
+        print(ticketCount, ticketNumber)
+        if ticketNumber < ticketCount {
+            doGatcha()
+        } else {
+            complete()
+        }
+    }
+
     // 좌석 번호 생성
     private func generateSeatCode() -> String {
         // 랜덤한 a~z 문자 생성
@@ -71,7 +105,7 @@ class PaymentResultViewController: UIViewController, gachaButtonDelegate {
     }
     
     // '티켓 뽑기' 버튼 누를때마다 당첨금과 좌석 랜덤하게 변경
-    func didTapGachaButton() {
+    private func doGatcha() {
         // 애니메이션 적용
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
@@ -83,8 +117,10 @@ class PaymentResultViewController: UIViewController, gachaButtonDelegate {
             let seat = self.generateSeatCode()
             let prize = self.genratePrizeAmount()
             self.ticketNumber += 1
-            self.paymentResultView.setUI(self.ticketNumber, prize, seat)
-            
+            let isLastChance = ticketCount == ticketNumber // 마지막 기회인지 확인
+
+            self.paymentResultView.setUI(self.ticketNumber, prize, seat, isLastChance)
+
             // 3. 뷰를 화면 오른쪽으로 이동
             self.paymentResultView.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
             
@@ -94,5 +130,19 @@ class PaymentResultViewController: UIViewController, gachaButtonDelegate {
             }
         }
     }
-    
+
+    // 티켓 뽑기 종료
+    private func complete() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+// MARK: - 데이터 설정
+
+extension PaymentResultViewController {
+
+    // 데이터 전달 받는 메서드
+    func configureData(data: Int) {
+        ticketCount = data
+    }
 }
