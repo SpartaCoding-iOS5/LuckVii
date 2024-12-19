@@ -13,6 +13,11 @@ class PaymentViewController: UIViewController {
     let paymentView = PaymentView()
 
     var movie: Movie?
+    
+    private var selectedDate: String = ""
+    private var selectedTime: String = ""
+    private var selectedTheater: String = ""
+    private var moviePoster: UIImage?
 
     // MARK: - 기본 설정
 
@@ -80,8 +85,17 @@ class PaymentViewController: UIViewController {
 
     // 결제 버튼 액션
     func didTapNextButton() {
+        guard let movie = movie else { return }
+        
         let paymentResultVC = PaymentResultViewController()
-        paymentResultVC.configureData(data: paymentView.ticketCount)
+        paymentResultVC.configureData(
+            data: paymentView.ticketCount,
+            movie: movie,
+            date: selectedDate,
+            time: selectedTime,
+            theater: selectedTheater,
+            poster: moviePoster
+        )
         self.navigationController?.pushViewController(paymentResultVC, animated: true)
     }
 }
@@ -106,7 +120,10 @@ extension PaymentViewController {
     // 데이터 전달받고 저장하는 메서드
     func setPaymentViewMovieData(movie: MovieDataSource, date: String, time: String) {
         self.movie = movie.movieData
+        self.selectedDate = date
+        self.selectedTime = time
+        self.selectedTheater = "영등포 럭비시네마 7층 1관"
+        self.moviePoster = movie.image
         paymentView.setPaymentView(movie: movie, date: date, time: time)
-
     }
 }
