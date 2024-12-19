@@ -37,11 +37,20 @@ class PaymentViewController: UIViewController {
     // 네비게이션 설정
     private func configureNavigation() {
         navigationItem.title = "결제"
+        let backButtonImage = UIImage(systemName: "arrow.left")
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(didTapPreviousButton)
+        )
     }
+
     // MARK: - 레이아웃 설정
 
     private func configureUI() {
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
     }
 
     // MARK: - 액션 설정
@@ -53,12 +62,12 @@ class PaymentViewController: UIViewController {
             self.didTapAreementButton()
         }, for: .touchUpInside)
 
-        paymentView.previousButton.addAction(UIAction { [weak self] _ in
+        paymentView.bottomButtonView.previousButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.didTapPreviousButton()
         }, for: .touchUpInside)
 
-        paymentView.nextButton.addAction(UIAction { [weak self] _ in
+        paymentView.bottomButtonView.nextButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.didTapNextButton()
         }, for: .touchUpInside)
@@ -74,15 +83,22 @@ class PaymentViewController: UIViewController {
     }
 
     // 이전 버튼 액션
-    func didTapPreviousButton() {
+    @objc func didTapPreviousButton() {
         self.navigationController?.popViewController(animated: true)
     }
 
     // 결제 버튼 액션
     func didTapNextButton() {
-        let paymentResultVC = PaymentResultViewController()
-        paymentResultVC.configureData(data: paymentView.ticketCount)
-        self.navigationController?.pushViewController(paymentResultVC, animated: true)
+        if paymentView.termsAgreementButton.isSelected {
+            let paymentResultVC = PaymentResultViewController()
+            paymentResultVC.configureData(data: paymentView.ticketCount)
+            self.navigationController?.pushViewController(paymentResultVC, animated: true)
+        } else {
+            let alert = UIAlertController(title: "약관 동의 필요", message: "결제를 진행하려면 약관에 동의해주세요.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            present(alert, animated: true)
+        }
+
     }
 }
 

@@ -31,7 +31,7 @@ class AgreementTermsViewController: UIViewController {
     // 버튼 액션 연결
     private func setupAction() {
         // 동의 버튼 클릭
-        agreementTermsView.agreementButton.addAction(UIAction { [weak self] _ in
+        agreementTermsView.bottomButtonView.nextButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.didTapAgreementButton()
             self.delegate?.updateButtonToggle(self, isAgreed: true) // delegate 지시
@@ -39,7 +39,7 @@ class AgreementTermsViewController: UIViewController {
         }, for: .touchUpInside)
 
         // 비동의 버튼 클릭
-        agreementTermsView.disagreementButton.addAction(UIAction { [weak self] _ in
+        agreementTermsView.bottomButtonView.previousButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.didTapAgreementButton()
             self.delegate?.updateButtonToggle(self, isAgreed: false) // delegate 지시

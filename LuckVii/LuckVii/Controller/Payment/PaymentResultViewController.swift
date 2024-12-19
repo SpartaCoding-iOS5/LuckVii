@@ -128,6 +128,7 @@ class PaymentResultViewController: UIViewController {
     // 티켓 뽑기 종료
     private func complete() {
         self.navigationController?.popToRootViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
 }
 

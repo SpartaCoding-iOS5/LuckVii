@@ -14,11 +14,12 @@ class MovieDescriptionView: UIScrollView {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 5
+        label.numberOfLines = 3
         label.font = .systemFont(ofSize: 14)
         label.textColor = .black
         label.lineBreakMode = .byTruncatingTail
-        
+        label.textAlignment = .justified
+
         return label
     }()
     
@@ -80,7 +81,7 @@ class MovieDescriptionView: UIScrollView {
             descriptionLabel.numberOfLines = 0
             toggleButton.setTitle("접기", for: .normal)
         } else {
-            descriptionLabel.numberOfLines = 5
+            descriptionLabel.numberOfLines = 3
             toggleButton.setTitle("더보기", for: .normal)
         }
         
@@ -105,7 +106,7 @@ class MovieDescriptionView: UIScrollView {
         }
         
         // 글자 수가 120자 이상일 때만 버튼 표시
-        let minTextLength = 120
+        let minTextLength = 90
         print("글자 수 확인: \(text.count)")  // 글자 수 확인 로그 추가
         if text.count > minTextLength {
             toggleButton.isHidden = false // 글자가 충분히 길면 더보기 버튼 표시
