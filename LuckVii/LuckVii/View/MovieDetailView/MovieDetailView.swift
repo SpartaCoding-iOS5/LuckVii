@@ -10,6 +10,8 @@ import SnapKit
 
 class MovieDetailView: UIView {
     let movieDescriptionView = MovieDescriptionView() // 영화 소개글 뷰
+    let scrollview = UIScrollView()
+    let contentView = UIView()
     
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
@@ -122,6 +124,7 @@ class MovieDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        scrollview.showsVerticalScrollIndicator = false // 세로 스크롤 없애기
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -130,6 +133,10 @@ class MovieDetailView: UIView {
     
     // 모든 UI를 뷰에 추가
     private func setupUI() {
+        
+        addSubview(scrollview)
+        scrollview.addSubview(contentView)
+        
         [
             posterImageView,
             movieNameLabel,
@@ -138,7 +145,7 @@ class MovieDetailView: UIView {
             trailerButton,
             movieDescriptionView
             
-        ].forEach { addSubview($0) }
+        ].forEach { contentView.addSubview($0) }
         
         [
             likeButton,
@@ -148,9 +155,18 @@ class MovieDetailView: UIView {
         ].forEach { buttonStackView.addArrangedSubview($0) }
         
         // 제약 조건
+        scrollview.snp.makeConstraints{
+            $0.edges.equalTo(safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints{
+            $0.edges.equalTo(scrollview)
+            $0.width.equalTo(scrollview)
+        }
+        
         posterImageView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
-            $0.height.equalToSuperview().multipliedBy(0.55) // 영화 포스터 높이를 뷰 크기의 65%로 설정
+            $0.top.leading.trailing.equalTo(contentView)
+            $0.height.equalTo(contentView.snp.width).multipliedBy(1.5) // 영화 포스터 높이를 가로 길이의 1.5배로 설정
         }
         
         trailerButton.snp.makeConstraints {
