@@ -16,14 +16,12 @@ class SignUpView: UIView {
     // 스크롤뷰
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
     // 스크롤뷰 안에 넣을 전체 뷰
-    private let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    let contentView = UIView()
     
     // 이메일 뷰(라벨 + 스택뷰(텍스트필드 + 버튼))
     private let emailView: UIView = {
@@ -80,6 +78,30 @@ class SignUpView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.green.cgColor
         return button
+    }()
+    
+    // 닉네임 뷰(라벨 + 텍스트필드)
+    private let nickNameView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    // 닉네임 라벨
+    private let nickNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "닉네임"
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    
+    // 닉네임 텍스트필드
+    var nickNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "닉네임"
+        textField.font = .systemFont(ofSize: 14)
+        textField.textColor = .gray
+        textField.clearButtonMode = .always
+        return textField
     }()
     
     // 비밀번호 뷰(라벨 + 텍스트필드)
@@ -257,6 +279,12 @@ class SignUpView: UIView {
             horizontalStackView
         ].forEach { emailView.addSubview($0) }
         
+        // 닉네임 뷰(라벨 + 텍스트필드) 추가
+        [
+            nickNameLabel,
+            nickNameTextField
+        ].forEach { nickNameView.addSubview($0) }
+        
         // 비밀번호 뷰(라벨 + 텍스트필드) 추가
         [
             pwLabel,
@@ -291,6 +319,7 @@ class SignUpView: UIView {
         // content 뷰에 추가
         [
             emailView,
+            nickNameView,
             pwView,
             pwCheckView,
             nameView,
@@ -309,7 +338,7 @@ class SignUpView: UIView {
         
         // 이메일 뷰(라벨 + 스택뷰) Layout
         emailView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(contentView).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(74)
         }
@@ -349,9 +378,30 @@ class SignUpView: UIView {
             make.width.equalTo(87)
         }
         
+        // 닉네임 뷰(라벨 + 텍스트필드) Layout
+        nickNameView.snp.makeConstraints { make in
+            make.top.equalTo(emailView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(74)
+        }
+        
+        // 닉네임 라벨 Layout
+        nickNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(22)
+        }
+        
+        // 닉네임 텍스트필드 Layout
+        nickNameTextField.snp.makeConstraints { make in
+            make.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(5)
+            make.height.equalTo(44)
+        }
+        
         // 비밀번호 뷰(라벨 + 텍스트필드) Layout
         pwView.snp.makeConstraints { make in
-            make.top.equalTo(emailView.snp.bottom).offset(16)
+            make.top.equalTo(nickNameView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(74)
         }
@@ -467,13 +517,13 @@ class SignUpView: UIView {
             make.top.equalTo(phoneNumberView.snp.bottom).offset(120)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
+            make.bottom.equalTo(contentView).offset(-16)
         }
         
         // 콘텐트 뷰 Layout
         contentView.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView)
-            make.width.equalTo(scrollView)
-            make.height.equalTo(1000)
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
         }
         
         // 스크롤 뷰 Layout
@@ -504,6 +554,7 @@ extension SignUpView {
     private func setUnderline() {
         [
             emailTextField,
+            nickNameTextField,
             pwTextField,
             pwCheckTextField,
             nameTextField,

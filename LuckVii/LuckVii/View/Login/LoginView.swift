@@ -193,14 +193,14 @@ class LoginView: UIView {
         // 로고 이미지 Layout
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(80)
+            make.top.equalToSuperview().inset(40)
             make.width.equalTo(150)
             make.height.equalTo(139)
         }
         
         // 이메일 뷰(아이콘 + 텍스트필드) Layout
         emailView.snp.makeConstraints { make in
-            make.top.equalTo(logoImageView.snp.bottom).offset(20)
+            make.top.equalTo(logoImageView.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
