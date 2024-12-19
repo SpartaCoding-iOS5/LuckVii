@@ -87,6 +87,7 @@ class PaymentViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
+
     // 결제 버튼 액션
     func didTapNextButton() {
         if paymentView.termsAgreementButton.isSelected {
