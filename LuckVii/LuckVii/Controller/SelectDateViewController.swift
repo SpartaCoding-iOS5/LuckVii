@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 class SelectDateViewController: UIViewController {
-
     var movie: MovieDataSource?
 
     private let selectDateView = SelectDateView()
@@ -72,9 +71,15 @@ extension SelectDateViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: selectDateView.datePicker.date)
 
-        guard let movie = movie else { return }
-        paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: selectDateView.startTime[selectDateView.selectedItemOfIndex])
-        self.navigationController?.pushViewController(paymentVC, animated: true)
+        do {
+            guard let movie = movie else { throw AppError.dataError(.noMovieData) }
+            paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: "test")
+            self.navigationController?.pushViewController(paymentVC, animated: true)
+        } catch AppError.dataError(.noMovieData) {
+            //TODO 에러처리
+        } catch {
+            
+        }
     }
 }
 

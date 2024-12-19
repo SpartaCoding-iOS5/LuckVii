@@ -8,6 +8,7 @@
 enum AppError: Error {
     case networkError(NetworkError)
     case convertError(ConvertError)
+    case dataError(DataError)
     
     enum NetworkError: Error {
         case invalidURL
@@ -15,6 +16,11 @@ enum AppError: Error {
         case decodingError
         case networkError(String)
         case invalidResponse
+    }
+    
+    enum DataError: Error {
+        case noIdData
+        case noMovieData
     }
     
     enum ConvertError: Error {
