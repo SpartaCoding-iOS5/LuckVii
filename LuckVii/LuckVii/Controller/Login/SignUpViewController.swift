@@ -44,6 +44,7 @@ extension SignUpViewController {
         // 회원가입 버튼 연결
         signUpView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
+            self?.dismiss(animated: true)
         }, for: .touchUpInside)
     }
 }

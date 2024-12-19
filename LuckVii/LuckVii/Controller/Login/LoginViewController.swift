@@ -55,6 +55,7 @@ extension LoginViewController {
         // 로그인 버튼 연결
         loginView.loginButton.addAction(UIAction { [weak self] _ in
             self?.tappedLoginButton()
+            self?.dismiss(animated: true)
         }, for: .touchUpInside)
         
         // 회원가입 버튼 연결
@@ -110,13 +111,14 @@ extension LoginViewController {
     // 회원가입 버튼 누를 시(회원가입화면으로)
     private func tappedSignUpButton() {
         let signUpVC = SignUpViewController()
-        navigationController?.pushViewController(signUpVC, animated: true)
+        self.present(signUpVC, animated: true, completion: nil)
     }
     
     // 비회원 버튼 누를 시(메인화면으로)
     private func tappedNoMemberButton() {
         let searchViewVC = SearchViewController()
-        navigationController?.pushViewController(searchViewVC, animated: true)
+        self.dismiss(animated: true)
+        
     }
 }
 
