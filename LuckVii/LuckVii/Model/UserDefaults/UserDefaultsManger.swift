@@ -38,8 +38,8 @@ final class UserDefaultsManager {
         userDefaults.set(id, forKey: Keys.userId)
     }
 
-    func setUserPw(_ pw: String) {
-        userDefaults.set(pw, forKey: Keys.userPw)
+    func setUserPw(_ password: String) {
+        userDefaults.set(password, forKey: Keys.userPw)
     }
 
     // 저장 된 유저 디폴츠 값이 없다면 빈 문자열을 반환하여 비어보이게 처리.
@@ -52,11 +52,11 @@ final class UserDefaultsManager {
     }
 
     func getUserPw() -> String {
-        guard let pw = userDefaults.string(forKey: Keys.userPw) else {
+        guard let password = userDefaults.string(forKey: Keys.userPw) else {
             return ""
         }
 
-        return pw
+        return password
     }
 
 }
