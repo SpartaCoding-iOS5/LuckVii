@@ -37,6 +37,8 @@ final class MoviePosterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - UI 셋업
+    
     private func setupUI() {
         [imageView, titleLabel].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false

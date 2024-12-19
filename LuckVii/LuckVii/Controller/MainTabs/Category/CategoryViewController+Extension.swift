@@ -50,6 +50,8 @@ extension CategoryViewController {
     }
 }
 
+// MARK: - 컬렉션뷰 데이터 소스 및 델리게이트
+
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {

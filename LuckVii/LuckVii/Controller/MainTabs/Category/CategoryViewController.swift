@@ -31,6 +31,7 @@ final class CategoryViewController: UIViewController {
         
     }
 
+    // MARK: - UI 셋업
     private func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
@@ -65,6 +66,8 @@ final class CategoryViewController: UIViewController {
         setupCollectionView(collectionView: popularCollectionView, title: "Popular Movies")
     }
 
+    // MARK: - 컬렉션 뷰 셋업
+    
     private func setupCollectionView(collectionView: UICollectionView, title: String) {
         let sectionLabel = UILabel()
         sectionLabel.text = title

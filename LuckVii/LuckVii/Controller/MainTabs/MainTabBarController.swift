@@ -22,12 +22,12 @@ class MainTabBarController: UITabBarController {
         let searchVC: SearchViewController = SearchViewController()
         let myPageVC: MyPageViewController = MyPageViewController()
         
-//        let categoryNav: UINavigationController = UINavigationController(rootViewController: categoryVC)
-//        let searchNav: UINavigationController = UINavigationController(rootViewController: searchVC)
-//        let myPageNav: UINavigationController = UINavigationController(rootViewController: myPageVC)
-        let categoryNav: CategoryViewController = CategoryViewController()
-        let searchNav: SearchViewController = SearchViewController()
-        let myPageNav: MyPageViewController = MyPageViewController()
+        let categoryNav: UINavigationController = UINavigationController(rootViewController: categoryVC)
+        let searchNav: UINavigationController = UINavigationController(rootViewController: searchVC)
+        let myPageNav: UINavigationController = UINavigationController(rootViewController: myPageVC)
+//        let categoryNav: CategoryViewController = CategoryViewController()
+//        let searchNav: SearchViewController = SearchViewController()
+//        let myPageNav: MyPageViewController = MyPageViewController()
         //set tab bar item
         categoryNav.tabBarItem = UITabBarItem(
             title: "Category",
