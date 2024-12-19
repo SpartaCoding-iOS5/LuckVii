@@ -70,7 +70,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let movieData = searchMovies[indexPath.row]
         
         cell.setCellData(movieData)
-        cell.backgroundColor = .systemBackground
+        cell.backgroundColor = .white
         
         return cell
     }
@@ -81,7 +81,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let spcing: CGFloat = collectionView.frame.width * 0.03 // 셀 간 간격 (컬렉션 뷰 너비의 3%)
         let totalSpacing = (itemsPerRow - 1) * spcing // 전체 간격 계산
         let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 셀 너비 계산
-        let height = width * 1.77
+        let height = width * 1.7
         return CGSize(width: width, height: height)
     }
     
@@ -94,6 +94,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let detailVC = MovieDetailViewController()
         detailVC.setDetailViewData(selectedCell)
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    // 행간 간격 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return collectionView.frame.width * 0.08 // 컬렉션 뷰 너비의 8%로 설정
     }
 }
 

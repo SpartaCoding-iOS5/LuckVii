@@ -13,6 +13,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
 
         self.window = window
+        
+        // UINavigationBar 타이틀 폰트와 크기 설정
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

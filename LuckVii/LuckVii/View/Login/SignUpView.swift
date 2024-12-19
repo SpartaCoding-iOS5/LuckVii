@@ -241,7 +241,7 @@ class SignUpView: UIView {
     // 회원가입 버튼
     var signUpButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .green
+        button.backgroundColor = .systemGreen
         button.setTitle("회원가입", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 14
