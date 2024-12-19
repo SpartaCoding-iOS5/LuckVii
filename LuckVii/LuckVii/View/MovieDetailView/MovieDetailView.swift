@@ -149,8 +149,8 @@ class MovieDetailView: UIView {
         
         // 제약 조건
         posterImageView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.65) // 영화 포스터 높이를 뷰 크기의 65%로 설정
+            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
+            $0.height.equalToSuperview().multipliedBy(0.55) // 영화 포스터 높이를 뷰 크기의 65%로 설정
         }
         
         trailerButton.snp.makeConstraints {
