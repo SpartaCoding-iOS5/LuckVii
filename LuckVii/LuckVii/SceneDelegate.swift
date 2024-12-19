@@ -4,15 +4,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = MainTabBarController()
         window.makeKeyAndVisible()
 
         self.window = window
+
+        // UINavigationBar 타이틀 폰트와 크기 설정
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,6 +52,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
 }
-

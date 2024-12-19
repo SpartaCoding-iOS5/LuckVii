@@ -18,21 +18,26 @@ final class CategoryViewController: UIViewController {
     var upcomingMovies: [MovieDataSource] = []
     var nowPlayingMovies: [MovieDataSource] = []
     var popularMovies: [MovieDataSource] = []
-    
+
     override func viewIsAppearing(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Movies"
-        
+        title = "Luck VII"
+
         insertMovieData()
         setupScrollView()
         setupStackView()
         setupCollectionViews()
-        
+
+        // 네비게이션 타이틀 폰트와 색상 설정
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22),
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
     }
 
     // MARK: - UI 셋업
@@ -65,17 +70,17 @@ final class CategoryViewController: UIViewController {
     }
 
     private func setupCollectionViews() {
-        setupCollectionView(collectionView: upcomingCollectionView, title: "    Upcoming Movies")
-        setupCollectionView(collectionView: nowPlayingCollectionView, title: "    Now Playing")
-        setupCollectionView(collectionView: popularCollectionView, title: "    Popular Movies")
+        setupCollectionView(collectionView: upcomingCollectionView, title: "  Upcoming Movies")
+        setupCollectionView(collectionView: nowPlayingCollectionView, title: "  Now Playing")
+        setupCollectionView(collectionView: popularCollectionView, title: "  Popular Movies")
     }
 
     // MARK: - 컬렉션 뷰 셋업
-    
+
     private func setupCollectionView(collectionView: UICollectionView, title: String) {
         let sectionLabel = UILabel()
         sectionLabel.text = title
-        sectionLabel.font = .boldSystemFont(ofSize: 18)
+        sectionLabel.font = .boldSystemFont(ofSize: 24)
         sectionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         stackView.addArrangedSubview(sectionLabel)
@@ -89,4 +94,3 @@ final class CategoryViewController: UIViewController {
     }
 
 }
-

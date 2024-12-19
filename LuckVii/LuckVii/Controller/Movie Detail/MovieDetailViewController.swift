@@ -14,12 +14,13 @@ class MovieDetailViewController: UIViewController {
     private var movie: Movie?
     private var likeCount: Int = 0
     private var isLiked: Bool = false
-    
+    private let loginManager: LoginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
+
     // MARK: - 생명주기 메서드
     override func loadView() {
         view = movieDetailView
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBarStyle()
@@ -37,18 +38,18 @@ class MovieDetailViewController: UIViewController {
         setupLikeCount()
         fetchMovieDetails()
     }
-    
+
     // MARK: - UI 설정
     private func setupUI() {
         view.backgroundColor = .white
     }
-    
+
     // MARK: - 네비게이션 바 설정
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = movie?.title
-        
+
         let backButtonImage = UIImage(systemName: "arrow.left")
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: backButtonImage,
@@ -57,13 +58,13 @@ class MovieDetailViewController: UIViewController {
             action: #selector(backButtonTapped)
         )
     }
-    
+
     // MARK: - 좋아요 설정
     private func setupLikeCount() {
         likeCount = Int.random(in: 1001...3001)
         updateLikeButtonTitle()
     }
-    
+
     // MARK: - 버튼 액션 설정
     private func buttonActions() {
         movieDetailView.likeButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
@@ -71,7 +72,7 @@ class MovieDetailViewController: UIViewController {
         movieDetailView.trailerButton.addTarget(self, action: #selector(playTrailer), for: .touchUpInside)
         movieDetailView.shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
-    
+
     // MARK: - 버튼 애니메이션
     private func animateButtonPress(_ button: UIButton) {
         UIView.animate(withDuration: 0.1,
@@ -84,27 +85,30 @@ class MovieDetailViewController: UIViewController {
             }
         })
     }
-    
+
     // MARK: - 좋아요 버튼 텍스트 업데이트
     private func updateLikeButtonTitle() {
         let updatedTitle = "♥ \(likeCount.formatted())" // 형식화된 숫자
         movieDetailView.likeButton.setTitle(updatedTitle, for: .normal)
     }
-    
+
     // MARK: - 버튼 클릭 액션들
     @objc func bookingButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
-        
+
+        loginManager.ensurePresentLoginModal(viewController: self)
+        guard UserDefaultsManager.shared.getLoggedInStatus() else { return }
+
         let selectDateVC = SelectDateViewController()
         guard let movieData = movieData else { return }
-        
+
         selectDateVC.setSelectDateViewData(movieData) // selectDataVC에 영화 정보 전달
         navigationController?.pushViewController(selectDateVC, animated: true)
     }
-    
+
     @objc private func likeButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
-        
+
         if isLiked {
             // 이미 좋아요가 눌려있다면 취소하고 카운트 감소
             likeCount -= 1
@@ -112,12 +116,12 @@ class MovieDetailViewController: UIViewController {
             // 좋아요가 눌려있지 않으면 카운트 증가
             likeCount += 1
         }
-        
+
         // 좋아요 상태 반전시키는 토글
         isLiked.toggle()
-        
+
         updateLikeButtonTitle()
-        
+
         // 버튼 색상 변경
         if isLiked {
             sender.setTitleColor(.systemRed, for: .normal)
@@ -127,27 +131,27 @@ class MovieDetailViewController: UIViewController {
             sender.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
-    
+
     @objc private func shareButtonTapped(_ sender: UIButton) {
         animateButtonPress(sender)
-        
+
         let appURL = "https://github.com/SpartaCoding-iOS5/LuckVii"
-        
+
         // 클립보드에 URL 복사
         UIPasteboard.general.string = appURL
-        
+
         // 알림을 사용자에게 보여줌
         let alert = UIAlertController(title: "URL 복사 완료!", message: "앱 링크가 복사되었습니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
     }
-    
+
     // 뒤로가기 동작 구현
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
         tabBarController?.tabBar.isHidden = false
     }
-    
+
     // MARK: - 예고편 버튼 누를 때
     @objc private func playTrailer() {
         Task {
@@ -159,21 +163,21 @@ class MovieDetailViewController: UIViewController {
                     parameters: NetworkManager.URLParameterSet.common
                 )
                 // YouTube 영상 찾기
-                guard let video = videoData.results.first else { throw AppError.networkError(.noData) }//id에 맞는 videoData가 없다면 error
-                let url = try video.getVideoURL()//url 생성 시도
+                guard let video = videoData.results.first else { throw AppError.networkError(.noData) }// id에 맞는 videoData가 없다면 error
+                let url = try video.getVideoURL()// url 생성 시도
                 let safariVC = SFSafariViewController(url: url)// Safari로 예고편 재생
-                
+
                 present(safariVC, animated: true)
             } catch AppError.dataError(.noIdData) {
                 showAlert(message: "영화 데이터가 유효하지 않습니다.")
-            } catch AppError.convertError(.URLMakingError){
+            } catch AppError.convertError(.URLMakingError) {
                 showAlert(message: "예고편 URL을 가져올 수 없습니다.")
             } catch {
                 showAlert(message: "예고편이 준비되지 않았습니다.")
             }
         }
     }
-    
+
     // MARK: - 영화 상세 정보 가져오는 함수
     private func fetchMovieDetails() {
         Task {
@@ -187,18 +191,18 @@ class MovieDetailViewController: UIViewController {
                 // 영화 설명 가져오기
                 let overviewText = detailData.overview
                 print("오버뷰텍스트 글자수: \(overviewText.count)")
-                
+
                 // overviewText가 비어 있으면 "해당 영화의 내용이 없습니다." 띄우기
                 if overviewText.isEmpty {
                     movieDetailView.movieDescriptionView.updateDescription(with: "해당 영화의 내용이 없습니다.")
                 } else {
                     movieDetailView.movieDescriptionView.updateDescription(with: overviewText)
                 }
-                
+
                 let releaseDateString = detailData.releaseDate
                 let runtime: Int = detailData.runtime
                 let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
-                
+
                 DateFormatter.shared.dateFormat = "yyyy-MM-dd" // releaseDate의 입력 포맷
                 if let releaseDate = DateFormatter.shared.date(from: releaseDateString) {
                     // 출력 형식으로 다시 변경
@@ -218,7 +222,7 @@ class MovieDetailViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - 예고편 예외 상황 알림창
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "죄송합니다.", message: message, preferredStyle: .alert)
@@ -233,7 +237,7 @@ extension MovieDetailViewController {
         movieDetailView.setDetailView(dataSource)
         self.movieData = dataSource
         self.movie = dataSource.movieData // movie 객체 설정 추가함
-        
+
         let overviewText = dataSource.movieData.overview
         movieDetailView.movieDescriptionView.updateDescription(with: overviewText) // description 업데이트
         print("\(dataSource)")

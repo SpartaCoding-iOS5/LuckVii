@@ -20,7 +20,7 @@ extension DetailData {
             // 날짜 파싱 실패 시 error 던짐
             throw AppError.convertError(.dateFormattingError)
         }
-        
+
         return date
     }
 }

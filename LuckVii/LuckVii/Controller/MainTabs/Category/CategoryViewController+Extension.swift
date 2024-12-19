@@ -8,7 +8,10 @@
 import UIKit
 
 extension CategoryViewController {
-    private func fetchMovieData(endPoint: NetworkManager.URLEndpointSet, parameter: URLParameters) async-> Array<MovieDataSource> {
+    private func fetchMovieData(
+        endPoint: NetworkManager.URLEndpointSet,
+        parameter: URLParameters
+    ) async -> [MovieDataSource] {
         var movieDataSources = [MovieDataSource]()    // 임시로 데이터를 저장할 배열
         do {
             // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
@@ -31,10 +34,10 @@ extension CategoryViewController {
             // 5. 데이터 가져오기 실패 시 에러 메시지 출력
             print("데이터 불러오기 실패")
         }
-        
+
         return movieDataSources
     }
-    
+
     func insertMovieData() {
         let commonParameter = NetworkManager.URLParameterSet.common
         let secondPageParameter = NetworkManager.URLParameterSet.secondPage
@@ -42,7 +45,7 @@ extension CategoryViewController {
             self.upcomingMovies = await fetchMovieData(endPoint: .upcoming, parameter: commonParameter)
             self.nowPlayingMovies = await fetchMovieData(endPoint: .nowPlaying, parameter: secondPageParameter)
             self.popularMovies = await fetchMovieData(endPoint: .popular, parameter: commonParameter)
-            
+
             DispatchQueue.main.async {
                 self.upcomingCollectionView.reloadData()
                 self.nowPlayingCollectionView.reloadData()
@@ -55,7 +58,10 @@ extension CategoryViewController {
 // MARK: - 컬렉션뷰 데이터 소스 및 델리게이트
 
 extension CategoryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         switch collectionView {
         case upcomingCollectionView:
             return upcomingMovies.count
@@ -67,18 +73,21 @@ extension CategoryViewController: UICollectionViewDataSource {
             return 0
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MoviePosterCell.identifier,
             for: indexPath
         ) as? MoviePosterCell else {
             print("failed to configure category view cell")
-            return UICollectionViewCell()//비어있는 셀 반환
+            return UICollectionViewCell()// 비어있는 셀 반환
         }
-        
+
         let movie: MovieDataSource
-        
+
         switch collectionView {
         case upcomingCollectionView:
             movie = upcomingMovies[indexPath.item]
@@ -89,7 +98,7 @@ extension CategoryViewController: UICollectionViewDataSource {
         default:
             fatalError("Unexpected collection view")
         }
-        
+
         cell.configure(with: movie)
         return cell
     }
@@ -108,8 +117,8 @@ extension CategoryViewController: UICollectionViewDelegate {
         default:
             return
         }
-        
-        print("Selected movie: \(movie.movieData.title)")//연결된 영화 타이틀 선택
+
+        print("Selected movie: \(movie.movieData.title)")// 연결된 영화 타이틀 선택
         let detailVC = MovieDetailViewController()
         detailVC.setDetailViewData(movie)
         navigationController?.pushViewController(detailVC, animated: true)

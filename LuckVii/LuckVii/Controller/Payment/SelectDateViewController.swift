@@ -20,7 +20,7 @@ class SelectDateViewController: UIViewController {
         setupNavigationBar()
         setupAction()
     }
-    
+
     private func setupNavigationBar() {
         self.title = "상영 시간 선택"
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -40,7 +40,7 @@ class SelectDateViewController: UIViewController {
         [
             selectDateView
         ].forEach { view.addSubview($0) }
-        
+
         // 제약 조건
         selectDateView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -78,17 +78,31 @@ extension SelectDateViewController {
 
         do {
             guard let movie = movie else { throw AppError.dataError(.noMovieData) }
-            paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: selectDateView.startTime[selectDateView.selectedItemOfIndex])
+            paymentVC.setPaymentViewMovieData(
+                movie: movie,
+                date: dateString,
+                time: selectDateView.startTime[selectDateView.selectedItemOfIndex]
+            )
             self.navigationController?.pushViewController(paymentVC, animated: true)
         } catch AppError.dataError(.noMovieData) {
-            //TODO 에러처리
+            showAlert(with: "영화 정보가 없습니다.")
         } catch {
-            
+            showAlert(with: "알 수 없는 오류가 발생했습니다.")
         }
     }
 
     @objc func tappedPreviousButtion() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func showAlert(with message: String) {
+        let alert = UIAlertController(
+            title: "알림",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -105,13 +119,23 @@ extension SelectDateView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         startTime.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TimeCollectionViewCell else { return UICollectionViewCell() }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "cell",
+            for: indexPath
+        ) as? TimeCollectionViewCell else { return UICollectionViewCell() }
 
         // 현재 셀이 선택된 셀인지 확인
         let isSelected = selectedItemOfIndex == indexPath.item ? true : false
-        cell.configureData(startTime: startTime[indexPath.item], endTime: endTime[indexPath.item], isSelected: isSelected)
+        cell.configureData(
+            startTime: startTime[indexPath.item],
+            endTime: endTime[indexPath.item],
+            isSelected: isSelected
+        )
 
         return cell
     }

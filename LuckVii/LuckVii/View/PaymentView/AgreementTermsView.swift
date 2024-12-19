@@ -53,7 +53,7 @@ class AgreementTermsView: UIView {
         label.numberOfLines = 0
         label.text = """
 제 1조 (목적)
-본 약관은 럭비시네마(이하 "회사”)가 제공하는 영화 예매 서비스와 결제 시 랜덤 당첨 기능을 이용하는 고객(이하 "이용자") 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다. 
+본 약관은 럭비시네마(이하 "회사”)가 제공하는 영화 예매 서비스와 결제 시 랜덤 당첨 기능을 이용하는 고객(이하 "이용자") 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다.
 
 제 2조 (약관의 적용 및 변경)
 본 약관은 회사의 서비스 화면에 게시하여 공지함으로써 효력이 발생합니다. 회사는 필요한 경우 관련 법령을 위반하지 않는 범위에서 약관을 변경할 수 있으며, 변경된 약관은 동일한 방법으로 공지합니다. 변경된 약관에 동의하지 않을 경우 이용자는 서비스 이용을 중단할 수 있습니다.
@@ -139,10 +139,17 @@ class AgreementTermsView: UIView {
     // MARK: - 레이아웃 설정
 
     private func configureUI() {
+        setupBottomButtons()
+        addSubviews()
+        configureLayouts()
+    }
 
+    private func setupBottomButtons() {
         bottomButtonView.previousButton.setTitle("비동의", for: .normal)
         bottomButtonView.nextButton.setTitle("동의", for: .normal)
+    }
 
+    private func addSubviews() {
         [titleLable, scrollView, bottomButtonView].forEach {
             self.addSubview($0)
         }
@@ -150,24 +157,23 @@ class AgreementTermsView: UIView {
         let contentView = UIView()
         scrollView.addSubview(contentView)
 
-        // 뷰에 추가
+        // 뷰 추가
         [
             serviceTermsTitleLabel,
             serviceTermsScrollView,
             randomTermsTitleLabel,
-            randomTermsScrollView,
+            randomTermsScrollView
         ].forEach {
             contentView.addSubview($0)
         }
 
-        // 서비스 이용약관 ScrillView에 추가
+        // 약관 텍스트 추가
         serviceTermsScrollView.addSubview(serviceTermsTextLabel)
-
-        // 랜덤 티켓 약관 ScrollView에 추가
         randomTermsScrollView.addSubview(randomTermsTextLabel)
+    }
 
-        let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
-
+    private func configureLayouts() {
+        let safeArea = self.safeAreaLayoutGuide
 
         titleLable.snp.makeConstraints {
             $0.top.equalTo(safeArea.snp.top).offset(30)
@@ -180,11 +186,21 @@ class AgreementTermsView: UIView {
             $0.bottom.equalTo(bottomButtonView.snp.top).offset(-10)
         }
 
+        setupContentViewLayout()
+        setupServiceTermsLayout()
+        setupRandomTermsLayout()
+        setupBottomButtonLayout(safeArea: safeArea)
+    }
+
+    private func setupContentViewLayout() {
+        let contentView = scrollView.subviews.first!
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
         }
+    }
 
+    private func setupServiceTermsLayout() {
         serviceTermsTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
@@ -201,7 +217,9 @@ class AgreementTermsView: UIView {
             $0.width.equalToSuperview().multipliedBy(0.95)
             $0.centerX.equalToSuperview()
         }
+    }
 
+    private func setupRandomTermsLayout() {
         randomTermsTitleLabel.snp.makeConstraints {
             $0.top.equalTo(serviceTermsScrollView.snp.bottom).offset(50)
             $0.leading.equalToSuperview().offset(20)
@@ -219,7 +237,9 @@ class AgreementTermsView: UIView {
             $0.width.equalToSuperview().multipliedBy(0.95)
             $0.centerX.equalToSuperview()
         }
+    }
 
+    private func setupBottomButtonLayout(safeArea: UILayoutGuide) {
         bottomButtonView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalTo(safeArea.snp.bottom).inset(10)

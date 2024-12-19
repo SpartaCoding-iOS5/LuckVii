@@ -11,7 +11,7 @@ import SnapKit
 // MARK: - movieReservationItemCell
 class MovieReservationCell: UITableViewCell {
     static let identifier = "MovieReservationCell"
-    
+
     // MARK: - UI Components
     /// 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
@@ -21,7 +21,7 @@ class MovieReservationCell: UITableViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
-    
+
     /// 제목 라벨
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -29,7 +29,7 @@ class MovieReservationCell: UITableViewCell {
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
-    
+
     /// 영화 일정 라벨
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
@@ -38,7 +38,7 @@ class MovieReservationCell: UITableViewCell {
         label.textColor = .darkGray
         return label
     }()
-    
+
     /// 영화관 위치 라벨
     private let theaterLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +47,7 @@ class MovieReservationCell: UITableViewCell {
         label.textColor = .darkGray
         return label
     }()
-    
+
     /// 가격 라벨
     private let priceLabel: UILabel = {
         let label = UILabel()
@@ -56,7 +56,7 @@ class MovieReservationCell: UITableViewCell {
         label.textColor = .darkGray
         return label
     }()
-    
+
     // MARK: - StackViews
     private lazy var infoStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [titleLabel, dateTimeLabel, theaterLabel, priceLabel])
@@ -65,7 +65,7 @@ class MovieReservationCell: UITableViewCell {
         stack.alignment = .leading
         return stack
     }()
-    
+
     private lazy var cellStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [posterImageView, infoStack])
         stack.axis = .horizontal
@@ -73,32 +73,32 @@ class MovieReservationCell: UITableViewCell {
         stack.alignment = .leading
         stack.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         stack.isLayoutMarginsRelativeArrangement = true
-        
+
         posterImageView.snp.makeConstraints {
             $0.width.equalTo(81)
         }
         return stack
     }()
-    
+
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Setup
     private func setupLayout() {
         contentView.addSubview(cellStack)
-        
+
         cellStack.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
     }
-    
+
     // MARK: - Configuration
     func configure(with movie: MovieReservation) {
         titleLabel.text = movie.title
