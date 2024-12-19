@@ -24,7 +24,12 @@ class MovieDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationBarStyle()
     }
-    
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -140,6 +145,7 @@ class MovieDetailViewController: UIViewController {
     // 뒤로가기 동작 구현
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - 예고편 버튼 누를 때
