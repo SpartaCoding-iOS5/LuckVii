@@ -10,7 +10,7 @@ import SnapKit
 
 class PaymentView: UIView {
 
-    private var ticketCount = 1 // 티켓 갯수를 저장할 변수
+    var ticketCount = 1 // 티켓 갯수를 저장할 변수
 
     // 영화 정보 View
     private let movieInformationView: UIView = {

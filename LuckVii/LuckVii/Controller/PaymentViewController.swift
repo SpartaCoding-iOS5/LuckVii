@@ -75,13 +75,13 @@ class PaymentViewController: UIViewController {
 
     // 이전 버튼 액션
     func didTapPreviousButton() {
-        let selectDateVC = SelectDateViewController()
         self.navigationController?.popViewController(animated: true)
     }
 
     // 결제 버튼 액션
     func didTapNextButton() {
         let paymentResultVC = PaymentResultViewController()
+        paymentResultVC.configureData(data: paymentView.ticketCount)
         self.navigationController?.pushViewController(paymentResultVC, animated: true)
     }
 }

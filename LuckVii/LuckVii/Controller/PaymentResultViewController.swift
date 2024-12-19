@@ -23,7 +23,9 @@ class PaymentResultViewController: UIViewController, gachaButtonDelegate {
     let paymentResultView = PaymentResultView()
     
     var ticketNumber: Int = 1 // 티켓 번호
-    
+
+    var ticketCount: Int? // 티켓 갯수
+
     override func loadView() {
         self.view = paymentResultView
     }
@@ -95,4 +97,15 @@ class PaymentResultViewController: UIViewController, gachaButtonDelegate {
         }
     }
     
+}
+
+// MARK: - 데이터 설정
+
+extension PaymentResultViewController {
+
+    // 데이터 전달 받는 메서드
+    func configureData(data: Int) {
+        ticketCount = data
+        print(ticketCount)
+    }
 }
