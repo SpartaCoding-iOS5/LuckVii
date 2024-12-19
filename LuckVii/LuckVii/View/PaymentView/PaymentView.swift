@@ -222,7 +222,7 @@ class PaymentView: UIView {
         return stackView
     }()
 
-    private let previousButton: UIButton = {
+    var previousButton: UIButton = {
         let button = UIButton()
         button.setTitle("이전", for: .normal)
         button.backgroundColor = .white
@@ -231,7 +231,7 @@ class PaymentView: UIView {
         return button
     }()
 
-    private let nextButton: UIButton = {
+    var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제", for: .normal)
         button.backgroundColor = .green

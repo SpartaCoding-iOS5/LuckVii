@@ -44,23 +44,45 @@ class PaymentViewController: UIViewController {
         view.backgroundColor = .lightGray
     }
 
+    // MARK: - 액션 설정
+
     // 액션 연결
     private func setupAction() {
         paymentView.termsAgreementButton.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             self.didTapAreementButton()
+        }, for: .touchUpInside)
 
+        paymentView.previousButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.didTapPreviousButton()
+        }, for: .touchUpInside)
+
+        paymentView.nextButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.didTapNextButton()
         }, for: .touchUpInside)
     }
 
-    // 버튼 액션
+    // 동의 버튼 액션
     func didTapAreementButton() {
-
         let agreementTermsVC = AgreementTermsViewController()
         agreementTermsVC.delegate = self // delegate 설정
 
         self.navigationController?.modalPresentationStyle = .fullScreen
         present(agreementTermsVC, animated: true)
+    }
+
+    // 이전 버튼 액션
+    func didTapPreviousButton() {
+        let selectDateVC = SelectDateViewController()
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    // 결제 버튼 액션
+    func didTapNextButton() {
+        let paymentResultVC = PaymentResultViewController()
+        self.navigationController?.pushViewController(paymentResultVC, animated: true)
     }
 }
 
