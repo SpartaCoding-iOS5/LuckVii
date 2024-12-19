@@ -18,7 +18,7 @@ class MainTabBarController: UITabBarController {
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        LoginManager.shared.presentLoginModal(viewController: self)
+        LoginManager.shared.presentLoginModal(viewController: self)//루트뷰컨트롤러라 앱 실행 시 단 한 번만 실행 됨.
     }
 
     // MARK: - set up tab bar controller
@@ -31,9 +31,7 @@ class MainTabBarController: UITabBarController {
         let categoryNav: UINavigationController = UINavigationController(rootViewController: categoryVC)
         let searchNav: UINavigationController = UINavigationController(rootViewController: searchVC)
         let myPageNav: UINavigationController = UINavigationController(rootViewController: myPageVC)
-//        let categoryNav: CategoryViewController = CategoryViewController()
-//        let searchNav: SearchViewController = SearchViewController()
-//        let myPageNav: MyPageViewController = MyPageViewController()
+
         //set tab bar item
         categoryNav.tabBarItem = UITabBarItem(
             title: "Category",
