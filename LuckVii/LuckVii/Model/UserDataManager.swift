@@ -45,6 +45,7 @@ class UserDataManger {
             let newUser = NSManagedObject(entity: entity, insertInto: context)
             newUser.setValue(userInfoData.email, forKey: UserInfo.Key.email)
             newUser.setValue(userInfoData.password, forKey: UserInfo.Key.password)
+            newUser.setValue(userInfoData.nickName, forKey: UserInfo.Key.nickName)
             newUser.setValue(userInfoData.name, forKey: UserInfo.Key.name)
             newUser.setValue(userInfoData.birth, forKey: UserInfo.Key.birth)
             newUser.setValue(userInfoData.phoneNumber, forKey: UserInfo.Key.phoneNumber)
@@ -115,6 +116,7 @@ class UserDataManger {
         for result in fetchResults {
             let userInfo = UserInfoData(
                 email: result.email ?? "",
+                nickName: result.nickName ?? "",
                 password: result.password ?? "",
                 name: result.name ?? "",
                 birth: result.birth ?? "",
