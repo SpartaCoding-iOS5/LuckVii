@@ -43,6 +43,14 @@ class MovieDetailViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = movie?.title
+        
+        let backButtonImage = UIImage(systemName: "arrow.left")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
     }
     
     // MARK: - 좋아요 설정
@@ -84,7 +92,7 @@ class MovieDetailViewController: UIViewController {
         
         let selectDateVC = SelectDateViewController()
         guard let movieData = movieData else { return }
-
+        
         selectDateVC.setSelectDateViewData(movieData) // selectDataVC에 영화 정보 전달
         navigationController?.pushViewController(selectDateVC, animated: true)
     }
@@ -127,6 +135,11 @@ class MovieDetailViewController: UIViewController {
         let alert = UIAlertController(title: "URL 복사 완료!", message: "앱 링크가 복사되었습니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
+    }
+    
+    // 뒤로가기 동작 구현
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - 예고편 버튼 누를 때
@@ -175,7 +188,7 @@ class MovieDetailViewController: UIViewController {
                 } else {
                     movieDetailView.movieDescriptionView.updateDescription(with: overviewText)
                 }
-
+                
                 let releaseDateString = detailData.releaseDate
                 let runtime: Int = detailData.runtime
                 let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
@@ -199,7 +212,7 @@ class MovieDetailViewController: UIViewController {
             }
         }
     }
-
+    
     // MARK: - 예고편 예외 상황 알림창
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "죄송합니다.", message: message, preferredStyle: .alert)
@@ -212,7 +225,7 @@ class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController {
     func setDetailViewData(_ dataSource: MovieDataSource) {
         movieDetailView.setDetailView(dataSource)
-        self.movieData = dataSource 
+        self.movieData = dataSource
         self.movie = dataSource.movieData // movie 객체 설정 추가함
         
         let overviewText = dataSource.movieData.overview
