@@ -21,6 +21,12 @@ class SearchViewController: UIViewController {
     // 검색된 영화 데이터 저장할 배열
     private var searchMovies = [MovieDataSource]()
     
+    // 세그먼트 선택 메뉴 저장할 변수, 초기값은 .nowPlaying
+    private var selectedCategory = NetworkManager.URLEndpointSet.nowPlaying
+    
+    // 검색 키워드 저장할 변수
+    private var searchKeyword: String = ""
+    
     // 기본 뷰를 searchView로 설정
     private let searchView = SearchView()
     override func loadView() {
@@ -29,13 +35,20 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 네비게이션 셋업 호출
+        setupNavigationBar()
+        
         searchView.delegate = self
         
         // delegate, dataSource를 self로 설정
         searchView.setCollectionView(self, self)
         
         // 영화 데이터 가져오기
-        fetchMovieData()
+        fetchMovieData(selectedCategory)
+    }
+    
+    func setupNavigationBar() {
+        navigationItem.title = "영화 검색"
     }
 }
 
@@ -89,6 +102,7 @@ extension SearchViewController: textFieldDelegate {
     // 키보드 입력에 따라 컬렉션 뷰 출력 바꾸는 메서드
     @objc func searchingMovie(_ input: String) {
         print(input)
+        searchKeyword = input   // 입력 저장
         
         if input.isEmpty {
             searchMovies = movieDataSource // 입력이 없으면 전체 데이터 출력
@@ -104,18 +118,24 @@ extension SearchViewController: textFieldDelegate {
     func pressReturnKey() {
         view.endEditing(true)
     }
+    
+    // Segmented Control 선택 메서드
+    func didChangeSegment(index: Int) {
+        selectedCategory = (index == 0) ? .nowPlaying : .upcoming
+        fetchMovieData(selectedCategory)
+    }
 }
 
 // MARK: - 데이터 불러오기
 
 extension SearchViewController {
     
-    private func fetchMovieData() {
+    private func fetchMovieData(_ endPoint: NetworkManager.URLEndpointSet) {
         Task { [weak self] in
             do {
                 // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
                 let movieData: MovieData = try await NetworkManager.shared.fetchData(
-                    endpoint: .nowPlaying,  // 'nowPlaying' 엔드포인트를 사용하여 현재 상영 중인 영화 목록을 요청
+                    endpoint: endPoint,  // 'nowPlaying' 엔드포인트를 사용하여 현재 상영 중인 영화 목록을 요청
                     parameters: NetworkManager.URLParameterSet.common
                 )
                 
@@ -135,7 +155,12 @@ extension SearchViewController {
                 
                 // 3. 가져온 데이터를 메인 데이터 소스와 검색 결과 배열에 할당
                 self?.movieDataSource = tempMovies  // 컬렉션 뷰에 표시할 배열 업데이트
-                self?.searchMovies = tempMovies // 초기 화면에 데이터를 표시
+                // 저장된 검색 키워드로 필터링
+                if let keyword = self?.searchKeyword, !keyword.isEmpty {
+                    self?.searchMovies = tempMovies.filter { $0.movieData.title.contains(keyword) }
+                } else {
+                    self?.searchMovies = tempMovies // 초기 화면에 데이터를 표시
+                }
                 
                 // 4. UI 업데이트는 메인 스레드에서 실행
                 DispatchQueue.main.async {
