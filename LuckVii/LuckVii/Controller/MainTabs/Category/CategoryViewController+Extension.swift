@@ -8,13 +8,13 @@
 import UIKit
 
 extension CategoryViewController {
-    private func fetchMovieData(endPoint: NetworkManager.URLEndpointSet) async-> Array<MovieDataSource> {
+    private func fetchMovieData(endPoint: NetworkManager.URLEndpointSet, parameter: URLParameters) async-> Array<MovieDataSource> {
         var movieDataSources = [MovieDataSource]()    // 임시로 데이터를 저장할 배열
         do {
             // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
             let movieData: MovieData = try await NetworkManager.shared.fetchData(
                 endpoint: endPoint,  // 'nowPlaying' 엔드포인트를 사용하여 현재 상영 중인 영화 목록을 요청
-                parameters: NetworkManager.URLParameterSet.common
+                parameters: parameter
             )
             // 2. 가져온 영화 목록을 순회하며 각 영화에 대한 이미지 데이터를 요청
             for movie in movieData.results {
@@ -36,10 +36,12 @@ extension CategoryViewController {
     }
     
     func insertMovieData() {
+        let commonParameter = NetworkManager.URLParameterSet.common
+        let secondPageParameter = NetworkManager.URLParameterSet.secondPage
         Task {
-            self.upcomingMovies = await fetchMovieData(endPoint: .upcoming)
-            self.nowPlayingMovies = await fetchMovieData(endPoint: .nowPlaying)
-            self.popularMovies = await fetchMovieData(endPoint: .popular)
+            self.upcomingMovies = await fetchMovieData(endPoint: .upcoming, parameter: commonParameter)
+            self.nowPlayingMovies = await fetchMovieData(endPoint: .nowPlaying, parameter: secondPageParameter)
+            self.popularMovies = await fetchMovieData(endPoint: .popular, parameter: commonParameter)
             
             DispatchQueue.main.async {
                 self.upcomingCollectionView.reloadData()
