@@ -105,15 +105,11 @@ class MovieReservationCell: UITableViewCell {
         dateTimeLabel.text = movie.dateTime
         theaterLabel.text = movie.theater
         priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: movie.price), number: .decimal))원"
+        
+        if let posterImage = movie.posterImage {
+            posterImageView.image = posterImage
+        } else {
+            posterImageView.image = UIImage(named: "defaultPoster")
+        }
     }
-}
-
-// MARK: - MovieReservation Model
-// Model이 정의되면 옮길 예정
-struct MovieReservation {
-    let title: String
-    let dateTime: String
-    let theater: String
-    let price: Int
-    let posterImage: String?
 }
