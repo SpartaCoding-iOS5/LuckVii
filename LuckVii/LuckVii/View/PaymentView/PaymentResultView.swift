@@ -11,15 +11,6 @@ import SnapKit
 class PaymentResultView: UIView {
     private let height =  UIScreen.main.bounds.height // 뷰의 세로 길이, 16pro 기준 874.0
 
-//    // 티켓 번호 레이블
-//    private let ticketNumberLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "티켓 1 당첨 결과"
-//        label.textAlignment = .center
-//        label.font = .boldSystemFont(ofSize: 22)
-//        return label
-//    }()
-
     // 당첨 금액 레이블
     private let congratsLabel: UILabel = {
         let label = UILabel()
@@ -85,18 +76,12 @@ class PaymentResultView: UIView {
         self.backgroundColor = .white
 
         [
-           // ticketNumberLabel,
             congratsLabel,
             amountLabel,
             seatLabel,
             commentLabel,
             gachaButton
         ].forEach { addSubview($0) }
-//        
-//        ticketNumberLabel.snp.makeConstraints{
-//            $0.top.equalToSuperview().offset(height / 4) // 전체 높이의 1/3 지점
-//            $0.centerX.equalToSuperview()
-//        }
 
         congratsLabel.snp.makeConstraints{
             $0.top.equalToSuperview().offset(height / 3)
@@ -118,12 +103,6 @@ class PaymentResultView: UIView {
             $0.leading.trailing.equalToSuperview().inset(32)
         }
 
-        //        gachaButton.snp.makeConstraints{
-        //            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
-        //            $0.leading.trailing.equalToSuperview().inset(32)
-        //            $0.height.equalTo(50)
-        //        }
-
         gachaButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(10)
@@ -133,7 +112,6 @@ class PaymentResultView: UIView {
 
     // UI 값 접근 메서드
     func setUI(_ ticketNumer: Int, _ amount: String, _ seat: String, _ isLastChance: Bool) {
-        //ticketNumberLabel.text = "티켓 \(ticketNumer) 당첨 결과"
         amountLabel.text = "\(ticketNumer)번 티켓 🎟️ \(amount)원 당첨 💰"
         seatLabel.text = "럭비시네마 영등포점 7층 1관 \(seat)"
 
