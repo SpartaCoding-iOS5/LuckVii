@@ -95,4 +95,6 @@ class MovieDescriptionView: UIScrollView {
         setNeedsLayout()
         layoutIfNeeded()
     }
+    
+    
 }
