@@ -30,9 +30,9 @@ extension NetworkManager {
             case .nowPlaying:
                 return "/now_playing"
             case .popular:
-                return "popular"
+                return "/popular"
             case .upcoming:
-                return "upcoming"
+                return "/upcoming"
             case .detail(let id):
                 return "/\(String(id))"
             case .video(let id):
