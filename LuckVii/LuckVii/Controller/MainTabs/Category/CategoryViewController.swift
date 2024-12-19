@@ -18,7 +18,11 @@ final class CategoryViewController: UIViewController {
     var upcomingMovies: [MovieDataSource] = []
     var nowPlayingMovies: [MovieDataSource] = []
     var popularMovies: [MovieDataSource] = []
-
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white

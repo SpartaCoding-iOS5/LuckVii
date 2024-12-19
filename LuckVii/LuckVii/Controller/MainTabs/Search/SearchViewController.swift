@@ -28,6 +28,10 @@ class SearchViewController: UIViewController {
         self.view = searchView
     }
     
+    override func viewIsAppearing(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 네비게이션 셋업 호출
