@@ -44,7 +44,6 @@ extension SignUpViewController {
         // 회원가입 버튼 연결
         signUpView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
-            self?.dismiss(animated: true)
         }, for: .touchUpInside)
     }
 }
@@ -97,8 +96,7 @@ extension SignUpViewController {
         createUserInfo(email: email, nickName: nickName, password: password, name: name, birth: birth, phoneNumber: phoneNumber)
         // 저장된 데이터 보기
         readUserInfo()
-        // 로그인 화면으로 이동
-        navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
 }
 
