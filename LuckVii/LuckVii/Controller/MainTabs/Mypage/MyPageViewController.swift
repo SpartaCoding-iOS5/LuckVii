@@ -16,25 +16,6 @@ class MyPageViewController: UIViewController {
     private let myPageView = MyPageView()
     private var reservations: [ReservationInfoData] = []
     
-//    // 더미데이터
-//    private let dummyData: [MovieReservation] = [
-//        MovieReservation(
-//            title: "소방관",
-//            dateTime: "24.12.16 15:00~16:46",
-//            theater: "영등포 롯데시네마 1관 6층 (아이맥스) C9 2명",
-//            price: 60000,
-//            posterImage: nil
-//        ),
-//        MovieReservation(
-//            title: "신과함께",
-//            dateTime: "24.12.20 13:00~15:30",
-//            theater: "강남 CGV 2관 8층 A12 1명",
-//            price: 15000,
-//            posterImage: nil
-//        ),
-//        // 더 많은 더미데이터 추가 가능
-//    ]
-    
     override func loadView() {
         self.view = myPageView
     }
@@ -86,6 +67,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             price: reservation.tickets.reduce(0) { $0 + $1.price },
             posterImage: reservation.posterImage
         )
+        print(movieData)
         
         cell.configure(with: movieData)
         return cell

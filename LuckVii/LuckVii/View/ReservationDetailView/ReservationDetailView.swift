@@ -93,7 +93,7 @@ class ReservationDetailView: UIView {
         return imageView
     }()
     
-    private let seatLabel: UILabel = {
+    let seatLabel: UILabel = {
         let label = UILabel()
         label.text = "C9-10석"
         label.font = .systemFont(ofSize: 14)
@@ -286,6 +286,7 @@ class ReservationDetailView: UIView {
         theaterLabel.text = reservation.theater
         
         let totalPrice = reservation.tickets.reduce(0) { $0 + $1.price }
+        print(totalPrice)
         priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: totalPrice), number: .decimal))원"
         
         let seatNumbers = reservation.tickets.map { $0.seatNumber }.joined(separator: ", ")

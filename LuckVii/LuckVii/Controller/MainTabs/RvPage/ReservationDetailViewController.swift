@@ -32,6 +32,8 @@ class ReservationDetailViewController: UIViewController {
        super.viewDidLoad()
        view.backgroundColor = .white
        setupUI()
+       
+
    }
    
    // MARK: - Setup
@@ -41,18 +43,8 @@ class ReservationDetailViewController: UIViewController {
     
     // MARK: - Configuration
     func configure(with reservation: ReservationInfoData) {
+        print("Configuring with reservation:", reservation) // 전달된 데이터를 확인
         self.reservationData = reservation
-        
-        let totalPrice = reservation.tickets.reduce(0) { $0 + $1.price }
-        
-        let movieReservation = MovieReservation(
-            title: reservation.title,
-            dateTime: reservation.dateTime,
-            theater: reservation.theater,
-            price: totalPrice,
-            posterImage: reservation.posterImage
-        )
-        
         detailView.configure(with: reservation)
     }
 }

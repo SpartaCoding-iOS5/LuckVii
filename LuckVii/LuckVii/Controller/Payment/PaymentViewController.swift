@@ -95,17 +95,28 @@ class PaymentViewController: UIViewController {
 
     // 결제 버튼 액션
     func didTapNextButton() {
-
+        guard let movie = movie else { return }
+        
         if paymentView.termsAgreementButton.isSelected {
             let paymentResultVC = PaymentResultViewController()
-            paymentResultVC.configureData(data: paymentView.ticketCount)
+            paymentResultVC.configureData(
+                data: paymentView.ticketCount,
+                movie: movie,
+                date: selectedDate,
+                time: selectedTime,
+                theater: selectedTheater,
+                poster: moviePoster
+            )
             self.navigationController?.pushViewController(paymentResultVC, animated: true)
         } else {
-            let alert = UIAlertController(title: "약관 동의 필요", message: "결제를 진행하려면 약관에 동의해주세요.", preferredStyle: .alert)
+            let alert = UIAlertController(
+                title: "약관 동의 필요",
+                message: "결제를 진행하려면 약관에 동의해주세요.",
+                preferredStyle: .alert
+            )
             alert.addAction(UIAlertAction(title: "확인", style: .default))
             present(alert, animated: true)
         }
-
     }
 }
 

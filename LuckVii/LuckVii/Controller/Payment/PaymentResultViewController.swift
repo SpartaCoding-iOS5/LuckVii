@@ -121,19 +121,23 @@ class PaymentResultViewController: UIViewController {
             guard let self = self else { return }
             // 2. 새로운 값 설정
             let seat = self.generateSeatCode()
-            let prize = self.genratePrizeAmount().string
+            let prizeResult = self.genratePrizeAmount()
+            let prize = prizeResult.string
+            let prizeValue = prizeResult.value
             self.ticketNumber += 1
             let isLastChance = ticketCount == ticketNumber // 마지막 기회인지 확인
             
             // 티켓 정보 저장
             let ticketInfo = TicketInfoData(
                 seatNumber: seat,
-                price: genratePrizeAmount().value
+                price: prizeValue
             )
             
             self.tickets.append(ticketInfo)
 
             self.paymentResultView.setUI(self.ticketNumber, prize, seat, isLastChance)
+            
+            print("Tickets:", tickets) // 로그로 좌석 번호와 가격 확인
 
             // 3. 뷰를 화면 오른쪽으로 이동
             self.paymentResultView.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
@@ -157,6 +161,7 @@ class PaymentResultViewController: UIViewController {
             tickets: tickets
         )
         
+        print("Reservation Info:", reservationInfo) // 전달할 데이터 확인
         UserDataManger.shared.saveReservation(reservationInfo)
         self.navigationController?.popToRootViewController(animated: true)
         tabBarController?.tabBar.isHidden = false
