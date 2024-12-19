@@ -30,7 +30,9 @@ class SelectDateView: UIView {
         picker.addTarget(self, action: #selector(changedDate), for: .valueChanged)
         return picker
     }()
-    
+
+    var bottomButtonView = BottomButonView()
+
     var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("다음", for: .normal)
@@ -76,7 +78,7 @@ class SelectDateView: UIView {
         [
             datePicker,
             timeCollectionView,
-            nextButton
+            bottomButtonView
         ].forEach { addSubview($0) }
 
         // 제약 조건
@@ -91,11 +93,10 @@ class SelectDateView: UIView {
             $0.height.equalTo(180)
         }
 
-        nextButton.snp.makeConstraints {
-            $0.width.equalTo(150)
-            $0.height.equalTo(50)
-            $0.trailing.equalToSuperview().inset(30)
+        bottomButtonView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalToSuperview().inset(50)
+            $0.height.equalTo(50)
         }
     }
 

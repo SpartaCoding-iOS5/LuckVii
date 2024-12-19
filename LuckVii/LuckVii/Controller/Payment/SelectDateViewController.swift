@@ -41,15 +41,13 @@ class SelectDateViewController: UIViewController {
 
     // 버튼 액션 연결
     private func setupAction() {
-        selectDateView.nextButton.addAction(UIAction { [weak self] _ in
+        selectDateView.bottomButtonView.nextButton.addAction(UIAction { [weak self] _ in
             self?.tappedNextButton()
         }, for: .touchUpInside)
-    }
 
-    // 선택된 시간 가져오기
-    func getSelectedTime() -> String? {
-        print(selectDateView.selectedTime)
-        return selectDateView.selectedTime
+        selectDateView.bottomButtonView.previousButton.addAction(UIAction { [weak self] _ in
+            self?.tappedPreviousButtion()
+        }, for: .touchUpInside)
     }
 }
 
@@ -79,6 +77,10 @@ extension SelectDateViewController {
         } catch {
             
         }
+    }
+
+    func tappedPreviousButtion() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
