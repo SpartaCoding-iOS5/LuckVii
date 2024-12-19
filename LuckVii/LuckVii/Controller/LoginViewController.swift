@@ -12,9 +12,17 @@ class LoginViewController: UIViewController {
     
     private let loginView = LoginView()
     
+    // 다시 로그인 화면으로 왔을 시 초기화
+    override func viewWillAppear(_ animated: Bool) {
+        setupUI()
+        
+        loginView.emailTextField.text = ""
+        loginView.pwTextField.text = ""
+        loginView.checkLoginInfo.text = ""
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupAction()
         textFieldSetup()
@@ -76,10 +84,9 @@ extension LoginViewController {
         if emailInfo != "" && pwInfo != "" {
             guard let id = emailInfo, let pw = pwInfo else { return }
             if checkUserInfo(id,pw) {
-                loginView.checkLoginInfo.text = "login Success"
-                print("moveToSerchViewController")
+                let searchViewVC = SearchViewController()
+                navigationController?.pushViewController(searchViewVC, animated: true)
             } else {
-                print("로그인 실패")
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."
                 loginView.pwTextField.text = ""
             }
@@ -89,9 +96,7 @@ extension LoginViewController {
     // 유저 정보를 확인하는 메서드
     // 추후 코어데이터와 연결 예정
     private func checkUserInfo(_ id: String, _ pw: String) -> Bool {
-        print("\(id), \(pw)")
-        print("checkUserInfo")
-        return false
+        UserDataManger.shared.checkUser(id, pw)
     }
     
     // 회원가입 버튼 누를 시(회원가입화면으로)

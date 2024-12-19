@@ -13,7 +13,6 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         applyAction()
         textFieldSetup()
@@ -96,7 +95,7 @@ extension SignUpViewController {
         // 저장된 데이터 보기
         readUserInfo()
         // 로그인 화면으로 이동
-        navigationController?.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
 
