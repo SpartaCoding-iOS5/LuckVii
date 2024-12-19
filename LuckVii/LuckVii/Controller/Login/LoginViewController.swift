@@ -96,6 +96,7 @@ extension LoginViewController {
             guard let id = emailInfo, let pw = pwInfo else { return }
             
             if checkUserInfo(id,pw) {
+                UserDefaultsManager.shared.setLoggedInStatus(true)
                 self.dismiss(animated: true)
             } else {
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."

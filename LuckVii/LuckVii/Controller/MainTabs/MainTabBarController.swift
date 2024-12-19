@@ -9,7 +9,8 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     private let loginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
-
+    private var isFirstLaunch: Bool = true
+    
     override func viewDidLoad() {
         view.backgroundColor = .white
         super.viewDidLoad()
@@ -19,7 +20,10 @@ class MainTabBarController: UITabBarController {
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        loginManager.ensurePresentLoginModal(viewController: self)
+        if isFirstLaunch {
+            loginManager.ensurePresentLoginModal(viewController: self)
+            isFirstLaunch = false
+        }
     }
 
     // MARK: - set up tab bar controller
