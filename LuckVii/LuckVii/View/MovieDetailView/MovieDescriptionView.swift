@@ -8,14 +8,14 @@
 import UIKit
 import SnapKit
 
-class MovieDescriptionView: UIScrollView {
+class MovieDescriptionView: UIView {
     let contentView = UIView()
     let buttonStackView = UIStackView() // 스택뷰
 
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 3
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 18)
         label.textColor = .black
         label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .justified
@@ -37,7 +37,6 @@ class MovieDescriptionView: UIScrollView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-
         showsVerticalScrollIndicator = false // 세로 스크롤 없애기
     }
     required init?(coder: NSCoder) {
