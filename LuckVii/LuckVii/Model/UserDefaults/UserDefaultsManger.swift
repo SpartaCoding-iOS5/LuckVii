@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class UserDefaultsManger {
-    static let shared: UserDefaultsManger = UserDefaultsManger(userDefaults: UserDefaults.standard)
+final class UserDefaultsManager {
+    static let shared: UserDefaultsManager = UserDefaultsManager(userDefaults: UserDefaults.standard)
     
     private init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults

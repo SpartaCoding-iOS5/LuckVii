@@ -8,6 +8,7 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
+    private let loginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
 
     override func viewDidLoad() {
         view.backgroundColor = .white
@@ -18,7 +19,7 @@ class MainTabBarController: UITabBarController {
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        LoginManager.shared.presentLoginModal(viewController: self)//루트뷰컨트롤러라 앱 실행 시 단 한 번만 실행 됨.
+        loginManager.ensurePresentLoginModal(viewController: self)
     }
 
     // MARK: - set up tab bar controller
