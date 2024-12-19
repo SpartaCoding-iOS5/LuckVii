@@ -9,14 +9,14 @@ import UIKit
 import SnapKit
 
 class LoginView: UIView {
-    
+
     // 로고 이미지
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "dice")
         return imageView
     }()
-    
+
     // 이메일 뷰(로고 + 텍스트필드)
     private let emailView: UIView = {
         let view = UIView()
@@ -25,7 +25,7 @@ class LoginView: UIView {
         view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
-    
+
     // 이메일 아이콘
     private let emailIconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -33,7 +33,7 @@ class LoginView: UIView {
         imageView.tintColor = .black
         return imageView
     }()
-    
+
     // 이메일 텍스트필드
     var emailTextField: UITextField = {
         let textField = UITextField()
@@ -44,7 +44,7 @@ class LoginView: UIView {
         textField.autocorrectionType = .no
         return textField
     }()
-    
+
     // 비밀번호 뷰(로고 + 텍스트필드)
     private let pwView: UIView = {
         let view = UIView()
@@ -53,7 +53,7 @@ class LoginView: UIView {
         view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
-    
+
     // 비밀번호 아이콘
     private let pwIconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -61,7 +61,7 @@ class LoginView: UIView {
         imageView.tintColor = .black
         return imageView
     }()
-    
+
     // 비밀번호 텍스트필드
     var pwTextField: UITextField = {
         let textField = UITextField()
@@ -71,7 +71,7 @@ class LoginView: UIView {
         textField.isSecureTextEntry = true
         return textField
     }()
-    
+
     // 로그인 시 상태 라벨
     var checkLoginInfo: UILabel = {
         let label = UILabel()
@@ -80,7 +80,7 @@ class LoginView: UIView {
         label.textAlignment = .right
         return label
     }()
-    
+
     // 로그인 버튼
     var loginButton: UIButton = {
         let button = UIButton()
@@ -91,7 +91,7 @@ class LoginView: UIView {
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         return button
     }()
-    
+
     // 아이디 찾기 버튼
     private let findIDButton: UIButton = {
         let button = UIButton()
@@ -100,7 +100,7 @@ class LoginView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: 14)
         return button
     }()
-    
+
     // 비밀번호 찾기 버튼
     private let findPWButton: UIButton = {
         let button = UIButton()
@@ -109,7 +109,7 @@ class LoginView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: 14)
         return button
     }()
-    
+
     // 회원가입 버튼
     var signUpButton: UIButton = {
         let button = UIButton()
@@ -118,7 +118,7 @@ class LoginView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: 14)
         return button
     }()
-    
+
     // 스택뷰(아이디 찾기 + 비밀번호 찾기 + 회원가입)
     private let horiziontalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -127,7 +127,7 @@ class LoginView: UIView {
         stackView.spacing = 12
         return stackView
     }()
-    
+
     // 비회원 버튼
     var noMemberButton: UIButton = {
         let button = UIButton()
@@ -141,42 +141,42 @@ class LoginView: UIView {
         button.layer.borderColor = UIColor.gray.cgColor
         return button
     }()
-    
+
     // MARK: - setting
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         backgroundColor = .white
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupUI() {
-        
+
         // MARK: - add view
-        
+
         // 이메일 뷰 추가
         [
             emailIconImageView,
             emailTextField
         ].forEach { emailView.addSubview($0) }
-        
+
         // 비밀번호 뷰 추가
         [
             pwIconImageView,
             pwTextField
         ].forEach { pwView.addSubview($0) }
-        
+
         // 아이디 찾기, 비밀번호 찾기, 회원가입 버튼 추가
         [
             findIDButton,
             findPWButton,
             signUpButton
         ].forEach { horiziontalStackView.addArrangedSubview($0) }
-        
+
         // 뷰에 추가
         [
             logoImageView,
@@ -187,9 +187,9 @@ class LoginView: UIView {
             horiziontalStackView,
             noMemberButton
         ].forEach { addSubview($0) }
-        
+
         // MARK: - layout
-        
+
         // 로고 이미지 Layout
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -197,63 +197,63 @@ class LoginView: UIView {
             make.width.equalTo(150)
             make.height.equalTo(139)
         }
-        
+
         // 이메일 뷰(아이콘 + 텍스트필드) Layout
         emailView.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
-        
+
         // 이메일 아이콘 Layout
         emailIconImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.width.equalTo(19)
             make.leading.equalToSuperview().offset(16)
         }
-        
+
         // 이메일 텍스트필드 Layout
         emailTextField.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(emailIconImageView.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(15)
         }
-        
+
         // 비밀번호 뷰(아이콘 + 텍스트필드) Layout
         pwView.snp.makeConstraints { make in
             make.top.equalTo(emailView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
-        
+
         // 비밀번호 아이콘 Layout
         pwIconImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.width.equalTo(19)
             make.leading.equalToSuperview().offset(16)
         }
-        
+
         // 비밀번호 텍스트필드 Layout
         pwTextField.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(emailIconImageView.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(15)
         }
-        
+
         // 로그인 시 상태 라벨 Layout
         checkLoginInfo.snp.makeConstraints { make in
             make.top.equalTo(pwView.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(40)
             make.height.equalTo(20)
         }
-        
+
         // 로그인 버튼 Layout
         loginButton.snp.makeConstraints { make in
             make.top.equalTo(checkLoginInfo.snp.bottom).offset(10) // 기존 27
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
-        
+
         // 스택뷰 Layout
         horiziontalStackView.snp.makeConstraints { make in
             make.top.equalTo(loginButton.snp.bottom).offset(16)
@@ -261,7 +261,7 @@ class LoginView: UIView {
             make.width.equalTo(261)
             make.height.equalTo(22)
         }
-        
+
         // 비회원 버튼 Layout
         noMemberButton.snp.makeConstraints { make in
             make.top.equalTo(horiziontalStackView.snp.bottom).offset(16)

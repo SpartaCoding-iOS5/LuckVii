@@ -9,7 +9,7 @@ enum AppError: Error {
     case networkError(NetworkError)
     case convertError(ConvertError)
     case dataError(DataError)
-    
+
     enum NetworkError: Error {
         case invalidURL
         case noData
@@ -17,18 +17,14 @@ enum AppError: Error {
         case networkError(String)
         case invalidResponse
     }
-    
+
     enum DataError: Error {
         case noIdData
         case noMovieData
     }
-    
+
     enum ConvertError: Error {
         case dateFormattingError
         case URLMakingError
     }
 }
-
-
-
-

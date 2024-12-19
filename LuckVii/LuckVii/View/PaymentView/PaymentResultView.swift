@@ -20,7 +20,6 @@ class PaymentResultView: UIView {
         return label
     }()
 
-
     // 당첨 금액 레이블
     private let amountLabel: UILabel = {
         let label = UILabel()
@@ -83,22 +82,22 @@ class PaymentResultView: UIView {
             gachaButton
         ].forEach { addSubview($0) }
 
-        congratsLabel.snp.makeConstraints{
+        congratsLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(height / 3)
             $0.leading.trailing.equalToSuperview().inset(32)
         }
 
-        amountLabel.snp.makeConstraints{
+        amountLabel.snp.makeConstraints {
             $0.top.equalTo(congratsLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(32)
         }
 
-        seatLabel.snp.makeConstraints{
+        seatLabel.snp.makeConstraints {
             $0.top.equalTo(amountLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(32)
         }
 
-        commentLabel.snp.makeConstraints{
+        commentLabel.snp.makeConstraints {
             $0.top.equalTo(seatLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(32)
         }

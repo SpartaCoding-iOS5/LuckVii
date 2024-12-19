@@ -20,7 +20,7 @@ import UIKit
  */
 class PaymentResultViewController: UIViewController {
     let paymentResultView = PaymentResultView()
-    
+
     var ticketNumber: Int = 0 // 티켓 번호
     var ticketCount: Int? // 티켓 갯수
 
@@ -69,12 +69,12 @@ class PaymentResultViewController: UIViewController {
         // 대문자 알파벳과 숫자 합쳐서 반환
         return "\(randomLetter)\(randomNumber)"
     }
-    
+
     // 당첨 금액 생성
     private func genratePrizeAmount() -> String {
         let randomValue = Int.random(in: 0..<100)
         let amount: Int
-        
+
         switch randomValue {
         case 0..<5:    // 5%
             amount = 5000
@@ -89,13 +89,13 @@ class PaymentResultViewController: UIViewController {
         default:
             amount = 0
         }
-        
+
         // NumberFormatter를 사용해 금액 포맷 적용
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal // 천 단위 구분 기호 추가
         return formatter.string(from: NSNumber(value: amount)) ?? "0"
     }
-    
+
     // '티켓 뽑기' 버튼 누를때마다 당첨금과 좌석 랜덤하게 변경
     private func doGatcha() {
         // 애니메이션 적용
@@ -115,7 +115,7 @@ class PaymentResultViewController: UIViewController {
 
             // 3. 뷰를 화면 오른쪽으로 이동
             self.paymentResultView.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
-            
+
             // 4. 뷰를 원래 위치로 애니메이션
             UIView.animate(withDuration: 0.3) {
                 self.paymentResultView.transform = .identity
@@ -131,8 +131,8 @@ class PaymentResultViewController: UIViewController {
             tabBarController?.tabBar.isHidden = false
         }
     }
-    
-    //결제 완료 시 알럿 await 사용을 비동기작업이지만 동기적으로 읽을 수 있게 처리
+
+    // 결제 완료 시 알럿 await 사용을 비동기작업이지만 동기적으로 읽을 수 있게 처리
     private func presentCompletePayAlert(on viewController: UIViewController) async {
         await withCheckedContinuation { continuation in
             let alert = UIAlertController(title: "결제 완료", message: "테스트\n\n\n\n\n\n\n\n\n\\n\n아", preferredStyle: .actionSheet)

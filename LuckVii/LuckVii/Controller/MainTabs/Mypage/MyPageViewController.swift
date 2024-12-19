@@ -9,12 +9,11 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-
 class MyPageViewController: UIViewController {
-    
+
     // MypageView Components 가져오기
     private let myPageView = MyPageView()
-    
+
     // 더미데이터
     private let dummyData: [MovieReservation] = [
         MovieReservation(
@@ -30,25 +29,25 @@ class MyPageViewController: UIViewController {
             theater: "강남 CGV 2관 8층 A12 1명",
             price: 15000,
             posterImage: nil
-        ),
+        )
         // 더 많은 더미데이터 추가 가능
     ]
-    
+
     override func loadView() {
         self.view = myPageView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupTableView()
     }
-    
+
     private func setupUI() {
         view.backgroundColor = .white
         navigationItem.title = "마이페이지"
     }
-    
+
     private func setupTableView() {
         myPageView.movieReservationTableView.delegate = self
         myPageView.movieReservationTableView.dataSource = self
@@ -61,12 +60,12 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dummyData.count
     }
-        
+
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieReservationCell.identifier, for: indexPath) as? MovieReservationCell else {
                 return UITableViewCell()
             }
-        
+
         let movieData = dummyData[indexPath.row]
         cell.configure(with: movieData)
         return cell

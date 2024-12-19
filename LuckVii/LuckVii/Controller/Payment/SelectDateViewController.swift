@@ -20,7 +20,7 @@ class SelectDateViewController: UIViewController {
         setupNavigationBar()
         setupAction()
     }
-    
+
     private func setupNavigationBar() {
         self.title = "상영 시간 선택"
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -40,7 +40,7 @@ class SelectDateViewController: UIViewController {
         [
             selectDateView
         ].forEach { view.addSubview($0) }
-        
+
         // 제약 조건
         selectDateView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -81,9 +81,9 @@ extension SelectDateViewController {
             paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: selectDateView.startTime[selectDateView.selectedItemOfIndex])
             self.navigationController?.pushViewController(paymentVC, animated: true)
         } catch AppError.dataError(.noMovieData) {
-            //TODO 에러처리
+            // TODO 에러처리
         } catch {
-            
+
         }
     }
 
@@ -105,7 +105,7 @@ extension SelectDateView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         startTime.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TimeCollectionViewCell else { return UICollectionViewCell() }
 
