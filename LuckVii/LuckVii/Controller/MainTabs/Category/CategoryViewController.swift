@@ -23,6 +23,7 @@ final class CategoryViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Movies"
+        
         insertMovieData()
         setupScrollView()
         setupStackView()
