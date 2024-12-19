@@ -11,6 +11,7 @@ extension NetworkManager {
     enum URLParameterSet {
         static let empty: URLParameters = [:]
         static let common: URLParameters = ["language": "ko-KR", "page": "1"]
+        static let secondPage: URLParameters = ["language": "ko-KR", "page": "2"]
         
         static func custom(parameters: URLParameters) -> URLParameters {
             return parameters
