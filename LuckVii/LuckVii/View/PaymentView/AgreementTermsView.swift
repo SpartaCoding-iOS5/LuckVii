@@ -139,10 +139,17 @@ class AgreementTermsView: UIView {
     // MARK: - 레이아웃 설정
 
     private func configureUI() {
+        setupBottomButtons()
+        addSubviews()
+        configureLayouts()
+    }
 
+    private func setupBottomButtons() {
         bottomButtonView.previousButton.setTitle("비동의", for: .normal)
         bottomButtonView.nextButton.setTitle("동의", for: .normal)
+    }
 
+    private func addSubviews() {
         [titleLable, scrollView, bottomButtonView].forEach {
             self.addSubview($0)
         }
@@ -150,7 +157,7 @@ class AgreementTermsView: UIView {
         let contentView = UIView()
         scrollView.addSubview(contentView)
 
-        // 뷰에 추가
+        // 뷰 추가
         [
             serviceTermsTitleLabel,
             serviceTermsScrollView,
@@ -160,13 +167,13 @@ class AgreementTermsView: UIView {
             contentView.addSubview($0)
         }
 
-        // 서비스 이용약관 ScrillView에 추가
+        // 약관 텍스트 추가
         serviceTermsScrollView.addSubview(serviceTermsTextLabel)
-
-        // 랜덤 티켓 약관 ScrollView에 추가
         randomTermsScrollView.addSubview(randomTermsTextLabel)
+    }
 
-        let safeArea = self.safeAreaLayoutGuide // safeArea 변수 생성
+    private func configureLayouts() {
+        let safeArea = self.safeAreaLayoutGuide
 
         titleLable.snp.makeConstraints {
             $0.top.equalTo(safeArea.snp.top).offset(30)
@@ -179,11 +186,21 @@ class AgreementTermsView: UIView {
             $0.bottom.equalTo(bottomButtonView.snp.top).offset(-10)
         }
 
+        setupContentViewLayout()
+        setupServiceTermsLayout()
+        setupRandomTermsLayout()
+        setupBottomButtonLayout(safeArea: safeArea)
+    }
+
+    private func setupContentViewLayout() {
+        let contentView = scrollView.subviews.first!
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
         }
+    }
 
+    private func setupServiceTermsLayout() {
         serviceTermsTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
@@ -200,7 +217,9 @@ class AgreementTermsView: UIView {
             $0.width.equalToSuperview().multipliedBy(0.95)
             $0.centerX.equalToSuperview()
         }
+    }
 
+    private func setupRandomTermsLayout() {
         randomTermsTitleLabel.snp.makeConstraints {
             $0.top.equalTo(serviceTermsScrollView.snp.bottom).offset(50)
             $0.leading.equalToSuperview().offset(20)
@@ -218,7 +237,9 @@ class AgreementTermsView: UIView {
             $0.width.equalToSuperview().multipliedBy(0.95)
             $0.centerX.equalToSuperview()
         }
+    }
 
+    private func setupBottomButtonLayout(safeArea: UILayoutGuide) {
         bottomButtonView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(15)
             $0.bottom.equalTo(safeArea.snp.bottom).inset(10)
