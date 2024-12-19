@@ -125,31 +125,25 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - 예고편 버튼 누를 때
     @objc private func playTrailer() {
-        guard let movieId = movie?.id else {
-            showAlert(message: "영화 ID가 유효하지 않습니다.")
-            return
-        }
-        
         Task {
             do {
+                guard let movieId: Int = movie?.id else { throw AppError.dataError(.noIdData) }
                 // 예고편 데이터 요청
                 let videoData: VideoData = try await NetworkManager.shared.fetchData(
                     endpoint: .video(id: movieId),
                     parameters: NetworkManager.URLParameterSet.common
                 )
+                // YouTube 영상 찾기
+                guard let video = videoData.results.first else { throw AppError.networkError(.noData) }//id에 맞는 videoData가 없다면 error
+                let url = try video.getVideoURL()//url 생성 시도
+                let safariVC = SFSafariViewController(url: url)// Safari로 예고편 재생
                 
-                do {// YouTube 영상 찾기
-                    guard let video = videoData.results.first else { throw AppError.networkError(.noData) }//id에 맞는 videoData가 없다면 error
-                    let url = try video.getVideoURL()//url 생성 시도
-                    let safariVC = SFSafariViewController(url: url)// Safari로 예고편 재생
-                    
-                    present(safariVC, animated: true)
-                } catch {
-                    showAlert(message: "예고편 URL을 가져올 수 없습니다.")
-                }
-                
+                present(safariVC, animated: true)
+            } catch AppError.dataError(.noIdData) {
+                showAlert(message: "영화 데이터가 유효하지 않습니다.")
+            } catch AppError.convertError(.URLMakingError){
+                showAlert(message: "예고편 URL을 가져올 수 없습니다.")
             } catch {
-                // 오류 처리
                 showAlert(message: "예고편을 로드하는 데 실패했습니다: \(error.localizedDescription)")
             }
         }
@@ -159,45 +153,31 @@ class MovieDetailViewController: UIViewController {
     private func fetchMovieDetails() {
         Task {
             do {
-                guard let movieId = movie?.id else {
-                    showAlert(message: "영화 ID가 유효하지 않습니다.")
-                    return
-                }
-
+                guard let movieId: Int = movie?.id else { throw AppError.dataError(.noIdData) }
                 // 영화 상세 정보 요청
                 let detailData: DetailData = try await NetworkManager.shared.fetchData(
                     endpoint: .detail(id: movieId),
                     parameters: NetworkManager.URLParameterSet.common
                 )
-
                 // 받은 데이터 처리
-                if let releaseDate = try detailData.getReleaseDate() {  // 옵셔널 값 안전하게 언래핑
-                    let runtime: Int = detailData.runtime
-                    let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
-
-                    // 날짜를 "yyyy.MM.dd" 형식으로 포맷팅
-                    let formattedReleaseDate = DateFormatter.shared.string(from: releaseDate)
-
-                    // 상영 시간
-                    let formattedString = "\(formattedReleaseDate) 개봉 | \(ageRating) | \(runtime)분"
-
-                    // 영화 정보 레이블 업데이트
-                    movieDetailView.movieInformationLabel.text = formattedString
-                } else {
-                    showAlert(message: "유효한 개봉일을 가져올 수 없습니다.")
-                }
-
-            } catch let error as DateError {
-                // 날짜 포맷 오류 처리
-                showAlert(message: "날짜 포맷이 잘못되었습니다.")
+                let releaseDate = detailData.releaseDate
+                let runtime: Int = detailData.runtime
+                let ageRating: String = detailData.adult ? "19 성인 관람가" : "전체 관람가"
+                
+                // 상영 시간
+                let formattedString = "\(releaseDate) 개봉 | \(ageRating) | \(runtime)분"
+                
+                // 영화 정보 레이블 업데이트
+                movieDetailView.movieInformationLabel.text = formattedString
+            } catch AppError.dataError(.noIdData) {
+                showAlert(message: "영화 데이터가 유효하지 않습니다.")
             } catch {
-                // 다른 오류 처리
-                showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")
+                showAlert(message: "영화 정보를 가져오는 데 실패했습니다: \(error.localizedDescription)")// 다른 오류 처리
             }
         }
     }
-
-
+    
+    
     // MARK: - 날짜 포맷터
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()

@@ -62,8 +62,11 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = 112
-        let height = 198
+        let itemsPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
+        let spcing: CGFloat = collectionView.frame.width * 0.03 // 셀 간 간격 (컬렉션 뷰 너비의 3%)
+        let totalSpacing = (itemsPerRow - 1) * spcing // 전체 간격 계산
+        let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 셀 너비 계산
+        let height = width * 1.77
         return CGSize(width: width, height: height)
     }
     

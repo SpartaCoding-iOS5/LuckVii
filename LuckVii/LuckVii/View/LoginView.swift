@@ -40,6 +40,8 @@ class LoginView: UIView {
         textField.placeholder = "Email을 입력해주세요."
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.spellCheckingType = .no
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -185,7 +187,7 @@ class LoginView: UIView {
             horiziontalStackView,
             noMemberButton
         ].forEach { addSubview($0) }
-
+        
         // MARK: - layout
         
         // 로고 이미지 Layout

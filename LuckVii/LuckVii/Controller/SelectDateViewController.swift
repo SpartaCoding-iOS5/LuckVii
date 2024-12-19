@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 class SelectDateViewController: UIViewController {
-
     var movie: MovieDataSource?
 
     private let selectDateView = SelectDateView()
@@ -72,30 +71,39 @@ extension SelectDateViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: selectDateView.datePicker.date)
 
-        guard let movie = movie else { return }
-        paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: "test")
-        self.navigationController?.pushViewController(paymentVC, animated: true)
+        do {
+            guard let movie = movie else { throw AppError.dataError(.noMovieData) }
+            paymentVC.setPaymentViewMovieData(movie: movie, date: dateString, time: "test")
+            self.navigationController?.pushViewController(paymentVC, animated: true)
+        } catch AppError.dataError(.noMovieData) {
+            //TODO 에러처리
+        } catch {
+            
+        }
     }
 }
 
-// MARK: - UIPickerView 설정
+// MARK: - SelecteDateView CollectionView 설정
 
-extension SelectDateView: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1 // 시간만 선택하기 때문에 1개의 컴포넌트임
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return buttonTitles.count // 버튼 타이틀 수만큼 행을 추가함
+extension SelectDateView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedItemOfIndex = indexPath.item
+        collectionView.reloadData()
     }
 }
 
-extension SelectDateView: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return buttonTitles[row] // 각 행에 시간 제목 표시함
+extension SelectDateView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        startTime.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedTime = buttonTitles[row] // 선택된 시간을 저장함
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TimeCollectionViewCell else { return UICollectionViewCell() }
+
+        // 현재 셀이 선택된 셀인지 확인
+        let isSelected = selectedItemOfIndex == indexPath.item ? true : false
+        cell.configureData(startTime: startTime[indexPath.item], endTime: endTime[indexPath.item], isSelected: isSelected)
+
+        return cell
     }
 }

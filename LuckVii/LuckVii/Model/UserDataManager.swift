@@ -66,6 +66,7 @@ class UserDataManger {
         return []
     }
     
+    // 등록된 이메일이 있는지 확인
     func checkEmail(_ inputEmail: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
         fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
@@ -79,6 +80,33 @@ class UserDataManger {
         }
     }
     
+    // 유저의 이메일 값으로 비밀번호 검색
+    func checkUser(_ inputEmail: String, _ inputPw: String) -> Bool {
+        let fetch = UserInfo.fetchRequest()
+        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        
+        do {
+            let matchingUsers = try context.fetch(fetch)
+            
+            // 이메일이 일치하는 유저가 존재하는지 확인
+            guard let user = matchingUsers.first else {
+                print("이메일을 찾을 수 없습니다.")
+                return false
+            }
+            
+            // 비밀번호가 일치하는지 확인
+            if user.password == inputPw {
+                print("이메일과 비밀번호가 일치합니다.")
+                return true
+            } else {
+                print("비밀번호가 일치하지 않습니다.")
+                return false
+            }
+        } catch {
+            print("유저 정보 조회 실패: \(error.localizedDescription)")
+            return false
+        }
+    }
     
     // 정보 전체 확인
     func getUserInfos() -> [UserInfoData] {
@@ -105,28 +133,9 @@ class UserDataManger {
                 context.delete(result)
             }
             try context.save()
+            print("데이터 삭제 성공")
         } catch {
-            print("실패")
+            print("데이터 삭제 실패")
         }
-        
-        
-        //    // Delete 메서드
-        //    func deleteData(name: String?) {
-        //        guard let name = name else { return }
-        //        let fetchRequset = PhoneBook.fetchRequest()
-        //        fetchRequset.predicate = NSPredicate(format: "name == %@", name)
-        //
-        //        do {
-        //            let result = try context.fetch(fetchRequset)
-        //
-        //            for data in result {
-        //                self.context.delete(data)
-        //            }
-        //            try context.save()
-        //            print("데이터 삭제 성공")
-        //        } catch {
-        //            print("데이터 삭제 실패")
-        //        }
-        //    }
     }
 }
