@@ -146,16 +146,18 @@ class PaymentView: UIView {
     }()
 
     private let ticketCountPlusButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didTapCountButton), for: .touchUpInside)
         button.titleLabel?.font = .boldSystemFont(ofSize: 15)
         return button
     }()
 
     private let ticketCountMinusButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("-", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didTapCountButton), for: .touchUpInside)
         button.titleLabel?.font = .boldSystemFont(ofSize: 15)
         return button
