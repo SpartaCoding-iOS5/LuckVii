@@ -64,8 +64,13 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     // 셀 속성 설정
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchViewCell", for: indexPath) as! SearchViewCell
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(// 강제 타입 캐스팅에서 빈 셀 반환으로 변경
+            withReuseIdentifier: "SearchViewCell",
+            for: indexPath) as? SearchViewCell else { return UICollectionViewCell() }
 
         let movieData = searchMovies[indexPath.row]
 
@@ -76,7 +81,11 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     // 셀 크기 설정
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let itemsPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
         let spcing: CGFloat = collectionView.frame.width * 0.03 // 셀 간 간격 (컬렉션 뷰 너비의 3%)
         let totalSpacing = (itemsPerRow - 1) * spcing // 전체 간격 계산
@@ -96,7 +105,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     // 행간 간격 설정
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return collectionView.frame.width * 0.08 // 컬렉션 뷰 너비의 8%로 설정
     }
 }
@@ -128,7 +140,10 @@ extension SearchViewController: textFieldDelegate {
     // Segmented Control 선택 메서드
     func didChangeSegment(index: Int) {
         selectedCategory = (index == 0) ? .nowPlaying : .upcoming
-        selectedParameter = (index == 0) ? NetworkManager.URLParameterSet.common : NetworkManager.URLParameterSet.secondPage
+        
+        selectedParameter = (index == 0)
+        ? NetworkManager.URLParameterSet.common
+        : NetworkManager.URLParameterSet.secondPage
 
         fetchMovieData(selectedCategory, parameter: selectedParameter)
     }

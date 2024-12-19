@@ -8,7 +8,10 @@
 import UIKit
 
 extension CategoryViewController {
-    private func fetchMovieData(endPoint: NetworkManager.URLEndpointSet, parameter: URLParameters) async -> [MovieDataSource] {
+    private func fetchMovieData(
+        endPoint: NetworkManager.URLEndpointSet,
+        parameter: URLParameters
+    ) async -> [MovieDataSource] {
         var movieDataSources = [MovieDataSource]()    // 임시로 데이터를 저장할 배열
         do {
             // 1. MovieDataManager를 호출해 서버에서 영화 데이터 가져오기
@@ -55,7 +58,10 @@ extension CategoryViewController {
 // MARK: - 컬렉션뷰 데이터 소스 및 델리게이트
 
 extension CategoryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         switch collectionView {
         case upcomingCollectionView:
             return upcomingMovies.count
@@ -68,7 +74,10 @@ extension CategoryViewController: UICollectionViewDataSource {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MoviePosterCell.identifier,
             for: indexPath
