@@ -12,9 +12,17 @@ class LoginViewController: UIViewController {
     
     private let loginView = LoginView()
     
+    // 다시 로그인 화면으로 왔을 시 초기화
+    override func viewWillAppear(_ animated: Bool) {
+        setupUI()
+        
+        loginView.emailTextField.text = ""
+        loginView.pwTextField.text = ""
+        loginView.checkLoginInfo.text = ""
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupAction()
         textFieldSetup()
@@ -37,24 +45,33 @@ class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - action Part
+// MARK: - Connect Button Part
 
 extension LoginViewController {
     
     // 버튼 동작 연결 및 동작 설정
     private func setupAction() {
+        
+        // 로그인 버튼 연결
         loginView.loginButton.addAction(UIAction { [weak self] _ in
             self?.tappedLoginButton()
         }, for: .touchUpInside)
         
+        // 회원가입 버튼 연결
         loginView.signUpButton.addAction(UIAction { [weak self] _ in
             self?.tappedSignUpButton()
         }, for: .touchUpInside)
         
+        // 비회원 버튼 연결
         loginView.noMemberButton.addAction(UIAction{ [weak self] _ in
             self?.tappedNoMemberButton()
         }, for: .touchUpInside)
     }
+}
+
+// MARK: - Button Action Part
+
+extension LoginViewController {
     
     // 로그인 버튼 누를 시
     private func tappedLoginButton() {
@@ -76,10 +93,9 @@ extension LoginViewController {
         if emailInfo != "" && pwInfo != "" {
             guard let id = emailInfo, let pw = pwInfo else { return }
             if checkUserInfo(id,pw) {
-                loginView.checkLoginInfo.text = "login Success"
-                print("moveToSerchViewController")
+                let searchViewVC = SearchViewController()
+                navigationController?.pushViewController(searchViewVC, animated: true)
             } else {
-                print("로그인 실패")
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."
                 loginView.pwTextField.text = ""
             }
@@ -87,25 +103,24 @@ extension LoginViewController {
     }
     
     // 유저 정보를 확인하는 메서드
-    // 추후 코어데이터와 연결 예정
     private func checkUserInfo(_ id: String, _ pw: String) -> Bool {
-        print("\(id), \(pw)")
-        print("checkUserInfo")
-        return false
+        UserDataManger.shared.checkUser(id, pw)
     }
     
     // 회원가입 버튼 누를 시(회원가입화면으로)
     private func tappedSignUpButton() {
-        print("moveToSignUpViewController")
+        let signUpVC = SignUpViewController()
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     // 비회원 버튼 누를 시(메인화면으로)
     private func tappedNoMemberButton() {
-        print("moveToMainViewController")
+        let searchViewVC = SearchViewController()
+        navigationController?.pushViewController(searchViewVC, animated: true)
     }
 }
 
-// MARK: - textField Part
+// MARK: - TextField Part
 
 extension LoginViewController: UITextFieldDelegate {
     
