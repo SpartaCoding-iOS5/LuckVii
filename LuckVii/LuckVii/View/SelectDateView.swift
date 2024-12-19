@@ -46,7 +46,7 @@ class SelectDateView: UIView {
     private let timeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
-        layout.itemSize = .init(width: 80, height: 80)
+        layout.itemSize = .init(width: 70, height: 70)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TimeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
@@ -81,21 +81,23 @@ class SelectDateView: UIView {
             bottomButtonView
         ].forEach { addSubview($0) }
 
+        let safeArea = self.safeAreaLayoutGuide
+
         // 제약 조건
         datePicker.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalTo(safeArea.snp.top).offset(10)
             $0.centerX.equalToSuperview()
         }
 
         timeCollectionView.snp.makeConstraints {
-            $0.top.equalTo(datePicker.snp.bottom).offset(50)
+            $0.top.equalTo(datePicker.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(180)
         }
 
         bottomButtonView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(15)
-            $0.bottom.equalToSuperview().inset(50)
+            $0.bottom.equalTo(safeArea.snp.bottom).inset(10)
             $0.height.equalTo(50)
         }
     }
