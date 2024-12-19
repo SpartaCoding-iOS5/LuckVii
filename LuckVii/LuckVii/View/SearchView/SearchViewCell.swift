@@ -13,7 +13,7 @@ class SearchViewCell: UICollectionViewCell {
     // 영화포스터 이미지 뷰
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -22,9 +22,8 @@ class SearchViewCell: UICollectionViewCell {
     private let movieNameLabel: UILabel = {
         let label = UILabel()
         label.text = "영화 이름"
-        label.font = .systemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 14,weight: .bold)
         label.textColor = .label
-        label.backgroundColor = .systemBackground
         return label
     }()
     
@@ -50,15 +49,14 @@ class SearchViewCell: UICollectionViewCell {
         movieImageView.snp.makeConstraints{
             $0.top.equalTo(contentView.snp.top)
             $0.leading.trailing.equalTo(contentView)
-            $0.width.equalTo(112)
-            $0.height.equalTo(163)
+            $0.width.equalTo(contentView.snp.width)
+            $0.height.equalTo(contentView.snp.width).multipliedBy(1.5)
         }
         
         // 영화 이름 레이아웃
         movieNameLabel.snp.makeConstraints{
-            $0.top.equalTo(movieImageView.snp.bottom).offset(12)
+            $0.top.equalTo(movieImageView.snp.bottom).offset(4)
             $0.leading.trailing.equalTo(contentView)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-1)
         }
     }
     

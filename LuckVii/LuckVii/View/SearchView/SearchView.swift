@@ -44,7 +44,7 @@ class SearchView: UIView {
         layout.scrollDirection = .vertical // 세로 스크롤
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false // 스크롤바 숨김
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         view.register(SearchViewCell.self, forCellWithReuseIdentifier: "SearchViewCell") // 셀 등록
         return view
     }()

@@ -22,7 +22,7 @@ final class MoviePosterCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14,weight: .bold)
         label.textColor = .black
-        label.textAlignment = .center
+//        label.textAlignment = .center
         label.numberOfLines = 2
         
         return label
@@ -49,11 +49,12 @@ final class MoviePosterCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 140), // 이미지 높이
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            imageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.5), // 이미지 높이
 
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
