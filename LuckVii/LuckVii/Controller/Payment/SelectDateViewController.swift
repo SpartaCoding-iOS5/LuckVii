@@ -22,8 +22,16 @@ class SelectDateViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.title = "날짜/시간 선택"
+        self.title = "상영 시간 선택"
         navigationController?.navigationBar.shadowImage = UIImage()
+        let backButtonImage = UIImage(systemName: "arrow.left")
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(tappedPreviousButtion)
+        )
     }
 
     // MARK: - 레이아웃 설정
@@ -79,7 +87,7 @@ extension SelectDateViewController {
         }
     }
 
-    func tappedPreviousButtion() {
+    @objc func tappedPreviousButtion() {
         self.navigationController?.popViewController(animated: true)
     }
 }
