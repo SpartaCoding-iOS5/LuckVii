@@ -18,9 +18,12 @@ class SelectDateView: UIView {
     // 달력 뷰
     var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
+        var components = DateComponents()
+        components.day = 14
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date() // 최소 날짜는 오늘로 설정
+        picker.maximumDate = Calendar.autoupdatingCurrent.date(byAdding: components, to: Date()) // 최대 선택 날짜는 + 14일
         picker.date = Date() // 최초 선택 날짜 오늘로 설정
         picker.tintColor = .systemGreen
         picker.locale = Locale(identifier: "ko_KR")
@@ -40,7 +43,6 @@ class SelectDateView: UIView {
 
     private let timeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        //layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
         layout.itemSize = .init(width: 80, height: 80)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -73,7 +75,6 @@ class SelectDateView: UIView {
     private func setupUI() {
         [
             datePicker,
-            //timePicker,
             timeCollectionView,
             nextButton
         ].forEach { addSubview($0) }
