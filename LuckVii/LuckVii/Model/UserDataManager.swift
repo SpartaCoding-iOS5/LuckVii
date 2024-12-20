@@ -144,24 +144,17 @@ class UserDataManger {
 
 extension UserDataManger {
     func saveReservation(_ reservation: ReservationInfoData) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "ReservationInfo", in: context) else { return }
+//        guard let entity = NSEntityDescription.entity(forEntityName: "ReservationInfo", in: context) else { return }
         
-        let reservationInfo = NSManagedObject(entity: entity, insertInto: context)
+        let reservationInfo = ReservationInfo(context: context)
         reservationInfo.setValue(reservation.title, forKey: "title")
         reservationInfo.setValue(reservation.dateTime, forKey: "dateTime")
         reservationInfo.setValue(reservation.theater, forKey: "theater")
         // posterImage Data 변환 수정
         reservationInfo.setValue(reservation.posterImage?.pngData(), forKey: "posterImage")
         reservationInfo.setValue(reservation.ticketCount, forKey: "ticketCount")
-        
-        // tickets 저장 수정
-        for ticket in reservation.tickets {
-            guard let ticketEntity = NSEntityDescription.entity(forEntityName: "TicketInfo", in: context) else { continue }
-            let ticketInfo = NSManagedObject(entity: ticketEntity, insertInto: context)
-            ticketInfo.setValue(ticket.seatNumber, forKey: "seatNumber")
-            ticketInfo.setValue(ticket.price, forKey: "price")
-        }
-        
+        reservationInfo.price = Int32(reservation.price)//forKey에 String을 넣거나 Key를 정의할 필요 없어짐! 다음 사용에 참고하시면 좋아요
+        reservationInfo.seatNumber = reservation.seatNumber
         saveContext()
     }
         
@@ -173,24 +166,14 @@ extension UserDataManger {
         do {
             let result = try context.fetch(fetchRequest)
             return result.map { reservation in
-                
-                let ticketsSet = reservation.tickets as? NSSet
-                let tickets = ticketsSet?.allObjects as? [TicketInfo]
-                
-                let ticketInfos = tickets?.map {
-                    TicketInfoData(
-                        seatNumber: $0.seatNumber ?? "",
-                        price: Int($0.price)
-                    )
-                } ?? []
-                
                 return ReservationInfoData(
                     title: reservation.title ?? "",
                     dateTime: reservation.dateTime ?? "",
                     theater: reservation.theater ?? "",
-                    posterImage: (reservation.posterImage as? Data)?.toImage(),
+                    posterImage: reservation.posterImage?.toImage() ?? UIImage(systemName: "x.circle"),
                     ticketCount: Int(reservation.ticketCount),
-                    tickets: ticketInfos
+                    price: Int(reservation.price),
+                    seatNumber: reservation.seatNumber ?? ""
                 )
             }
         } catch {

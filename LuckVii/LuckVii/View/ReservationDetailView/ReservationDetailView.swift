@@ -283,14 +283,8 @@ class ReservationDetailView: UIView {
         titleLabel.text = reservation.title
         dateTimeLabel.text = reservation.dateTime
         theaterLabel.text = reservation.theater
-        
-        let totalPrice = reservation.tickets.reduce(0) { $0 + $1.price }
-        print(totalPrice)
-        priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: totalPrice), number: .decimal))원"
-        
-        let seatNumbers = reservation.tickets.map { $0.seatNumber }.joined(separator: ", ")
-        seatLabel.text = seatNumbers
-        
+        priceLabel.text = "\(NumberFormatter.localizedString(from: NSNumber(value: reservation.price), number: .decimal))원"
+        seatLabel.text = reservation.seatNumber
         personCount.text = "\(reservation.ticketCount)명"
         
         if let posterImage = reservation.posterImage {

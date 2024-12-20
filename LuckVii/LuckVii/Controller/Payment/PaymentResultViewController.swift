@@ -19,22 +19,23 @@ import UIKit
  5,000원 5%
  */
 class PaymentResultViewController: UIViewController {
-    
-    // 티켓 정보를 담을 배열
-    private var tickets: [TicketInfoData] = []
-    
-    let paymentResultView = PaymentResultView()
-
+    private let paymentResultView = PaymentResultView()
+    private var totalPrice: Int = 0
+    private var totalSeatNumber: String = ""
     var ticketNumber: Int = 0 // 티켓 번호
     var ticketCount: Int? // 티켓 갯수
     
     // 영화 정보를 저장할 프로퍼티 생성
-    private var movieTitle: String = ""
-    private var movieDate: String = ""
-    private var movieTime: String = ""
-    private var movieTheater: String = ""
-    private var posterImage: UIImage?
-
+    private var reservationInfo: ReservationInfoData = ReservationInfoData(
+        title: "",
+        dateTime: "",
+        theater: "",
+        posterImage: nil,
+        ticketCount: 0,
+        price: 0,
+        seatNumber: ""
+    )
+    
     override func loadView() {
         self.view = paymentResultView
         doGatcha()
@@ -82,7 +83,7 @@ class PaymentResultViewController: UIViewController {
     }
 
     // 당첨 금액 생성
-    private func genratePrizeAmount() -> (string: String, value: Int) {
+    private func genratepriceAmount() -> (string: String, value: Int) {
         let randomValue = Int.random(in: 0..<100)
         let amount: Int
 
@@ -120,23 +121,18 @@ class PaymentResultViewController: UIViewController {
             guard let self = self else { return }
             // 2. 새로운 값 설정
             let seat = self.generateSeatCode()
-            let prizeResult = self.genratePrizeAmount()
-            let prize = prizeResult.string
-            let prizeValue = prizeResult.value
+            let priceResult = self.genratepriceAmount()
+            let price = priceResult.string
+            let priceValue = priceResult.value
             self.ticketNumber += 1
             let isLastChance = ticketCount == ticketNumber // 마지막 기회인지 확인
             
-            // 티켓 정보 저장
-            let ticketInfo = TicketInfoData(
-                seatNumber: seat,
-                price: prizeValue
-            )
+            totalPrice += priceValue
+            totalSeatNumber += seat
+            print(seat)
+            print(totalSeatNumber)
             
-            self.tickets.append(ticketInfo)
-
-            self.paymentResultView.setUI(self.ticketNumber, prize, seat, isLastChance)
-            
-            print("Tickets:", tickets) // 로그로 좌석 번호와 가격 확인
+            self.paymentResultView.setUI(self.ticketNumber, price, seat, isLastChance)
 
             // 3. 뷰를 화면 오른쪽으로 이동
             self.paymentResultView.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
@@ -150,16 +146,7 @@ class PaymentResultViewController: UIViewController {
 
     // 티켓 뽑기 종료
     private func complete() {
-        // 예매 정보 생성 및 저장
-        let reservationInfo = ReservationInfoData(
-            title: movieTitle,
-            dateTime: "\(movieDate) \(movieTime)",
-            theater: movieTheater,
-            posterImage: posterImage,
-            ticketCount: tickets.count,
-            tickets: tickets
-        )
-      
+        reservationInfo = reservationInfo.setPriceAndSeat(totalPrice, seatNumber: totalSeatNumber)
         print("Reservation Info:", reservationInfo) // 전달할 데이터 확인
         UserDataManger.shared.saveReservation(reservationInfo)
       
@@ -173,7 +160,16 @@ class PaymentResultViewController: UIViewController {
     // 결제 완료 시 알럿 await 사용을 비동기작업이지만 동기적으로 읽을 수 있게 처리
     private func presentCompletePayAlert(on viewController: UIViewController) async {
         await withCheckedContinuation { continuation in
-            let alert = UIAlertController(title: "결제 완료", message: "테스트\n\n\n\n\n\n\n\n\n\\n\n아", preferredStyle: .actionSheet)
+            let alert = UIAlertController(
+                title: "결제 완료",
+                message: """
+
+결제 일자: \(reservationInfo.dateTime)
+결제 금액: \(reservationInfo.price)원
+좌석 정보: \(reservationInfo.seatNumber)
+
+""",
+                preferredStyle: .actionSheet)
             let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
                 continuation.resume()
             }
@@ -190,10 +186,14 @@ extension PaymentResultViewController {
     // 데이터 전달 받는 메서드
     func configureData(data: Int, movie: Movie, date: String, time: String, theater: String, poster: UIImage?) {
         ticketCount = data
-        movieTitle = movie.title
-        movieDate = date
-        movieTime = time
-        movieTheater = theater
-        posterImage = poster
+        reservationInfo = ReservationInfoData(
+            title: movie.title,
+            dateTime: date,
+            theater: theater,
+            posterImage: poster,
+            ticketCount: data,
+            price: 0,
+            seatNumber: ""
+        )
     }
 }
