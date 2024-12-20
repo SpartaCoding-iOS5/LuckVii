@@ -125,7 +125,7 @@ final class UserDataManger {
     // 유저의 이메일 값으로 비밀번호 검색
     func checkNick(_ inputEmail: String, _ inputPw: String) -> String? {
         let fetch = UserInfo.fetchRequest()
-        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        fetch.predicate = NSPredicate(format: "id == %@", inputEmail)
 
         do {
             let matchingUsers = try context.fetch(fetch)
