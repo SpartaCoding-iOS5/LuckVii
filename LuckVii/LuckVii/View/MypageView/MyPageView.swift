@@ -281,6 +281,8 @@ extension MyPageView {
 
     func setupLogoutUI() {
         nameLabel.text = "로그인을 해주세요"
+        movieRvCountLabel.text = "0"
+        gradeDetailLabel.text = "0"
         loginButton.setTitle("로그인", for: .normal)
     }
 }
