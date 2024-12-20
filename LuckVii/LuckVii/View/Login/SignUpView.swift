@@ -73,10 +73,10 @@ final class SignUpView: UIView {
     var duplicateCheckButton: UIButton = {
         let button = UIButton()
         button.setTitle("중복확인", for: .normal)
-        button.setTitleColor(.green, for: .normal)
+        button.setTitleColor(.systemGreen, for: .normal)
         button.layer.cornerRadius = 14
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.green.cgColor
+        button.layer.borderColor = UIColor.systemGreen.cgColor
         return button
     }()
 

@@ -18,6 +18,8 @@ final class MyPageViewController: UIViewController {
 
     private var isLoggedin = false
 
+    private var ticketCount = 0
+
     private var reservations: [ReservationInfoData] = []
 
     override func loadView() {
@@ -59,8 +61,10 @@ final class MyPageViewController: UIViewController {
             UserDefaultsManager.shared.setLoggedInStatus(false)
             isLoggedin = false
             myPageView.setupLogoutUI()
+            loadReserVations()
         } else {
             loginManager.ensurePresentLoginModal(viewController: self)
+            loadReserVations()
         }
     }
 
@@ -72,19 +76,28 @@ final class MyPageViewController: UIViewController {
             let userPW = UserDefaultsManager.shared.getUserPw()
             let userNick = UserDataManger.shared.checkNick(userID, userPW)
             print(userID, userPW, isLoggedin)
-            myPageView.setupLoginUI(userNick!)
+            myPageView.setupLoginUI(userNick!, ticketCount)
         } else {
             myPageView.setupLogoutUI()
+            myPageView.movieReservationTableView.reloadData()
         }
     }
 
     private func loadReserVations() {
         // CoreData 예매 정보 가져옴
         let id = UserDefaultsManager.shared.getUserId()
-        guard let user = UserDataManger.shared.fetchUserById(id) else { return }
-        reservations = UserDataManger.shared.fetchReservations(for: user)
+
+        if isLoggedin {
+            guard let user = UserDataManger.shared.fetchUserById(id) else { return }
+            reservations = UserDataManger.shared.fetchReservations(for: user)
+            self.ticketCount = reservations.count
+        } else {
+            reservations = []
+            ticketCount = 0
+        }
         myPageView.updateTableViewHeight(numberOfRows: reservations.count)
         myPageView.movieReservationTableView.reloadData()
+        myPageView.setupTicketCount(ticketCount)
     }
 
 }
@@ -110,7 +123,6 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             price: reservation.price,
             seatNumber: reservation.seatNumber
         )
-        print(movieData)
        
         cell.configure(with: movieData)
         return cell
@@ -123,5 +135,13 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         let detailVC = ReservationDetailViewController()
         detailVC.configure(with: reservation)
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
+
+extension MyPageViewController: LoginViewControllerDelegate {
+    func updateUserData(_ viewController: LoginViewController, nickName: String) {
+        isLoggedin = true
+        loadReserVations()
+        myPageView.setupLoginUI(nickName, ticketCount)
     }
 }

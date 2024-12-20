@@ -28,6 +28,11 @@ final class LoginManager {
 
     private func presentLoginModal(viewController: UIViewController) {
         let modalLoginVC: LoginViewController = LoginViewController()
+
+        if let vc = viewController as? MyPageViewController {
+            modalLoginVC.delegate = viewController as! any LoginViewControllerDelegate
+        }
+
         viewController.present(modalLoginVC, animated: true, completion: nil)
     }
 }

@@ -66,7 +66,6 @@ class PaymentResultViewController: UIViewController {
 
     private func didTappedButton() {
         guard let ticketCount = ticketCount else { return }
-        print(ticketCount, ticketNumber)
         if ticketNumber < ticketCount {
             doGatcha()
         } else {
@@ -131,8 +130,6 @@ class PaymentResultViewController: UIViewController {
             
             totalPrice += priceValue
             totalSeatNumber += seat
-            print(seat)
-            print(totalSeatNumber)
             
             self.paymentResultView.setUI(self.ticketNumber, price, seat, isLastChance)
 

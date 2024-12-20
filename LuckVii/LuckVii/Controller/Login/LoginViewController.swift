@@ -8,9 +8,16 @@
 import UIKit
 import SnapKit
 
+// LoginViewController Delegate 프로토콜
+protocol LoginViewControllerDelegate: AnyObject {
+    func updateUserData(_ viewController: LoginViewController, nickName: String)
+}
+
 final class LoginViewController: UIViewController {
 
     private let loginView = LoginView()
+
+    weak var delegate: LoginViewControllerDelegate?
 
     // 다시 로그인 화면으로 왔을 시 초기화
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +52,7 @@ final class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - Connect Button Part
+//** **MARK: - Connect Button Part**
 
 extension LoginViewController {
 
@@ -69,7 +76,7 @@ extension LoginViewController {
     }
 }
 
-// MARK: - Button Action Part
+//** **MARK: - Button Action Part**
 
 extension LoginViewController {
 
@@ -99,6 +106,10 @@ extension LoginViewController {
                 UserDefaultsManager.shared.setLoggedInStatus(true)
                 UserDefaultsManager.shared.setUserId(id)
                 UserDefaultsManager.shared.setUserPw(password)
+                if let nick = UserDataManger.shared.checkNick(id, password) {
+                    self.delegate?.updateUserData(self, nickName: nick)
+
+                }
                 self.dismiss(animated: true)
             } else {
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."
@@ -125,7 +136,7 @@ extension LoginViewController {
     }
 }
 
-// MARK: - TextField Part
+//** **MARK: - TextField Part**
 
 extension LoginViewController: UITextFieldDelegate {
 
