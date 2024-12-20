@@ -83,7 +83,7 @@ final class MyPageView: UIView {
     /// 영화 예매수 갯수 라벨 - (4), 6
     private let movieRvCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "1"
+        label.text = "0"
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
@@ -99,7 +99,7 @@ final class MyPageView: UIView {
     /// 유저 등급 라벨 - (5), 6
     private let gradeDetailLabel: UILabel = {
         let label = UILabel()
-        label.text = "VIP"
+        label.text = "SILVER"
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
@@ -282,7 +282,7 @@ extension MyPageView {
     func setupLogoutUI() {
         nameLabel.text = "로그인을 해주세요"
         movieRvCountLabel.text = "0"
-        gradeDetailLabel.text = "0"
+        gradeDetailLabel.text = "SILVER"
         loginButton.setTitle("로그인", for: .normal)
     }
 }
