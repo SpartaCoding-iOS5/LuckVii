@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MovieDescriptionView: UIView {
+final class MovieDescriptionView: UIView {
     let contentView = UIView()
     let buttonStackView = UIStackView() // 스택뷰
 

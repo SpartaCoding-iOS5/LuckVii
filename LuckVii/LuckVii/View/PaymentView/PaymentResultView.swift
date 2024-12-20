@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PaymentResultView: UIView {
+final class PaymentResultView: UIView {
     private let height =  UIScreen.main.bounds.height // 뷰의 세로 길이, 16pro 기준 874.0
 
     // 당첨 금액 레이블

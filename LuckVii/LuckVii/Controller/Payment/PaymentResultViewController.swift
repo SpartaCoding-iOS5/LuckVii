@@ -18,10 +18,12 @@ import UIKit
  10,000원 10%
  5,000원 5%
  */
+
 class PaymentResultViewController: UIViewController {
     private let paymentResultView = PaymentResultView()
     private var totalPrice: Int = 0
     private var totalSeatNumber: String = ""
+
     var ticketNumber: Int = 0 // 티켓 번호
     var ticketCount: Int? // 티켓 갯수
     

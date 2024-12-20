@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PaymentView: UIView {
+final class PaymentView: UIView {
 
     var ticketCount = 1 // 티켓 갯수를 저장할 변수
 

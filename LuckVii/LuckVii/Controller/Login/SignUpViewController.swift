@@ -7,7 +7,7 @@
 import UIKit
 import SnapKit
 
-class SignUpViewController: UIViewController {
+final class SignUpViewController: UIViewController {
 
     private let signUpView = SignUpView()
 

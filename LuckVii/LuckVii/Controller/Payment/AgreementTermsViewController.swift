@@ -13,7 +13,7 @@ protocol AgreementTermsViewControllerDelegate: AnyObject {
     func updateButtonToggle(_ viewController: AgreementTermsViewController, isAgreed: Bool)
 }
 
-class AgreementTermsViewController: UIViewController {
+final class AgreementTermsViewController: UIViewController {
 
     let agreementTermsView = AgreementTermsView()
 

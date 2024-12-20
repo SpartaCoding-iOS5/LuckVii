@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-class MyPageViewController: UIViewController {
+final class MyPageViewController: UIViewController {
 
     // MypageView Components 가져오기
     private let myPageView = MyPageView()

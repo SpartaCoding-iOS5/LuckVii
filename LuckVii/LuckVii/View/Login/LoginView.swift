@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginView: UIView {
+final class LoginView: UIView {
 
     // 로고 이미지
     private let logoImageView: UIImageView = {

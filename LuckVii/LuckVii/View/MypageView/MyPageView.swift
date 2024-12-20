@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MyPageView: UIView {
+final class MyPageView: UIView {
 
     // MARK: - ScrollView
     /// 스크롤 뷰 (테이블이 셀이 넘었을 때)
