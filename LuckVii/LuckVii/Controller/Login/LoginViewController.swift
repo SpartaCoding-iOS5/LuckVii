@@ -16,8 +16,8 @@ final class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupUI()
 
-        loginView.emailTextField.text = ""
-        loginView.pwTextField.text = ""
+        loginView.emailTextField.text = UserDefaultsManager.shared.getUserId()
+        loginView.pwTextField.text = UserDefaultsManager.shared.getUserPw()
         loginView.checkLoginInfo.text = ""
     }
 
@@ -96,7 +96,9 @@ extension LoginViewController {
             guard let id = emailInfo, let password = pwInfo else { return }
 
             if checkUserInfo(id, password) {
-                UserDefaultsManager.shared.setLoggedInStatus(true)
+//                UserDefaultsManager.shared.setLoggedInStatus(true)
+                UserDefaultsManager.shared.setUserId(id)
+                UserDefaultsManager.shared.setUserPw(password)
                 self.dismiss(animated: true)
             } else {
                 loginView.checkLoginInfo.text = "비밀번호가 올바르지 않습니다."
