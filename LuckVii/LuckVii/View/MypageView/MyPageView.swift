@@ -42,20 +42,6 @@ final class MyPageView: UIView {
         return button
     }()
 
-//    /// 프로필 이미지 뷰 - 2
-//    private let profileImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.contentMode = .scaleAspectFill
-//        imageView.layer.cornerRadius = 40.5
-//        imageView.layer.borderWidth = 1
-//        imageView.layer.borderColor = UIColor.lightGray.cgColor
-//        imageView.clipsToBounds = true
-//        imageView.snp.makeConstraints {
-//            $0.width.height.equalTo(81)
-//        }
-//        return imageView
-//    }()
-
     /// 쿠폰함 라벨 - (3), 6
     private let couponLabel: UILabel = {
         let label = UILabel()
@@ -273,9 +259,9 @@ final class MyPageView: UIView {
 
 extension MyPageView {
 
-    func setupLoginUI(_ nickName: String) {
-        print(nickName)
+    func setupLoginUI(_ nickName: String, _ count: Int) {
         nameLabel.text = nickName
+        movieRvCountLabel.text = "\(count)"
         loginButton.setTitle("로그아웃", for: .normal)
     }
 
@@ -284,5 +270,9 @@ extension MyPageView {
         movieRvCountLabel.text = "0"
         gradeDetailLabel.text = "SILVER"
         loginButton.setTitle("로그인", for: .normal)
+    }
+
+    func setupTicketCount(_ count: Int) {
+        movieRvCountLabel.text = "\(count)"
     }
 }
