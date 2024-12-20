@@ -66,11 +66,24 @@ final class UserDataManger {
         }
         return []
     }
+    
+    func fetchUserById(_ id: String) -> UserInfo? {
+        let request = UserInfo.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id)
+        request.fetchLimit = 1
+        
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("failed to user fetch")
+            return nil
+        }
+    }
 
     // 등록된 이메일이 있는지 확인
     func checkEmail(_ inputEmail: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
-        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        fetch.predicate = NSPredicate(format: "id == %@", inputEmail)
 
         do {
             let matchingEmails = try context.fetch(fetch)
@@ -84,7 +97,7 @@ final class UserDataManger {
     // 유저의 이메일 값으로 비밀번호 검색
     func checkUser(_ inputEmail: String, _ inputPw: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
-        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        fetch.predicate = NSPredicate(format: "id == %@", inputEmail)
 
         do {
             let matchingUsers = try context.fetch(fetch)
@@ -142,7 +155,7 @@ final class UserDataManger {
         let fetchResults = fetchUserInfoData()
         for result in fetchResults {
             let userInfo = UserInfoData(
-                email: result.email ?? "",
+                email: result.id ?? "",
                 nickName: result.nickName ?? "",
                 password: result.password ?? "",
                 name: result.name ?? "",
@@ -165,47 +178,6 @@ final class UserDataManger {
             print("데이터 삭제 성공")
         } catch {
             print("데이터 삭제 실패")
-        }
-    }
-}
-
-extension UserDataManger {
-    func saveReservation(_ reservation: ReservationInfoData) {
-//        guard let entity = NSEntityDescription.entity(forEntityName: "ReservationInfo", in: context) else { return }
-        
-        let reservationInfo = ReservationInfo(context: context)
-        reservationInfo.setValue(reservation.title, forKey: "title")
-        reservationInfo.setValue(reservation.dateTime, forKey: "dateTime")
-        reservationInfo.setValue(reservation.theater, forKey: "theater")
-        // posterImage Data 변환 수정
-        reservationInfo.setValue(reservation.posterImage?.pngData(), forKey: "posterImage")
-        reservationInfo.setValue(reservation.ticketCount, forKey: "ticketCount")
-        reservationInfo.price = Int32(reservation.price)//forKey에 String을 넣거나 Key를 정의할 필요 없어짐! 다음 사용에 참고하시면 좋아요
-        reservationInfo.seatNumber = reservation.seatNumber
-        saveContext()
-    }
-        
-    
-    // 예매 정보 불러오기
-    func fetchReservations() -> [ReservationInfoData] {
-        let fetchRequest = NSFetchRequest<ReservationInfo>(entityName: "ReservationInfo")
-        
-        do {
-            let result = try context.fetch(fetchRequest)
-            return result.map { reservation in
-                return ReservationInfoData(
-                    title: reservation.title ?? "",
-                    dateTime: reservation.dateTime ?? "",
-                    theater: reservation.theater ?? "",
-                    posterImage: reservation.posterImage?.toImage() ?? UIImage(systemName: "x.circle"),
-                    ticketCount: Int(reservation.ticketCount),
-                    price: Int(reservation.price),
-                    seatNumber: reservation.seatNumber ?? ""
-                )
-            }
-        } catch {
-            print("예매 내역 조회 실패: \(error)")
-            return []
         }
     }
 }

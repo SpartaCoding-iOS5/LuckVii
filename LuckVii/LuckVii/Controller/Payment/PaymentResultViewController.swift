@@ -150,7 +150,9 @@ class PaymentResultViewController: UIViewController {
     private func complete() {
         reservationInfo = reservationInfo.setPriceAndSeat(totalPrice, seatNumber: totalSeatNumber)
         print("Reservation Info:", reservationInfo) // 전달할 데이터 확인
-        UserDataManger.shared.saveReservation(reservationInfo)
+        let id = UserDefaultsManager.shared.getUserId()
+        guard let user = UserDataManger.shared.fetchUserById(id) else { return }
+        UserDataManger.shared.saveReservation(reservationInfo, for: user)
       
         Task {
             await presentCompletePayAlert(on: self)

@@ -14,6 +14,7 @@ final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         view.backgroundColor = .white
         super.viewDidLoad()
+        UserDefaultsManager.shared.setLoggedInStatus(false)
         setupTabBar()
 
     }
