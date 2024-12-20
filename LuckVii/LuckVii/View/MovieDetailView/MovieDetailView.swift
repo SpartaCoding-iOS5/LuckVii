@@ -15,24 +15,29 @@ final class MovieDetailView: UIView {
   
     // 포스터 이미지 뷰
     private let posterImageView: UIImageView = {
-        let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFill
-        imageview.backgroundColor = .lightGray
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .lightGray
 
         // 제목 잘 보이게 그라데이션 추가
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = imageview.bounds
         gradientLayer.colors = [
-            UIColor.clear.cgColor, // 상단은 투명으로
-            UIColor.black.withAlphaComponent(1.0).cgColor // 하단은 반투명 검정
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(1.0).cgColor
         ]
-        gradientLayer.locations = [0.3, 1.0] // 그라데이션 시작 위치 조정
-        imageview.layer.addSublayer(gradientLayer)
+        gradientLayer.locations = [0.3, 1.0]
 
-        // 레이아웃이 변경될 때마다 그라데이션 레이어의 크기를 업데이트
-        imageview.layer.masksToBounds = true
-        return imageview
+        // 애니메이션 방지
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        gradientLayer.frame = imageView.bounds
+        imageView.layer.addSublayer(gradientLayer)
+        CATransaction.commit()
+
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
+
 
     // 예고편 재생 버튼
     public let trailerButton: UIButton = {
@@ -217,9 +222,14 @@ final class MovieDetailView: UIView {
     // 레이아웃 변경될 때마다 그라데이션 레이어 크기 변경
     override func layoutSubviews() {
         super.layoutSubviews()
+
         // 그라데이션 레이어의 프레임을 이미지뷰의 bounds에 맞게 업데이트
-        guard let gradientLayer = posterImageView.layer.sublayers?.first as? CAGradientLayer else { return }
-        gradientLayer.frame = posterImageView.bounds
+        if let gradientLayer = posterImageView.layer.sublayers?.first as? CAGradientLayer {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true) // 암시적으로 그라데이션 애니메이션을 비활성화 함
+            gradientLayer.frame = posterImageView.bounds
+            CATransaction.commit()
+        }
     }
 }
 
