@@ -2,12 +2,13 @@
 //  UserInfo+CoreDataProperties.swift
 //  LuckVii
 //
-//  Created by Jamong on 12/19/24.
+//  Created by 박진홍 on 12/20/24.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension UserInfo {
 
@@ -21,9 +22,10 @@ extension UserInfo {
     @NSManaged public var nickName: String?
     @NSManaged public var password: String?
     @NSManaged public var phoneNumber: String?
+    @NSManaged public var reservation: ReservationInfo?
 
 }
 
-extension UserInfo: Identifiable {
+extension UserInfo : Identifiable {
 
 }

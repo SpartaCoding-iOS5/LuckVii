@@ -23,6 +23,7 @@ extension ReservationInfo {
     @NSManaged public var title: String?
     @NSManaged public var price: Int32
     @NSManaged public var seatNumber: String?
+    @NSManaged public var userInfo: UserInfo?
 
 }
 

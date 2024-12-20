@@ -8,11 +8,7 @@
         <attribute name="theater" optional="YES" attributeType="String"/>
         <attribute name="ticketCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TicketInfo" representedClassName="TicketInfo" syncable="YES">
-        <attribute name="price" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="seatNumber" optional="YES" attributeType="String"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReservationInfo"/>
+        <relationship name="userInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" inverseName="reservation" inverseEntity="UserInfo"/>
     </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="birth" optional="YES" attributeType="String"/>
@@ -21,5 +17,6 @@
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
+        <relationship name="reservation" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ReservationInfo" inverseName="userInfo" inverseEntity="ReservationInfo"/>
     </entity>
 </model>
