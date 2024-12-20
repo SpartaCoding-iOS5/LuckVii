@@ -33,13 +33,31 @@ final class ReservationDetailViewController: UIViewController {
        super.viewDidLoad()
        view.backgroundColor = .white
        setupUI()
-       
-
+       setNavigationBarStyle()
    }
+    
+    // MARK: - 네비게이션 바 설정
+    private func setNavigationBarStyle() {
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = .black
+
+        let backButtonImage = UIImage(systemName: "arrow.left")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: backButtonImage,
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+    }
+    
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
+    }
 
    // MARK: - Setup
    private func setupUI() {
-       navigationItem.title = "예매 상세 내역"
+       navigationItem.title = "예매 내역"
    }
     
     // MARK: - Configuration

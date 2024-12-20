@@ -144,7 +144,7 @@ final class MovieDetailView: UIView {
             buttonStackView,
             trailerButton,
             movieDescriptionView
-        ].forEach { addSubview($0) }
+        ].forEach { contentView.addSubview($0) }
       
         [
             likeButton,

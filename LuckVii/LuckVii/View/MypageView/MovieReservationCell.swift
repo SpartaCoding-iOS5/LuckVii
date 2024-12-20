@@ -101,7 +101,7 @@ final class MovieReservationCell: UITableViewCell {
     }
 
     // MARK: - Configuration
-    func configure(with movie: MovieReservation) {
+    func configure(with movie: ReservationInfoData) {
         titleLabel.text = movie.title
         dateTimeLabel.text = movie.dateTime
         theaterLabel.text = movie.theater

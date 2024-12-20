@@ -13,7 +13,12 @@ struct ReservationInfoData {
     let theater: String
     let posterImage: UIImage?
     let ticketCount: Int
-    let tickets: [TicketInfoData]
+    let price: Int
+    let seatNumber: String
+    
+    func setPriceAndSeat(_ price: Int, seatNumber: String) -> ReservationInfoData {
+        return ReservationInfoData(title: title, dateTime: dateTime, theater: theater, posterImage: posterImage, ticketCount: ticketCount, price: price, seatNumber: seatNumber)
+    }
 }
 
 extension UIImage {

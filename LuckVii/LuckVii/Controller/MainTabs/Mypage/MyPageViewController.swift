@@ -30,6 +30,7 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         loadReserVations()
     }
+    
 
     private func setupUI() {
         view.backgroundColor = .white
@@ -61,12 +62,14 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let reservation = reservations[indexPath.row]
-        let movieData = MovieReservation(
+        let movieData = ReservationInfoData(
             title: reservation.title,
             dateTime: reservation.dateTime,
             theater: reservation.theater,
-            price: reservation.tickets.reduce(0) { $0 + $1.price },
-            posterImage: reservation.posterImage
+            posterImage: reservation.posterImage,
+            ticketCount: reservation.ticketCount,
+            price: reservation.price,
+            seatNumber: reservation.seatNumber
         )
         print(movieData)
        
