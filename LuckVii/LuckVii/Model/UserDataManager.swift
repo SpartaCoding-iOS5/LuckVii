@@ -109,6 +109,33 @@ final class UserDataManger {
         }
     }
 
+    // 유저의 이메일 값으로 비밀번호 검색
+    func checkNick(_ inputEmail: String, _ inputPw: String) -> String? {
+        let fetch = UserInfo.fetchRequest()
+        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+
+        do {
+            let matchingUsers = try context.fetch(fetch)
+
+            // 이메일이 일치하는 유저가 존재하는지 확인
+            guard let user = matchingUsers.first else {
+                print("이메일을 찾을 수 없습니다.")
+                return ""
+            }
+
+            // 비밀번호가 일치하는지 확인
+            if user.password == inputPw {
+                return matchingUsers.first?.nickName
+            } else {
+                print("비밀번호가 일치하지 않습니다.")
+            }
+        } catch {
+            print("유저 정보 조회 실패: \(error.localizedDescription)")
+        }
+
+        return ""
+    }
+
     // 정보 전체 확인
     func getUserInfos() -> [UserInfoData] {
         var userInfoDatas: [UserInfoData] = []

@@ -14,6 +14,10 @@ final class MyPageViewController: UIViewController {
     // MypageView Components 가져오기
     private let myPageView = MyPageView()
 
+    private let loginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
+
+    private var isLoggedin = false
+
     private var reservations: [ReservationInfoData] = []
 
     override func loadView() {
@@ -24,10 +28,12 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        setupAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadUserData()
         loadReserVations()
     }
     
@@ -41,13 +47,44 @@ final class MyPageViewController: UIViewController {
         myPageView.movieReservationTableView.delegate = self
         myPageView.movieReservationTableView.dataSource = self
     }
-    
+
+    private func setupAction() {
+        myPageView.loginButton.addAction(UIAction { [weak self] _ in
+            self?.loginButtonTapped()
+        }, for: .touchUpInside)
+    }
+
+    private func loginButtonTapped() {
+        if isLoggedin {
+            UserDefaultsManager.shared.setLoggedInStatus(false)
+            isLoggedin = false
+            myPageView.setupLogoutUI()
+        } else {
+            loginManager.ensurePresentLoginModal(viewController: self)
+        }
+    }
+
+    private func loadUserData() {
+        isLoggedin = UserDefaultsManager.shared.getLoggedInStatus()
+
+        if isLoggedin {
+            let userID = UserDefaultsManager.shared.getUserId()
+            let userPW = UserDefaultsManager.shared.getUserPw()
+            let userNick = UserDataManger.shared.checkNick(userID, userPW)
+            print(userID, userPW, isLoggedin)
+            myPageView.setupLoginUI(userNick!)
+        } else {
+            myPageView.setupLogoutUI()
+        }
+    }
+
     private func loadReserVations() {
         // CoreData 예매 정보 가져옴
         reservations = UserDataManger.shared.fetchReservations()
         myPageView.updateTableViewHeight(numberOfRows: reservations.count)
         myPageView.movieReservationTableView.reloadData()
     }
+
 }
 
 extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
