@@ -18,8 +18,8 @@ import UIKit
  10,000원 10%
  5,000원 5%
  */
-class PaymentResultViewController: UIViewController {
-    
+
+final class PaymentResultViewController: UIViewController {
     // 티켓 정보를 담을 배열
     private var tickets: [TicketInfoData] = []
     

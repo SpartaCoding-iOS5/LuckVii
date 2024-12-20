@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SelectDateViewController: UIViewController {
+final class SelectDateViewController: UIViewController {
     var movie: MovieDataSource?
 
     private let selectDateView = SelectDateView()

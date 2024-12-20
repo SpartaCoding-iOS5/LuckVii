@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ReservationDetailView: UIView {
+final class ReservationDetailView: UIView {
 
     // MARK: - ScrollView
     /// 스크롤 뷰 (테이블이 셀이 넘었을 때)

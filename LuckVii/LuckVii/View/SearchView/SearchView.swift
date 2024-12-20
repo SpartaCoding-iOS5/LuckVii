@@ -14,7 +14,7 @@ protocol textFieldDelegate: AnyObject {
     func didChangeSegment(index: Int)
 }
 
-class SearchView: UIView {
+final class SearchView: UIView {
 
     private let height = UIScreen.main.bounds.height
 

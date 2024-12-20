@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PaymentViewController: UIViewController {
+final class PaymentViewController: UIViewController {
 
     let paymentView = PaymentView()
 

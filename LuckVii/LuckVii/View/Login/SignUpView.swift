@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SignUpView: UIView {
+final class SignUpView: UIView {
 
     var duplicateButtonAction: (() -> Void)?
     var signUpButtonAction: (() -> Void)?

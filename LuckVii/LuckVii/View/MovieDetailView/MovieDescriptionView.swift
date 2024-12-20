@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MovieDescriptionView: UIView {
+final class MovieDescriptionView: UIView {
     let contentView = UIView()
     let buttonStackView = UIStackView() // 스택뷰
 
@@ -37,7 +37,6 @@ class MovieDescriptionView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        showsVerticalScrollIndicator = false // 세로 스크롤 없애기
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)

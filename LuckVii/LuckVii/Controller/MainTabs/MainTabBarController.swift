@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController {
     private let loginManager = LoginManager(userDefaultsManager: UserDefaultsManager.shared)
     private var isFirstLaunch: Bool = true
 

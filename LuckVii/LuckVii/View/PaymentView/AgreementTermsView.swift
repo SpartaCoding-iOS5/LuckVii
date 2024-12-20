@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AgreementTermsView: UIView {
+final class AgreementTermsView: UIView {
 
     // 타이틀 Label
     private let titleLable: UILabel = {

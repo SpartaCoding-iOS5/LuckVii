@@ -9,7 +9,8 @@ import UIKit
 import SnapKit
 
 // MARK: - movieReservationItemCell
-class MovieReservationCell: UITableViewCell {
+
+final class MovieReservationCell: UITableViewCell {
     static let identifier = "MovieReservationCell"
 
     // MARK: - UI Components
