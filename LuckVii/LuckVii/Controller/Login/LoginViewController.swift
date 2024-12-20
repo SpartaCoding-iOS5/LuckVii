@@ -96,7 +96,7 @@ extension LoginViewController {
             guard let id = emailInfo, let password = pwInfo else { return }
 
             if checkUserInfo(id, password) {
-//                UserDefaultsManager.shared.setLoggedInStatus(true)
+                UserDefaultsManager.shared.setLoggedInStatus(true)
                 UserDefaultsManager.shared.setUserId(id)
                 UserDefaultsManager.shared.setUserPw(password)
                 self.dismiss(animated: true)
