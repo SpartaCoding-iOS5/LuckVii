@@ -13,7 +13,7 @@ import CoreData
 public class UserInfo: NSManagedObject {
     public static let className = "UserInfo"
     public enum Key {
-        static let email = "email"
+        static let email = "id"
         static let nickName = "nickName"
         static let password = "password"
         static let name = "name"

@@ -44,7 +44,9 @@ final class MyPageViewController: UIViewController {
     
     private func loadReserVations() {
         // CoreData 예매 정보 가져옴
-        reservations = UserDataManger.shared.fetchReservations()
+        let id = UserDefaultsManager.shared.getUserId()
+        guard let user = UserDataManger.shared.fetchUserById(id) else { return }
+        reservations = UserDataManger.shared.fetchReservations(for: user)
         myPageView.updateTableViewHeight(numberOfRows: reservations.count)
         myPageView.movieReservationTableView.reloadData()
     }

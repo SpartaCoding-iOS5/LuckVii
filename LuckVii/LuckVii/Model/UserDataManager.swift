@@ -83,7 +83,7 @@ final class UserDataManger {
     // 등록된 이메일이 있는지 확인
     func checkEmail(_ inputEmail: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
-        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        fetch.predicate = NSPredicate(format: "id == %@", inputEmail)
 
         do {
             let matchingEmails = try context.fetch(fetch)
@@ -97,7 +97,7 @@ final class UserDataManger {
     // 유저의 이메일 값으로 비밀번호 검색
     func checkUser(_ inputEmail: String, _ inputPw: String) -> Bool {
         let fetch = UserInfo.fetchRequest()
-        fetch.predicate = NSPredicate(format: "email == %@", inputEmail)
+        fetch.predicate = NSPredicate(format: "id == %@", inputEmail)
 
         do {
             let matchingUsers = try context.fetch(fetch)
@@ -128,7 +128,7 @@ final class UserDataManger {
         let fetchResults = fetchUserInfoData()
         for result in fetchResults {
             let userInfo = UserInfoData(
-                email: result.email ?? "",
+                email: result.id ?? "",
                 nickName: result.nickName ?? "",
                 password: result.password ?? "",
                 name: result.name ?? "",

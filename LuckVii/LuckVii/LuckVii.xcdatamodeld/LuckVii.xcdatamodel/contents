@@ -12,11 +12,11 @@
     </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="birth" optional="YES" attributeType="String"/>
-        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
-        <relationship name="reservation" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ReservationInfo" inverseName="userInfo" inverseEntity="ReservationInfo"/>
+        <relationship name="reservation" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReservationInfo" inverseName="userInfo" inverseEntity="ReservationInfo"/>
     </entity>
 </model>
